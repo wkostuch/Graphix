@@ -71,7 +71,8 @@ public class Graphix {
 			putValue(SHORT_DESCRIPTION, "Creates the Functions window");
 		}
 		public void actionPerformed(ActionEvent e) {
-			GraphixFunctions funcWindow = new GraphixFunctions(screenSize.getWidth(), screenSize.getHeight());
+			GraphixFunctions funcWindow = new GraphixFunctions((int)screenSize.getWidth(),
+															   (int)screenSize.getHeight());
 		}
 	}
 }
