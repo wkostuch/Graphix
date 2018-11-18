@@ -1,17 +1,15 @@
 package graphics;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridBagLayout;
 import javax.swing.JButton;
 import java.awt.GridBagConstraints;
-import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
-import javax.swing.Action;
+import java.awt.event.ActionListener;
+
 import javax.swing.JTextField;
 import java.awt.Insets;
 import javax.swing.JLabel;
@@ -60,7 +58,9 @@ public class GraphixFunctions extends JFrame {
 		contentPane.setLayout(gbl_contentPane);
 		
 		JButton btnDrawMwst = new JButton("Draw MWST");
-		btnDrawMwst.setAction(actionDrawMWST);
+		btnDrawMwst.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {}
+		});
 		GridBagConstraints gbc_btnDrawMwst = new GridBagConstraints();
 		gbc_btnDrawMwst.insets = new Insets(0, 0, 5, 0);
 		gbc_btnDrawMwst.gridx = 1;
@@ -102,7 +102,9 @@ public class GraphixFunctions extends JFrame {
 		yPos.setColumns(10);
 		
 		btnNewVertex = new JButton("Add Vertex");
-		btnNewVertex.setAction(actionAddVertex);
+		btnNewVertex.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {}
+		});
 		GridBagConstraints gbc_btnNewVertex = new GridBagConstraints();
 		gbc_btnNewVertex.gridx = 1;
 		gbc_btnNewVertex.gridy = 3;

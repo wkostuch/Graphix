@@ -12,6 +12,8 @@ import java.awt.Button;
 import javax.swing.JButton;
 import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.Action;
 
 public class Graphix {
@@ -60,11 +62,13 @@ public class Graphix {
 		frame.getContentPane().add(canvas, BorderLayout.CENTER);
 		
 		JButton btnFunctions = new JButton("Functions");
-		btnFunctions.addActionListener(ActionEvent e) {
+		btnFunctions.addActionListener(new ActionListener() {
+			@Override
+			// Open the GraphixFunctions window
 			public void actionPerformed(ActionEvent e) {
 				new GraphixFunctions(sWidth, sHeight);
 			}
-		}
+		});
 		frame.getContentPane().add(btnFunctions, BorderLayout.SOUTH);
 	}
 	
