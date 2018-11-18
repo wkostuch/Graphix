@@ -122,6 +122,68 @@ public class GraphixFunctions extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		
+		GridBagLayout gbl_contentPane = new GridBagLayout();
+		gbl_contentPane.columnWidths = new int[]{0, 0, 0};
+		gbl_contentPane.rowHeights = new int[]{0, 0, 0, 0, 0};
+		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		contentPane.setLayout(gbl_contentPane);
+		
+		JButton btnDrawMwst = new JButton("Draw MWST");
+		btnDrawMwst.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {}
+		});
+		GridBagConstraints gbc_btnDrawMwst = new GridBagConstraints();
+		gbc_btnDrawMwst.insets = new Insets(0, 0, 5, 0);
+		gbc_btnDrawMwst.gridx = 1;
+		gbc_btnDrawMwst.gridy = 0;
+		contentPane.add(btnDrawMwst, gbc_btnDrawMwst);
+		
+		lblXposition = new JLabel("x");
+		GridBagConstraints gbc_lblXposition = new GridBagConstraints();
+		gbc_lblXposition.insets = new Insets(0, 0, 5, 5);
+		gbc_lblXposition.anchor = GridBagConstraints.EAST;
+		gbc_lblXposition.gridx = 0;
+		gbc_lblXposition.gridy = 1;
+		contentPane.add(lblXposition, gbc_lblXposition);
+		
+		xPos = new JTextField();
+		GridBagConstraints gbc_xPos = new GridBagConstraints();
+		gbc_xPos.insets = new Insets(0, 0, 5, 0);
+		gbc_xPos.fill = GridBagConstraints.HORIZONTAL;
+		gbc_xPos.gridx = 1;
+		gbc_xPos.gridy = 1;
+		contentPane.add(xPos, gbc_xPos);
+		xPos.setColumns(10);
+		
+		lblYposition = new JLabel("y");
+		GridBagConstraints gbc_lblYposition = new GridBagConstraints();
+		gbc_lblYposition.insets = new Insets(0, 0, 5, 5);
+		gbc_lblYposition.anchor = GridBagConstraints.EAST;
+		gbc_lblYposition.gridx = 0;
+		gbc_lblYposition.gridy = 2;
+		contentPane.add(lblYposition, gbc_lblYposition);
+		
+		yPos = new JTextField();
+		GridBagConstraints gbc_yPos = new GridBagConstraints();
+		gbc_yPos.insets = new Insets(0, 0, 5, 0);
+		gbc_yPos.fill = GridBagConstraints.HORIZONTAL;
+		gbc_yPos.gridx = 1;
+		gbc_yPos.gridy = 2;
+		contentPane.add(yPos, gbc_yPos);
+		yPos.setColumns(10);
+		
+		btnNewVertex = new JButton("Add Vertex");
+		btnNewVertex.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {}
+		});
+		GridBagConstraints gbc_btnNewVertex = new GridBagConstraints();
+		gbc_btnNewVertex.gridx = 1;
+		gbc_btnNewVertex.gridy = 3;
+		contentPane.add(btnNewVertex, gbc_btnNewVertex);
+		
+		this.setVisible(true);
 	}
 
 }

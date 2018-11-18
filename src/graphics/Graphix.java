@@ -54,8 +54,8 @@ public class Graphix {
 		int sWidth = (int)screenSize.getWidth();
 		frame = new JFrame();
 		// Width and height are 3/4 of the computer screen's width and height
-		frame.setSize(new Dimension(sWidth * (3/4), sHeight * (3/4)));
-		frame.setBounds(sWidth * (1/4), sHeight * (1/4), 450, 300);
+		frame.setSize(new Dimension((int)(sWidth * 0.75), (int)(sHeight * 0.75)));
+		frame.setBounds((int)(sWidth * 0.25), (int)(sHeight * 0.25), 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		Canvas canvas = new Canvas();
@@ -66,7 +66,7 @@ public class Graphix {
 			@Override
 			// Open the GraphixFunctions window
 			public void actionPerformed(ActionEvent e) {
-				new GraphixFunctions(sWidth, sHeight);
+				GraphixFunctions funcWindow = new GraphixFunctions(sWidth, sHeight);
 			}
 		});
 		frame.getContentPane().add(btnFunctions, BorderLayout.SOUTH);
