@@ -54,6 +54,30 @@ public class Vertex
 	
 	
 	/*
+	 * Changes x value of the vertex
+	 */
+	public void changeX(int n) {
+		this.x = n;
+	}
+	
+	
+	/*
+	 * Changes y value of the vertex
+	 */
+	public void changeY(int n) {
+		this.y = n;
+	}
+	
+	
+	/*
+	 * Changes x and y values of the vertex
+	 */
+	public void changeCoords(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+	
+	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
