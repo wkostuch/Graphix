@@ -15,6 +15,7 @@ public class Vertex
 		this.y = y;
 	}
 	
+	
 	/*
 	 * Returns a Vertex with x and y in the range 0 <= x, y <= 1000
 	 */
@@ -22,6 +23,7 @@ public class Vertex
 		Vertex v = randomVertex(1000);
 		return v;
 	}
+	
 	
 	/*
 	 * Returns a Vertex with x and y within the specified range (inclusive
@@ -33,6 +35,23 @@ public class Vertex
 		Vertex v = new Vertex(randX, randY);
 		return v;
 	}
+	
+	
+	/*
+	 * Returns the x value of the vertex
+	 */
+	public int getX() {
+		return this.x;
+	}
+	
+	
+	/*
+	 * Returns the y value of the vertex
+	 */
+	public int getY() {
+		return this.y;
+	}
+	
 	
 	/*
 	 * (non-Javadoc)
