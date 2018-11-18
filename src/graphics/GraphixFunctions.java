@@ -19,14 +19,11 @@ import javax.swing.JLabel;
 public class GraphixFunctions extends JFrame {
 
 	private JPanel contentPane;
-	private final Action actionDrawMWST = new SwingAction();
 	private JTextField xPos;
 	private JTextField yPos;
 	private JButton btnNewVertex;
 	private JLabel lblXposition;
 	private JLabel lblYposition;
-	private final Action actionAddVertex = new SwingAction_1();
-
 	/**
 	 * Launch the application.
 	 */
@@ -125,20 +122,4 @@ public class GraphixFunctions extends JFrame {
 		setContentPane(contentPane);
 	}
 
-	private class SwingAction extends AbstractAction {
-		public SwingAction() {
-			putValue(NAME, "SwingAction");
-			putValue(SHORT_DESCRIPTION, "Some short description");
-		}
-		public void actionPerformed(ActionEvent e) {
-		}
-	}
-	private class SwingAction_1 extends AbstractAction {
-		public SwingAction_1() {
-			putValue(NAME, "SwingAction_1");
-			putValue(SHORT_DESCRIPTION, "Some short description");
-		}
-		public void actionPerformed(ActionEvent e) {
-		}
-	}
 }

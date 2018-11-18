@@ -20,7 +20,6 @@ public class Graphix {
 	
 	// Size of the computer screen
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	private final Action windowAction = new SwingAction();
 
 	/**
 	 * Launch the application.
@@ -61,18 +60,12 @@ public class Graphix {
 		frame.getContentPane().add(canvas, BorderLayout.CENTER);
 		
 		JButton btnFunctions = new JButton("Functions");
-		btnFunctions.setAction(windowAction);
+		btnFunctions.addActionListener(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {
+				new GraphixFunctions(sWidth, sHeight);
+			}
+		}
 		frame.getContentPane().add(btnFunctions, BorderLayout.SOUTH);
 	}
-
-	private class SwingAction extends AbstractAction {
-		public SwingAction() {
-			putValue(NAME, "windowAction");
-			putValue(SHORT_DESCRIPTION, "Creates the Functions window");
-		}
-		public void actionPerformed(ActionEvent e) {
-			GraphixFunctions funcWindow = new GraphixFunctions((int)screenSize.getWidth(),
-															   (int)screenSize.getHeight());
-		}
-	}
+	
 }
