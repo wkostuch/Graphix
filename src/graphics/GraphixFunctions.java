@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 import java.awt.Insets;
 import javax.swing.JLabel;
+import javax.swing.JList;
 
 public class GraphixFunctions extends JFrame {
 
@@ -22,6 +23,7 @@ public class GraphixFunctions extends JFrame {
 	private JButton btnNewVertex;
 	private JLabel lblXposition;
 	private JLabel lblYposition;
+	private JList vertexList;
 	/**
 	 * Launch the application.
 	 */
@@ -51,10 +53,10 @@ public class GraphixFunctions extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{0, 0, 0};
+		gbl_contentPane.columnWidths = new int[]{0, 0, 0, 0};
 		gbl_contentPane.rowHeights = new int[]{0, 0, 0, 0, 0};
-		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_contentPane.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
 		JButton btnDrawMwst = new JButton("Draw MWST");
@@ -62,10 +64,19 @@ public class GraphixFunctions extends JFrame {
 			public void actionPerformed(ActionEvent e) {}
 		});
 		GridBagConstraints gbc_btnDrawMwst = new GridBagConstraints();
-		gbc_btnDrawMwst.insets = new Insets(0, 0, 5, 0);
+		gbc_btnDrawMwst.insets = new Insets(0, 0, 5, 5);
 		gbc_btnDrawMwst.gridx = 1;
 		gbc_btnDrawMwst.gridy = 0;
 		contentPane.add(btnDrawMwst, gbc_btnDrawMwst);
+		
+		vertexList = new JList();
+		GridBagConstraints gbc_vertexList = new GridBagConstraints();
+		gbc_vertexList.gridheight = 4;
+		gbc_vertexList.insets = new Insets(0, 0, 5, 0);
+		gbc_vertexList.fill = GridBagConstraints.BOTH;
+		gbc_vertexList.gridx = 2;
+		gbc_vertexList.gridy = 0;
+		contentPane.add(vertexList, gbc_vertexList);
 		
 		lblXposition = new JLabel("x");
 		GridBagConstraints gbc_lblXposition = new GridBagConstraints();
@@ -77,7 +88,7 @@ public class GraphixFunctions extends JFrame {
 		
 		xPos = new JTextField();
 		GridBagConstraints gbc_xPos = new GridBagConstraints();
-		gbc_xPos.insets = new Insets(0, 0, 5, 0);
+		gbc_xPos.insets = new Insets(0, 0, 5, 5);
 		gbc_xPos.fill = GridBagConstraints.HORIZONTAL;
 		gbc_xPos.gridx = 1;
 		gbc_xPos.gridy = 1;
@@ -94,7 +105,7 @@ public class GraphixFunctions extends JFrame {
 		
 		yPos = new JTextField();
 		GridBagConstraints gbc_yPos = new GridBagConstraints();
-		gbc_yPos.insets = new Insets(0, 0, 5, 0);
+		gbc_yPos.insets = new Insets(0, 0, 5, 5);
 		gbc_yPos.fill = GridBagConstraints.HORIZONTAL;
 		gbc_yPos.gridx = 1;
 		gbc_yPos.gridy = 2;
@@ -106,6 +117,7 @@ public class GraphixFunctions extends JFrame {
 			public void actionPerformed(ActionEvent e) {}
 		});
 		GridBagConstraints gbc_btnNewVertex = new GridBagConstraints();
+		gbc_btnNewVertex.insets = new Insets(0, 0, 0, 5);
 		gbc_btnNewVertex.gridx = 1;
 		gbc_btnNewVertex.gridy = 3;
 		contentPane.add(btnNewVertex, gbc_btnNewVertex);
