@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.HashMap;
 import java.io.FileReader;
 import java.io.BufferedReader;
@@ -31,8 +32,8 @@ public class Graphix
 		Vertex h = new Vertex (23, 23);
 		g2.addVertex(h);
 		g2.addEdge(new Vertex(100, 100), h);
-		System.out.println(g2);
-		g2.changeVertex(new Vertex(100, 100), 200, 200);
+		//System.out.println(g2);
+		//g2.changeVertex(new Vertex(100, 100), 200, 200);
 		System.out.println(g2);
 		
 	}
@@ -208,7 +209,8 @@ public class Graphix
 	@Override
 	public String toString() {
 		String rv = "";
-		Vertex[] keys = graph.keySet().toArray(new Vertex[0]);
+		//graph.keySet().toArray(new Vertex[0]);
+		Vertex[] keys = orderedKeyArray();
 		for(Vertex v : keys) {
 			rv = rv + v + " : ";
 			if(graph.get(v) != null) {
@@ -223,6 +225,16 @@ public class Graphix
 	}
 	
 	
+	/*
+	 * Returns a Vertex array of keys to graph
+	 * Ordered in this way: if x1 < x2, -> v1 then v2
+	 * If x1 = x2, if y1 < y2 -> v1 then v2
+	 */
+	public Vertex[] orderedKeyArray() {
+		Vertex[] keys = graph.keySet().toArray(new Vertex[0]);
+		Arrays.sort(keys, (k, h) -> Vertex.compareVertices(k, h));
+		return keys;
+	}
 	
 	
 }

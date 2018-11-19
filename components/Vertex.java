@@ -87,6 +87,42 @@ public class Vertex
 		}
 		return h;
 	}
+	
+	
+	/*
+	 * Used in Arrays.sort() for sorting vertices
+	 * Returns a negative number if a precedes b
+	 * Returns 0 if a.x == b.x && a.y == b.y
+	 * Returns a positive number if b precedes a
+	 * Precedence is determined by: a.x < b.x, 
+	 * then by a.y < b.y if a.x == b.x
+	 */
+	public static int compareVertices(Vertex a, Vertex b) {
+		int rv = 0;
+		//a comes first!
+		if(a.getX() < b.getX()) {
+			rv = -1; 
+		} 
+		//b comes first!
+		else if (a.getX() > b.getX()) {
+			rv = 1;
+		} 
+		//The x values are equal, time to check y values!
+		else {
+			//a comes first!
+			if(a.getY() < b.getY()) {
+				rv = -1;
+			} 
+			//b comes first!
+			else if (a.getY() > b.getY()) {
+				rv = 1;
+			}
+			//Both x and y are equal for a and b
+			else rv = 0;
+		}
+		
+		return rv;
+	}
 		
 	
 	/*
