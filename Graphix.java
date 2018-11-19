@@ -3,6 +3,7 @@ import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+
 import components.*;
 
 
@@ -23,8 +24,17 @@ public class Graphix
 	 */
 	public static void main(String[] args) {
 		Graphix g = new Graphix();
-		g.addVertex(new Vertex(1, 2));
+		Vertex k = new Vertex(1, 2);
+		g.addVertex(k);
 		System.out.println(g.toString());
+		g.changeVertex(k, 20, 17);
+		Vertex w = new Vertex(0, 0);
+		g.addEdge(k, w);
+		System.out.println(g.toString());
+		
+		Graphix g2 = new Graphix();
+		g2.readGraph("Graphix/2D Graphs/TestGraph.2dg");
+		System.out.println(g2);
 	}
 	
 	
@@ -39,6 +49,7 @@ public class Graphix
 	/*
 	 * Adds a Vertex mapped to null to the graph
 	 * Represents a vertex with no edges
+	 * Use for dropping a vertex in and/or while building initial graph
 	 */
 	public void addVertexNoEdges(Vertex v) {
 		addVertex(v, false, false);
@@ -46,10 +57,11 @@ public class Graphix
 	
 	
 	/*
-	 * Adds a Vertex to the graph, top of chain
+	 * Adds a Vertex to the graph
 	 * edges is for signaling if the vertex has edges or not, defaults to true
 	 * override is for signaling if the Vertex should be changed if 
 	 * it's already in the graph, defaults to false
+	 * Use as top of chain for adding a Vertex
 	 */
 	public void addVertex(Vertex v, boolean edges, boolean override) {
 		//v already in, don't override
@@ -74,8 +86,22 @@ public class Graphix
 	
 	
 	/*
+	 * Changes the Vertex's coordinates
+	 * Update's the edges in graph associated with that vertex
+	 * Use for dragging Vertices around
+	 */
+	public void changeVertex(Vertex v, int x, int y) {
+		v.changeCoords(x, y);
+		for(Vertex w : graph.get(v).keySet().toArray(new Vertex[0])) {
+			graph.get(v).put(w, edgeLength(v, w));
+		}
+	}
+	
+	
+	/*
 	 * Adds an edge between two vertices
 	 * If the vertices aren't in the graph already, it adds them
+	 * Use for initial building of graph while reading a file in
 	 */
 	public void addEdge(Vertex v, Vertex w) {
 		this.addVertex(v);
@@ -107,6 +133,39 @@ public class Graphix
 	 * Reads the graph from the file system
 	 */
 	public void readGraph(String file) {
+		System.out.println("Reading graph: " + file);
+		
+		try {
+			FileReader fr = new FileReader(file);
+			BufferedReader bfr = new BufferedReader(fr);
+			bfr.lines().forEach(line -> parse(line.trim()));
+			bfr.close();
+		} catch (IOException e) {
+		    System.err.format("IOException: %s\n", e);
+		}
+		System.out.println("Done reading " + file);
+	}
+	
+	
+	/*
+	 * Parses a String line of a graph file into the graph
+	 */
+	public void parse(String l) {
+		String[] line = l.split(" ");
+		int size = line.length;
+		//If size < 2, then there's only one vertex on that line
+		if(size < 2) {
+			Vertex v = Vertex.stringToVertex(line[0].trim());
+			this.addVertexNoEdges(v);
+		} 
+		//Two vertices, so it's time to add an edge
+		else {
+			String v1 = line[0].trim();
+			String v2 = line[1].trim();
+			Vertex v = Vertex.stringToVertex(v1);
+			Vertex w = Vertex.stringToVertex(v2);
+			this.addEdge(v, w);
+		}
 		
 	}
 	
@@ -121,9 +180,11 @@ public class Graphix
 		Vertex[] keys = graph.keySet().toArray(new Vertex[0]);
 		for(Vertex v : keys) {
 			rv = rv + v + " : ";
-			Vertex[] innerKeys = graph.get(v).keySet().toArray(new Vertex[0]);
-			for(Vertex w: innerKeys) {
-				rv = rv + w + ":" + graph.get(v).get(w) + ", ";
+			if(graph.get(v) != null) {
+				Vertex[] innerKeys = graph.get(v).keySet().toArray(new Vertex[0]);
+				for(Vertex w: innerKeys) {
+					rv = rv + w + ":" + graph.get(v).get(w) + ", ";
+				}
 			}
 			rv += "\n";
 		}

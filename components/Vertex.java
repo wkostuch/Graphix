@@ -38,6 +38,19 @@ public class Vertex
 	
 	
 	/*
+	 * Returns a Vertex from a String of the form x,y
+	 * where x and y are some integers
+	 */
+	public static Vertex stringToVertex(String s) {
+		String[] sa = s.split(",");
+		int x = Integer.valueOf(sa[0]);
+		int y = Integer.valueOf(sa[1]);
+		Vertex v = new Vertex(x, y);
+		return v;
+	}
+	
+	
+	/*
 	 * Returns the x value of the vertex
 	 */
 	public int getX() {
