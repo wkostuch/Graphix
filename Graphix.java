@@ -2,6 +2,7 @@ import java.util.HashMap;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.awt.image.BufferedImage;
 
 
 import components.*;
@@ -16,7 +17,7 @@ public class Graphix
 	
 	//Hashmap used for checking connectedness of graph
 	//Maps a vertex to its representative vertex
-	private HashMap<Vertex, Vertex> parentSet = new HashMap<Vertex, Vertex>();
+	private HashMap<Vertex, Vertex> parentSet;
 	
 	
 	/*
@@ -28,6 +29,7 @@ public class Graphix
 		g.addVertex(k);
 		System.out.println(g.toString());
 		g.changeVertex(k, 20, 17);
+		System.out.println(g.graph.size());
 		Vertex w = new Vertex(0, 0);
 		g.addEdge(k, w);
 		System.out.println(g.toString());
@@ -35,6 +37,7 @@ public class Graphix
 		Graphix g2 = new Graphix();
 		g2.readGraph("Graphix/2D Graphs/TestGraph.2dg");
 		System.out.println(g2);
+		
 	}
 	
 	
@@ -91,10 +94,19 @@ public class Graphix
 	 * Use for dragging Vertices around
 	 */
 	public void changeVertex(Vertex v, int x, int y) {
+		Vertex temp = new Vertex(v.getX(), v.getY());
 		v.changeCoords(x, y);
-		for(Vertex w : graph.get(v).keySet().toArray(new Vertex[0])) {
-			graph.get(v).put(w, edgeLength(v, w));
+		if(graph.containsKey(temp)) {
+			if(graph.get(temp).equals(null)) {
+				this.addVertex(v, false, true);
+			}
+			else {
+				for(Vertex w : graph.get(temp).keySet().toArray(new Vertex[0])) {
+					graph.get(v).put(w, edgeLength(v, w));
+				}
+			}
 		}
+		graph.remove(temp);
 	}
 	
 	
@@ -143,7 +155,7 @@ public class Graphix
 		} catch (IOException e) {
 		    System.err.format("IOException: %s\n", e);
 		}
-		System.out.println("Done reading " + file);
+		System.out.println("Done reading file.");
 	}
 	
 	

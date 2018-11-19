@@ -51,6 +51,45 @@ public class Vertex
 	
 	
 	/*
+	 * Returns true if vertices have same coordinates
+	 *    ''   false if they have different coordinates
+	
+	public boolean sameVertex(Vertex v) {
+
+	}
+	 */
+	
+	/*
+	 * Override of equals method
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if(o == null || o.getClass() != Vertex.class) return false;
+		Vertex v = (Vertex) o;
+		if(this.getX() == v.getX() && this.getY() == v.getY()) return true;
+		else return false;
+	}
+	
+	/*
+	 * Override of hashCode method
+	 */
+	@Override
+	public int hashCode() {
+		int prime = 67619;
+		char[] sx = String.valueOf(this.getX()).toCharArray();
+		int h = 0;
+		for(char c : sx) {
+			h = (h + (int)c) % prime;
+		}
+		char[] sy = String.valueOf(this.getY()).toCharArray();
+		for(char c : sy) {
+			h = (h + (int)c) % prime;
+		}
+		return h;
+	}
+		
+	
+	/*
 	 * Returns the x value of the vertex
 	 */
 	public int getX() {
@@ -94,6 +133,7 @@ public class Vertex
 	 * (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
 		String s = "(" + this.x + ", " + this.y + ")";
 		return s;
