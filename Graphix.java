@@ -1,7 +1,9 @@
+import java.util.Arrays;
 import java.util.HashMap;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.awt.image.BufferedImage;
 
 
 import components.*;
@@ -16,25 +18,24 @@ public class Graphix
 	
 	//Hashmap used for checking connectedness of graph
 	//Maps a vertex to its representative vertex
-	private HashMap<Vertex, Vertex> parentSet = new HashMap<Vertex, Vertex>();
+	private HashMap<Vertex, Vertex> parentSet;
 	
 	
 	/*
 	 * Main method
 	 */
 	public static void main(String[] args) {
-		Graphix g = new Graphix();
-		Vertex k = new Vertex(1, 2);
-		g.addVertex(k);
-		System.out.println(g.toString());
-		g.changeVertex(k, 20, 17);
-		Vertex w = new Vertex(0, 0);
-		g.addEdge(k, w);
-		System.out.println(g.toString());
 		
 		Graphix g2 = new Graphix();
 		g2.readGraph("Graphix/2D Graphs/TestGraph.2dg");
+		//System.out.println(g2);
+		Vertex h = new Vertex (23, 23);
+		g2.addVertex(h);
+		g2.addEdge(new Vertex(100, 100), h);
+		//System.out.println(g2);
+		//g2.changeVertex(new Vertex(100, 100), 200, 200);
 		System.out.println(g2);
+		
 	}
 	
 	
@@ -91,12 +92,42 @@ public class Graphix
 	 * Use for dragging Vertices around
 	 */
 	public void changeVertex(Vertex v, int x, int y) {
+		//Keep a copy of the old one around
+		Vertex temp = new Vertex(v.getX(), v.getY());
+		//Change them coordinates
 		v.changeCoords(x, y);
-		for(Vertex w : graph.get(v).keySet().toArray(new Vertex[0])) {
-			graph.get(v).put(w, edgeLength(v, w));
+		//Keep those nullPointerExceptions at bay
+		if(graph.containsKey(temp)) {
+			//A lonely vertex...but also override any that might be where the new coords are
+			if(graph.get(temp).equals(null)) {
+				this.addVertex(v, false, true);
+			}
+			else {
+				//Add vertex v, override what's there
+				this.addVertex(v, true, true);
+				//Loop through vertices incident to temp, add them to v
+				//and remove temp from them
+				for(Vertex w : graph.get(temp).keySet().toArray(new Vertex[0])) {
+					this.changeVertexMapping(v, w);
+					graph.get(w).remove(temp);
+				}
+			}
 		}
+		//Get rid of the mapping to the unchanged coordinates
+		graph.remove(temp);
 	}
 	
+	
+	/*
+	 * Given 2 vertices:
+	 * Maps v to w
+	 * Maps w to v
+	 */
+	public void changeVertexMapping(Vertex v, Vertex w) {
+		double edge = edgeLength(v, w);
+		graph.get(v).put(w, edge);
+		graph.get(w).put(v, edge);
+	}
 	
 	/*
 	 * Adds an edge between two vertices
@@ -143,7 +174,7 @@ public class Graphix
 		} catch (IOException e) {
 		    System.err.format("IOException: %s\n", e);
 		}
-		System.out.println("Done reading " + file);
+		System.out.println("Done reading file.");
 	}
 	
 	
@@ -175,9 +206,11 @@ public class Graphix
 	 * v1 : v2:3.2, v3:4, 
 	 * v2 : v1:3.2, v5:8.98
 	 */
+	@Override
 	public String toString() {
 		String rv = "";
-		Vertex[] keys = graph.keySet().toArray(new Vertex[0]);
+		//graph.keySet().toArray(new Vertex[0]);
+		Vertex[] keys = orderedKeyArray();
 		for(Vertex v : keys) {
 			rv = rv + v + " : ";
 			if(graph.get(v) != null) {
@@ -192,6 +225,16 @@ public class Graphix
 	}
 	
 	
+	/*
+	 * Returns a Vertex array of keys to graph
+	 * Ordered in this way: if x1 < x2, -> v1 then v2
+	 * If x1 = x2, if y1 < y2 -> v1 then v2
+	 */
+	public Vertex[] orderedKeyArray() {
+		Vertex[] keys = graph.keySet().toArray(new Vertex[0]);
+		Arrays.sort(keys, (k, h) -> Vertex.compareVertices(k, h));
+		return keys;
+	}
 	
 	
 }
