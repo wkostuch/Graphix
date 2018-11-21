@@ -48,7 +48,7 @@ public class GraphixFunctions extends JFrame {
 	 */
 	public GraphixFunctions() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 546, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -59,15 +59,16 @@ public class GraphixFunctions extends JFrame {
 		gbl_contentPane.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
-		JButton btnDrawMwst = new JButton("Draw MWST");
-		btnDrawMwst.addActionListener(new ActionListener() {
+		JButton btnDrawMWST = new JButton("Draw MWST");
+		btnDrawMWST.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {}
 		});
-		GridBagConstraints gbc_btnDrawMwst = new GridBagConstraints();
-		gbc_btnDrawMwst.insets = new Insets(0, 0, 5, 5);
-		gbc_btnDrawMwst.gridx = 1;
-		gbc_btnDrawMwst.gridy = 0;
-		contentPane.add(btnDrawMwst, gbc_btnDrawMwst);
+		GridBagConstraints gbc_btnDrawMWST = new GridBagConstraints();
+		gbc_btnDrawMWST.gridwidth = 2;
+		gbc_btnDrawMWST.insets = new Insets(0, 0, 5, 5);
+		gbc_btnDrawMWST.gridx = 0;
+		gbc_btnDrawMWST.gridy = 0;
+		contentPane.add(btnDrawMWST, gbc_btnDrawMWST);
 		
 		vertexList = new JList();
 		GridBagConstraints gbc_vertexList = new GridBagConstraints();
@@ -88,8 +89,8 @@ public class GraphixFunctions extends JFrame {
 		
 		xPos = new JTextField();
 		GridBagConstraints gbc_xPos = new GridBagConstraints();
+		gbc_xPos.anchor = GridBagConstraints.WEST;
 		gbc_xPos.insets = new Insets(0, 0, 5, 5);
-		gbc_xPos.fill = GridBagConstraints.HORIZONTAL;
 		gbc_xPos.gridx = 1;
 		gbc_xPos.gridy = 1;
 		contentPane.add(xPos, gbc_xPos);
@@ -105,8 +106,8 @@ public class GraphixFunctions extends JFrame {
 		
 		yPos = new JTextField();
 		GridBagConstraints gbc_yPos = new GridBagConstraints();
+		gbc_yPos.anchor = GridBagConstraints.WEST;
 		gbc_yPos.insets = new Insets(0, 0, 5, 5);
-		gbc_yPos.fill = GridBagConstraints.HORIZONTAL;
 		gbc_yPos.gridx = 1;
 		gbc_yPos.gridy = 2;
 		contentPane.add(yPos, gbc_yPos);
@@ -117,8 +118,9 @@ public class GraphixFunctions extends JFrame {
 			public void actionPerformed(ActionEvent e) {}
 		});
 		GridBagConstraints gbc_btnNewVertex = new GridBagConstraints();
+		gbc_btnNewVertex.gridwidth = 2;
 		gbc_btnNewVertex.insets = new Insets(0, 0, 0, 5);
-		gbc_btnNewVertex.gridx = 1;
+		gbc_btnNewVertex.gridx = 0;
 		gbc_btnNewVertex.gridy = 3;
 		contentPane.add(btnNewVertex, gbc_btnNewVertex);
 	}
@@ -128,7 +130,7 @@ public class GraphixFunctions extends JFrame {
 	 * position and size of Graphix
 	 */
 	public GraphixFunctions(int width, int height) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -142,15 +144,15 @@ public class GraphixFunctions extends JFrame {
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
-		JButton btnDrawMwst = new JButton("Draw MWST");
-		btnDrawMwst.addActionListener(new ActionListener() {
+		JButton btnDrawMWST = new JButton("Draw MWST");
+		btnDrawMWST.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {}
 		});
 		GridBagConstraints gbc_btnDrawMwst = new GridBagConstraints();
 		gbc_btnDrawMwst.insets = new Insets(0, 0, 5, 0);
 		gbc_btnDrawMwst.gridx = 1;
 		gbc_btnDrawMwst.gridy = 0;
-		contentPane.add(btnDrawMwst, gbc_btnDrawMwst);
+		contentPane.add(btnDrawMWST, gbc_btnDrawMwst);
 		
 		lblXposition = new JLabel("x");
 		GridBagConstraints gbc_lblXposition = new GridBagConstraints();

@@ -52,14 +52,17 @@ public class Graphix {
 		int sWidth = (int)screenSize.getWidth();
 		frame = new JFrame();
 		// Width and height are 3/4 of the computer screen's width and height
-		frame.setSize(new Dimension((int)(sWidth * 0.75), (int)(sHeight * 0.75)));
-		frame.setBounds((int)(sWidth * 0.25), (int)(sHeight * 0.25), 450, 300);
+		frame.setSize(new Dimension((int)(sWidth * 0.66), (int)(sHeight * 0.66)));
+		frame.setLocation((int)((sWidth / 2) - (frame.getSize().width / 2)),
+						  (int)((sHeight / 2) - (frame.getSize().height / 2)));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		canvas = new Canvas();
 		frame.getContentPane().add(canvas, BorderLayout.CENTER);
 		
 		JButton btnFunctions = new JButton("Functions");
+		btnFunctions.setPreferredSize(new Dimension((int)((sWidth * 0.66) / 20),
+														  (int)((sHeight * 0.66) / 20)));
 		btnFunctions.addActionListener(new ActionListener() {
 			@Override
 			// Open the GraphixFunctions window
