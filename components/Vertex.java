@@ -1,5 +1,8 @@
 package components;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.math.BigInteger;
 import java.util.Random;
 
 
@@ -75,7 +78,14 @@ public class Vertex
 	 */
 	@Override
 	public int hashCode() {
-		int prime = 67619;
+		//Make sure we don't have issues with same-value hashing
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int width = (int)screenSize.getWidth();
+		int height = (int)screenSize.getHeight();
+		BigInteger p = new BigInteger("" + width*height);
+		p.nextProbablePrime();
+		
+		int prime = p.intValue();
 		char[] sx = String.valueOf(this.getX()).toCharArray();
 		int h = 0;
 		for(char c : sx) {
@@ -161,8 +171,8 @@ public class Vertex
 	 * Changes x and y values of the vertex
 	 */
 	public void changeCoords(int x, int y) {
-		this.x = x;
-		this.y = y;
+		this.changeX(x);
+		this.changeY(y);
 	}
 	
 	/*
