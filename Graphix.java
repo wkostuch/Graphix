@@ -33,7 +33,7 @@ public class Graphix
 		g2.addVertex(h);
 		g2.addEdge(new Vertex(100, 100), h);
 		//System.out.println(g2);
-		//g2.changeVertex(new Vertex(100, 100), 200, 200);
+		g2.changeVertex(new Vertex(100, 100), 200, 200);
 		System.out.println(g2);
 		
 	}
@@ -97,6 +97,7 @@ public class Graphix
 		//Change them coordinates
 		v.changeCoords(x, y);
 		//Keep those nullPointerExceptions at bay
+		
 		if(graph.containsKey(temp)) {
 			//A lonely vertex...but also override any that might be where the new coords are
 			if(graph.get(temp).equals(null)) {
@@ -115,6 +116,7 @@ public class Graphix
 		}
 		//Get rid of the mapping to the unchanged coordinates
 		graph.remove(temp);
+		
 	}
 	
 	
