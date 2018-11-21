@@ -11,6 +11,8 @@ import java.awt.Canvas;
 import javax.swing.JButton;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
 public class Graphix {
@@ -58,6 +60,41 @@ public class Graphix {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		canvas = new Canvas();
+		canvas.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				int mouseX = e.getX();
+				int mouseY = e.getY();
+				
+				if (e.getButton() == MouseEvent.BUTTON2) {
+					Vertex v = new Vertex(e.getX(), e.getY());
+				}
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		frame.getContentPane().add(canvas, BorderLayout.CENTER);
 		
 		JButton btnFunctions = new JButton("Functions");
