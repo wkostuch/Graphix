@@ -1,24 +1,22 @@
 package graphics;
 
 import java.awt.EventQueue;
+import java.awt.Graphics2D;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Canvas;
-import java.awt.Button;
 import javax.swing.JButton;
-import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.Action;
+import java.awt.image.BufferedImage;
 
 public class Graphix {
 
 	private JFrame frame;
+	private Canvas canvas;
 	
 	// Size of the computer screen
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -58,7 +56,7 @@ public class Graphix {
 		frame.setBounds((int)(sWidth * 0.25), (int)(sHeight * 0.25), 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		Canvas canvas = new Canvas();
+		canvas = new Canvas();
 		frame.getContentPane().add(canvas, BorderLayout.CENTER);
 		
 		JButton btnFunctions = new JButton("Functions");
@@ -70,6 +68,24 @@ public class Graphix {
 			}
 		});
 		frame.getContentPane().add(btnFunctions, BorderLayout.SOUTH);
+	}
+	
+	/**
+	 * Returns size of canvas as a Dimension
+	 * Use for sizing bufferedImage
+	 */
+	public Dimension getCanvasSize() {
+		return new Dimension(canvas.getWidth(), canvas.getHeight());
+	}
+	
+	/**
+	 * Takes a BufferedImage and displays it in the application window
+	 * @param img
+	 */
+	public void displayBufferedImage(BufferedImage img) {
+		Graphics2D g2 = img.createGraphics();
+		canvas.printAll(g2);
+		g2.dispose();
 	}
 	
 }
