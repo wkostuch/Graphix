@@ -1,3 +1,5 @@
+package graphixBackend;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.io.FileReader;
@@ -9,7 +11,6 @@ import java.awt.Graphics;
 import java.awt.Color;
 
 
-import components.*;
 import graphixFrontend.GraphixVisuals;
 
 
