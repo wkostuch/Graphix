@@ -4,6 +4,9 @@ import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.awt.image.BufferedImage;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Color;
 
 
 import components.*;
@@ -20,6 +23,12 @@ public class Graphix
 	//Maps a vertex to its representative vertex
 	private HashMap<Vertex, Vertex> parentSet;
 	
+	//Colors for drawing
+	private final Color vertexColor = new Color(255, 0, 157);
+	private final Color edgeColor = new Color(9, 100, 142);
+	private final Color vertexBoxColor = new Color(0, 0, 0);
+	private final Color backgroundColor = new Color(220, 224, 226);
+	
 	
 	/*
 	 * Main method
@@ -34,8 +43,68 @@ public class Graphix
 		g2.addEdge(new Vertex(100, 100), h);
 		//System.out.println(g2);
 		g2.changeVertex(new Vertex(100, 100), 200, 200);
+		Vertex k = new Vertex (5, 5);
+		g2.addEdge(new Vertex(2, 9), k);
 		System.out.println(g2);
 		
+	}
+	
+	
+	/*
+	 * Turns the graph into a BufferedImage
+	 */
+	
+	public BufferedImage graphToImage() {
+		//Get the canvas size from the JFrame
+		Dimension canvas = GraphixVisuals.getCanvasSize();
+		
+		int width = (int)canvas.getWidth();
+		int height = (int)canvas.getHeight();
+		int type = BufferedImage.TYPE_INT_ARGB;
+		
+    	BufferedImage image = new BufferedImage(width, height, type);
+    	image = buildImage(image, width, height);
+    	return image;
+	}
+	
+	
+	
+	/*
+	 * Builds the image for graphToImage
+	 * 
+	 */
+	private BufferedImage buildImage(BufferedImage image, int width, int height) {
+		//Loop through those pixels!
+		for(int x = 0; x < width; x++) {
+			for(int y = 0; y < height; y++) {
+				int color = getColor(x, y);
+				image.setRGB(x, y, color);
+				//If the spot is a Vertex, draw a circle around it
+				if(color == vertexColor.getRGB()) {
+					/*
+					 * DO WE DO THIS MANUALLY OR IN THE PAINTCOMPONENT?
+					 */
+				}
+				
+				//make a getEdges method and draw a line between those Vertices
+			}
+		}
+		return image;
+	}
+	
+	
+	/*
+	 * Determines what color to use in buildImage
+	 * Color determined by (x,y) coordinates
+	 */
+	private int getColor(int x, int y) {
+		//Make a Vertex to check the hashmap
+		Vertex v = new Vertex(x, y);
+		if(graph.containsKey(v)) {
+			return vertexColor.getRGB();
+		} else {
+			return backgroundColor.getRGB();
+		}
 	}
 	
 	
@@ -43,7 +112,7 @@ public class Graphix
 	 * Adds a new Vertex to the graph
 	 */
 	public void addVertex(Vertex v) {
-		addVertex(v, true, false);
+		addVertex(v, true, true);
 	}
 	
 	
@@ -150,15 +219,7 @@ public class Graphix
 	 * (distance between two vertices)
 	 */
 	public double edgeLength(Vertex v, Vertex w) {
-		return distance(v.getX(), v.getY(), w.getX(), w.getY());
-	}
-	
-	
-	/*
-	 * Returns double of the distance between two points
-	 */
-	public double distance(int x1, int y1, int x2, int y2) {
-		return Math.sqrt( ((x1-x2)*(x1-x2)) + ((y1-y2)*(y1-y2)) );
+		return Edge.distance(v, w);
 	}
 	
 	
