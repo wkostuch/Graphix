@@ -53,7 +53,6 @@ public class Graphix
 	/*
 	 * Turns the graph into a BufferedImage
 	 */
-	
 	public BufferedImage graphToImage() {
 		//Get the canvas size from the JFrame
 		Dimension canvas = GraphixVisuals.getCanvasSize();
@@ -66,7 +65,6 @@ public class Graphix
     	image = buildImage(image, width, height);
     	return image;
 	}
-	
 	
 	
 	/*
@@ -289,7 +287,7 @@ public class Graphix
 	
 	
 	/*
-	 * Returns a Vertex array of keys to graph
+	 * Returns a Vertex array of keys to the graph
 	 * Ordered in this way: if x1 < x2, -> v1 then v2
 	 * If x1 = x2, if y1 < y2 -> v1 then v2
 	 */
@@ -297,6 +295,15 @@ public class Graphix
 		Vertex[] keys = graph.keySet().toArray(new Vertex[0]);
 		Arrays.sort(keys, (k, h) -> Vertex.compareVertices(k, h));
 		return keys;
+	}
+	
+	
+	/*
+	 * Returns an Edge array of edges from the graph
+	 * Ordered by length of edge
+	 */
+	public Edge[] orderedEdgeArray() {
+		//WRITE THIS
 	}
 	
 	

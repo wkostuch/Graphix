@@ -3,6 +3,7 @@ package components;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.math.BigInteger;
+import java.util.Objects;
 import java.util.Random;
 
 
@@ -78,6 +79,9 @@ public class Vertex
 	 */
 	@Override
 	public int hashCode() {
+		return Objects.hash(this.x, this.y);
+		/*
+		 * Look at all of this redundant code!
 		//Make sure we don't have issues with same-value hashing
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int width = (int)screenSize.getWidth();
@@ -96,6 +100,7 @@ public class Vertex
 			h = (h + (int)c) % prime;
 		}
 		return h;
+		*/
 	}
 	
 	
