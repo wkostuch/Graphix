@@ -1,4 +1,4 @@
-package graphixBackend;
+package src.graphixBackend;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;

@@ -312,9 +312,9 @@ public class Graphix
 	 * Returns an Edge array of edges from the graph
 	 * Ordered by length of edge
 	 */
-	public Edge[] orderedEdgeArray() {
+	//public Edge[] orderedEdgeArray() {
 		//WRITE THIS
-	}
+	//}
 	
 	
 }
