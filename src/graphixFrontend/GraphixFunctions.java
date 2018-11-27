@@ -1,4 +1,4 @@
-package graphics;
+package graphixFrontend;
 
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
@@ -198,6 +198,14 @@ public class GraphixFunctions extends JFrame {
 		contentPane.add(btnNewVertex, gbc_btnNewVertex);
 		
 		this.setVisible(true);
+	}
+	
+	
+	/**
+	 * Obtains the vertices from the backend
+	 */
+	private getVertices() {
+		vertexList = GraphixVisuals.backend.orderedKeyArray();	// TODO
 	}
 
 }

@@ -1,4 +1,4 @@
-package graphics;
+package graphixFrontend;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -12,7 +12,7 @@ import javax.swing.JTextPane;
 public class GraphixTextOutput extends JFrame {
 
 	private JPanel contentPane;
-	JTextPane outputPane;
+	static JTextPane outputPane;
 
 	// main method not needed, this class will be called by Graphix
 	/**
@@ -70,7 +70,7 @@ public class GraphixTextOutput extends JFrame {
 	 * Accepts a string and appends it to the end of the displayed text
 	 * @param strOutput
 	 */
-	public void output(String strOutput) {
+	public static void output(String strOutput) {
 		try {
 			outputPane.getDocument().insertString(outputPane.getDocument().getLength(),
 												  strOutput, 

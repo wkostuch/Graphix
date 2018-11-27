@@ -1,10 +1,14 @@
-package graphics;
+package graphixFrontend;
 
 import java.awt.EventQueue;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
+
+import graphixBackend.Edge;
+import graphixBackend.Graphix;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Canvas;
@@ -15,10 +19,47 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
-public class Graphix {
+public class GraphixVisuals {
 
 	private JFrame frame;
 	private Canvas canvas;
+	static Graphix backend;
+	
+	MouseListener caspian = new MouseListener() {
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			int mouseX = e.getX();
+			int mouseY = e.getY();
+			
+			if (e.getButton() == MouseEvent.BUTTON2) {
+				graphixBackend.Vertex v = new graphixBackend.Vertex(e.getX(), e.getY());
+			}
+		}
+
+		@Override
+		public void mouseClicked(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mousePressed(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+	};
 	
 	// Size of the computer screen
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -30,7 +71,7 @@ public class Graphix {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Graphix window = new Graphix();
+					GraphixVisuals window = new GraphixVisuals();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -42,7 +83,7 @@ public class Graphix {
 	/**
 	 * Create the application.
 	 */
-	public Graphix() {
+	public GraphixVisuals() {
 		initialize();
 	}
 
@@ -60,41 +101,7 @@ public class Graphix {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		canvas = new Canvas();
-		canvas.addMouseListener(new MouseListener() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				int mouseX = e.getX();
-				int mouseY = e.getY();
-				
-				if (e.getButton() == MouseEvent.BUTTON2) {
-					Vertex v = new Vertex(e.getX(), e.getY());
-				}
-			}
-
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+		canvas.addMouseListener(caspian);
 		frame.getContentPane().add(canvas, BorderLayout.CENTER);
 		
 		JButton btnFunctions = new JButton("Functions");
@@ -108,15 +115,27 @@ public class Graphix {
 			}
 		});
 		frame.getContentPane().add(btnFunctions, BorderLayout.SOUTH);
+		
+		graphixBackend.Graphix.setWindowSize(new Dimension((int)((sWidth / 2)
+														   - (frame.getSize().width / 2)),
+						  	  							   (int)((sHeight / 2)
+						  	  							   - (frame.getSize().height / 2))));
+		
+		backend = new Graphix();
+		backend.readGraph(getFilePath());
 	}
 	
+	
 	/**
-	 * Returns size of canvas as a Dimension
-	 * Use for sizing bufferedImage
+	 * Uses a GUI popup window to allow the user to select a file from the filesystem
+	 * to use as the graph file
 	 */
-	public Dimension getCanvasSize() {
-		return new Dimension(canvas.getWidth(), canvas.getHeight());
+	private String getFilePath() {
+		String filepath = null;
+		// TODO
+		return filepath;
 	}
+	
 	
 	/**
 	 * Takes a BufferedImage and displays it in the application window
@@ -126,6 +145,22 @@ public class Graphix {
 		Graphics2D g2 = img.createGraphics();
 		canvas.printAll(g2);
 		g2.dispose();
+	}
+	
+	
+	/**
+	 * Returns the size of the canvas
+	 */
+	Dimension getCanvasSize() {
+		return canvas.getSize();
+	}
+	
+	
+	/**
+	 * Gets edges from the backend
+	 */
+	private Edge[] getEdges() {
+		return backend.orderedEdgeArray;
 	}
 	
 }

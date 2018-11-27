@@ -1,4 +1,4 @@
-package components;
+package graphixBackend;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -107,7 +107,7 @@ public class Vertex
 	 * Precedence is determined by: a.x < b.x, 
 	 * then by a.y < b.y if a.x == b.x
 	 */
-	public static int compareVertices(Vertex a, Vertex b) {
+	static int compareVertices(Vertex a, Vertex b) {
 		int rv = 0;
 		//a comes first!
 		if(a.getX() < b.getX()) {

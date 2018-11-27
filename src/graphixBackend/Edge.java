@@ -1,4 +1,4 @@
-package components;
+package graphixBackend;
 
 /*
  * Used for drawing edges, MWST, stuff that requires edges and not just distances
@@ -19,7 +19,7 @@ public class Edge
 		return distance(v.getX(), v.getY(), w.getX(), w.getY());
 	}
 	
-	public static double distance(int x1, int y1, int x2, int y2) {
+	private static double distance(int x1, int y1, int x2, int y2) {
 		return Math.sqrt( ((x1-x2)*(x1-x2)) + ((y1-y2)*(y1-y2)) );
 	}
 	
