@@ -1,4 +1,4 @@
-package graphixBackend;
+package src.graphixBackend;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -11,7 +11,7 @@ import java.awt.Graphics;
 import java.awt.Color;
 
 
-import graphixFrontend.*;
+import src.graphixFrontend.*;
 
 public class Graphix
 {

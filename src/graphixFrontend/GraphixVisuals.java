@@ -1,4 +1,4 @@
-package graphixFrontend;
+package src.graphixFrontend;
 
 import java.awt.EventQueue;
 import java.awt.Graphics2D;
@@ -6,8 +6,7 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
-import graphixBackend.Edge;
-import graphixBackend.Graphix;
+import src.graphixBackend.*;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -32,7 +31,7 @@ public class GraphixVisuals {
 			int mouseY = e.getY();
 			
 			if (e.getButton() == MouseEvent.BUTTON2) {
-				graphixBackend.Vertex v = new graphixBackend.Vertex(e.getX(), e.getY());
+				Vertex v = new Vertex(e.getX(), e.getY());
 			}
 		}
 
