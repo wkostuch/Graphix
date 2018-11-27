@@ -115,7 +115,7 @@ public class GraphixVisuals {
 		});
 		frame.getContentPane().add(btnFunctions, BorderLayout.SOUTH);
 		
-		graphixBackend.Graphix.setWindowSize(new Dimension((int)((sWidth / 2)
+		Graphix.setWindowSize(new Dimension((int)((sWidth / 2)
 														   - (frame.getSize().width / 2)),
 						  	  							   (int)((sHeight / 2)
 						  	  							   - (frame.getSize().height / 2))));
@@ -159,7 +159,7 @@ public class GraphixVisuals {
 	 * Gets edges from the backend
 	 */
 	private Edge[] getEdges() {
-		return backend.orderedEdgeArray;
+		return backend.orderedEdgeArray();
 	}
 	
 }
