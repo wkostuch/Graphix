@@ -8,8 +8,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Color;
 
-
-import components.*;
+import graphixFrontend.*;
 
 
 public class Graphix
@@ -28,6 +27,8 @@ public class Graphix
 	private final Color edgeColor = new Color(9, 100, 142);
 	private final Color vertexBoxColor = new Color(0, 0, 0);
 	private final Color backgroundColor = new Color(220, 224, 226);
+	
+	private static Dimension windowSize;
 	
 	
 	/*
@@ -50,15 +51,22 @@ public class Graphix
 	}
 	
 	
+	/**
+	 * Allows GraphixVisuals object to give Graphix a window size
+	 */
+	public static void setWindowSize(Dimension winSize) {
+		windowSize = winSize;
+	}
+	
+	
 	/*
 	 * Turns the graph into a BufferedImage
-	 */
-	public BufferedImage graphToImage() {
+	 */	
+	public BufferedImage getImage() {
 		//Get the canvas size from the JFrame
-		Dimension canvas = GraphixVisuals.getCanvasSize();
 		
-		int width = (int)canvas.getWidth();
-		int height = (int)canvas.getHeight();
+		int width = windowSize.width;
+		int height = windowSize.height;
 		int type = BufferedImage.TYPE_INT_ARGB;
 		
     	BufferedImage image = new BufferedImage(width, height, type);
