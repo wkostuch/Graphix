@@ -1,4 +1,4 @@
-package graphixFrontend;
+package src.graphixFrontend;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;

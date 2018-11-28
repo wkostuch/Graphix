@@ -2,14 +2,14 @@ package src.graphixBackend;
 
 import java.util.Arrays;
 import java.util.HashMap;
+
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.IOException;
+
 import java.awt.image.BufferedImage;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Color;
-
 
 import src.graphixFrontend.*;
 
@@ -17,7 +17,7 @@ public class Graphix
 {
 	//Hashmap of Hashmaps of vertex -> Doubles
 	//Used for storing vertex -> vertex -> edge distance
-	private HashMap<Vertex, HashMap<Vertex, Double> > graph =
+	public HashMap<Vertex, HashMap<Vertex, Double> > graph =
 			new  HashMap<Vertex, HashMap<Vertex, Double> >();
 	
 	//Hashmap used for checking connectedness of graph
@@ -43,12 +43,13 @@ public class Graphix
 		//System.out.println(g2);
 		Vertex h = new Vertex (23, 23);
 		g2.addVertex(h);
-		g2.addEdge(new Vertex(100, 100), h);
-		//System.out.println(g2);
-		g2.changeVertex(new Vertex(100, 100), 200, 200);
-		Vertex k = new Vertex (5, 5);
-		g2.addEdge(new Vertex(2, 9), k);
+		g2.addEdge(g2.getVertex(100, 100), h);
+		//System.out.println(g2.graph.get(g2.getVertex(100, 100)));
+		g2.changeVertex(g2.getVertex(100, 100), 200, 200);
 		System.out.println(g2);
+		System.out.println(g2.numberOfEdges());
+		Edge[] e = g2.orderedEdgeArray();
+		System.out.println(e[0]);
 		
 	}
 	
@@ -117,6 +118,18 @@ public class Graphix
 	
 	
 	/*
+	 * Returns the Vertex at x and y if it exists
+	 */
+	public Vertex getVertex(int x, int y) {
+		Vertex[] va = this.orderedKeyArray();
+		for(Vertex v : va) {
+			if(v.getX() == x && v.getY() == y) return v;
+		}
+		return null;
+	}
+	
+	
+	/*
 	 * Adds a new Vertex to the graph
 	 */
 	public void addVertex(Vertex v) {
@@ -170,29 +183,29 @@ public class Graphix
 	 */
 	public void changeVertex(Vertex v, int x, int y) {
 		//Keep a copy of the old one around
-		Vertex temp = new Vertex(v.getX(), v.getY());
+		//Vertex temp = v;
 		//Change them coordinates
-		v.changeCoords(x, y);
+		Vertex newV = new Vertex(x, y);
 		//Keep those nullPointerExceptions at bay
 		
-		if(graph.containsKey(temp)) {
+		if(graph.containsKey(v)) {
 			//A lonely vertex...but also override any that might be where the new coords are
-			if(graph.get(temp).equals(null)) {
-				this.addVertex(v, false, true);
+			if(graph.get(v).equals(null)) {
+				this.addVertex(newV, false, true);
 			}
 			else {
 				//Add vertex v, override what's there
-				this.addVertex(v, true, true);
+				this.addVertex(newV, true, true);
 				//Loop through vertices incident to temp, add them to v
 				//and remove temp from them
-				for(Vertex w : graph.get(temp).keySet().toArray(new Vertex[0])) {
-					this.changeVertexMapping(v, w);
-					graph.get(w).remove(temp);
+				for(Vertex w : graph.get(v).keySet().toArray(new Vertex[0])) {
+					this.addEdge(newV, w);
+					graph.get(w).remove(v);
 				}
 			}
 		}
 		//Get rid of the mapping to the unchanged coordinates
-		graph.remove(temp);
+		graph.remove(v);
 		
 	}
 	
@@ -214,8 +227,8 @@ public class Graphix
 	 * Use for initial building of graph while reading a file in
 	 */
 	public void addEdge(Vertex v, Vertex w) {
-		this.addVertex(v);
-		this.addVertex(w);
+		this.addVertex(v, true, false);
+		this.addVertex(w, true, false);
 		double dist = edgeLength(v, w);
 		graph.get(v).put(w, dist);
 		graph.get(w).put(v, dist);
@@ -236,6 +249,7 @@ public class Graphix
 	 */
 	public void readGraph(String file) {
 		System.out.println("Reading graph: " + file);
+		//GraphixTextOutput.output("Reading graph: " + file);
 		
 		try {
 			FileReader fr = new FileReader(file);
@@ -244,8 +258,10 @@ public class Graphix
 			bfr.close();
 		} catch (IOException e) {
 		    System.err.format("IOException: %s\n", e);
+		    //GraphixTextOutput.output("IOException: " + e.toString());
 		}
 		System.out.println("Done reading file.");
+		//GraphixTextOutput.output("Done reading file.");
 	}
 	
 	
@@ -312,9 +328,47 @@ public class Graphix
 	 * Returns an Edge array of edges from the graph
 	 * Ordered by length of edge
 	 */
-	//public Edge[] orderedEdgeArray() {
-		//WRITE THIS
-	//}
+    public Edge[] orderedEdgeArray() {
+    	Edge[] sortedEdges = new Edge[this.numberOfEdges()];
+    	
+    	int spot = 0; //Where to put the edge
+    	
+    	//Loop through keys of outer map
+    	for(Vertex key1 : this.orderedKeyArray()) {
+    		//Loop through inner map of keys
+    		if(graph.get(key1) == null) continue;
+    		Vertex[] innerMapKeys = graph.get(key1).keySet().toArray(new Vertex[0]);
+    		for(Vertex key2 : innerMapKeys) {
+    			if( Vertex.compareVertices(key1, key2) < 0) { 
+    				//key1 alphabetically prior to key2
+    				Edge e = new Edge(key1, key2);
+    				sortedEdges[spot] = e;
+    				spot++;
+    			}
+    		}
+    	}
+        Arrays.sort(sortedEdges, (a, b) -> (int)(a.getWeight() - b.getWeight()));
+    	return sortedEdges;
+    }
+
+
+    /*
+     * Returns the number of edges in the graph
+     */
+	private int numberOfEdges()
+	{
+		int count = 0;
+		//Array of Vertex keys to outer HashMap in graph
+		Vertex[] k = graph.keySet().toArray(new Vertex[0]);
+		//Loop through keys
+		for(Vertex s : k){
+			//Keep from getting null pointers if the Vertex isn't connected to anything
+			if(graph.get(s) != null) {
+				count += graph.get(s).keySet().toArray(new Vertex[0]).length;
+			}
+		}
+		return count/2;
+	}
 	
 	
 }
