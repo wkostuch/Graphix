@@ -204,7 +204,7 @@ public class GraphixFunctions extends JFrame {
 	/**
 	 * Obtains the vertices from the backend
 	 */
-	private getVertices() {
+	private void getVertices() {
 		vertexList = GraphixVisuals.backend.orderedKeyArray();	// TODO
 	}
 

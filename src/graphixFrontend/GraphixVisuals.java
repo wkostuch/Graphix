@@ -1,4 +1,4 @@
-package src.graphixFrontend;
+package graphixFrontend;
 
 import java.awt.EventQueue;
 import java.awt.Graphics2D;
@@ -6,12 +6,14 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
-import src.graphixBackend.*;
+import graphixBackend.*;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Canvas;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -24,6 +26,9 @@ public class GraphixVisuals {
 	private Canvas canvas;
 	static Graphix backend;
 	
+	/**
+	 * MouseListener override
+	 */
 	MouseListener caspian = new MouseListener() {
 		@Override
 		public void mouseReleased(MouseEvent e) {
@@ -130,9 +135,9 @@ public class GraphixVisuals {
 	 * to use as the graph file
 	 */
 	private String getFilePath() {
-		String filepath = null;
-		// TODO
-		return filepath;
+		JFileChooser chooser = new JFileChooser();
+		chooser.setDialogTitle("Select a graph file");
+		return String.valueOf(chooser.getSelectedFile().toPath());	// Null pointer safe
 	}
 	
 	
