@@ -163,8 +163,8 @@ public class GraphixVisuals {
 	/**
 	 * Gets edges from the backend
 	 */
-	private Edge[] getEdges() {
-		return backend.orderedEdgeArray();
-	}
+	//private Edge[] getEdges() {
+	//	return backend.orderedEdgeArray();
+	//}
 	
 }
