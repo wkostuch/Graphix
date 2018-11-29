@@ -9,10 +9,24 @@ public class Edge
 	private Vertex v2;
 	private double weight;
 	
+	/*
+	 * Default constructor that gives a weight equal to
+	 * the distance between v1 and v2
+	 */
 	public Edge(Vertex v1, Vertex v2) {
+		this(v1, v2, String.valueOf(distance(v1, v2)));
+	}
+	
+	/*
+	 * Constructor that assigns weight equal to number value of s
+	 * s must be either "d" or a number
+	 */
+	public Edge(Vertex v1, Vertex v2, String s) {
 		this.v1 = v1;
 		this.v2 = v2;
-		weight = distance(v1, v2);
+		if(s == "d") s = String.valueOf(distance(v1, v2));
+		double w = Double.valueOf(s);
+		this.weight = w;
 	}
 	
 	/*

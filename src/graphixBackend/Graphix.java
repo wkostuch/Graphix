@@ -39,7 +39,7 @@ public class Graphix
 	public static void main(String[] args) {
 		
 		Graphix g2 = new Graphix();
-		g2.readGraph("Graphix/2D Graphs/TestGraph.2dg");
+		g2.readGraph("Graphix/2D Graphs/diamond.2dg");
 		//System.out.println(g2);
 		Vertex h = new Vertex (23, 23);
 		g2.addVertex(h);
@@ -49,7 +49,16 @@ public class Graphix
 		System.out.println(g2);
 		System.out.println(g2.numberOfEdges());
 		Edge[] e = g2.orderedEdgeArray();
-		System.out.println(e[0]);
+		/*
+		for(Edge i : e) {
+			System.out.println(i);
+		}
+		*/
+		
+		//Edge e2 = new Edge(h, new Vertex(25, 57), "200");
+		//System.out.println(e2);
+		g2.changeVertex(h, 500, 500);
+		System.out.println(g2);
 		
 	}
 	
@@ -88,14 +97,6 @@ public class Graphix
 			for(int y = 0; y < height; y++) {
 				int color = getColor(x, y);
 				image.setRGB(x, y, color);
-				//If the spot is a Vertex, draw a circle around it
-				if(color == vertexColor.getRGB()) {
-					/*
-					 * DO WE DO THIS MANUALLY OR IN THE PAINTCOMPONENT?
-					 */
-				}
-				
-				//make a getEdges method and draw a line between those Vertices
 			}
 		}
 		return image;
@@ -335,8 +336,9 @@ public class Graphix
     	
     	//Loop through keys of outer map
     	for(Vertex key1 : this.orderedKeyArray()) {
-    		//Loop through inner map of keys
+    		//Check if the key1 Vertex is unconnected, if so: continue
     		if(graph.get(key1) == null) continue;
+    		//Loop through inner map of keys
     		Vertex[] innerMapKeys = graph.get(key1).keySet().toArray(new Vertex[0]);
     		for(Vertex key2 : innerMapKeys) {
     			if( Vertex.compareVertices(key1, key2) < 0) { 
