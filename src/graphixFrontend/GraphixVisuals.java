@@ -121,23 +121,30 @@ public class GraphixVisuals {
 		frame.getContentPane().add(btnFunctions, BorderLayout.SOUTH);
 		
 		Graphix.setWindowSize(new Dimension((int)((sWidth / 2)
-														   - (frame.getSize().width / 2)),
-						  	  							   (int)((sHeight / 2)
-						  	  							   - (frame.getSize().height / 2))));
+											- (frame.getSize().width / 2)),
+						  	  				(int)((sHeight / 2)
+						  	  				- (frame.getSize().height / 2))));
 		
 		backend = new Graphix();
 		backend.readGraph(getFilePath());
+		
+		displayBufferedImage(backend.getImage());
 	}
 	
 	
 	/**
 	 * Uses a GUI popup window to allow the user to select a file from the filesystem
 	 * to use as the graph file
+	 * 
+	 * Borrowed code from http://www.cs.cornell.edu/courses/JavaAndDS/files/io6JFileChooser.pdf
 	 */
 	private String getFilePath() {
-		JFileChooser chooser = new JFileChooser();
-		chooser.setDialogTitle("Select a graph file");
-		return String.valueOf(chooser.getSelectedFile().toPath());	// Null pointer safe
+		JFileChooser jd = new JFileChooser();
+		jd.setDialogTitle("Choose output file");
+		int returnVal= jd.showSaveDialog(null);
+		if (returnVal != JFileChooser.APPROVE_OPTION) 
+			return null;
+		return String.valueOf(jd.getSelectedFile().toPath());
 	}
 	
 	
