@@ -33,7 +33,10 @@ public class GraphPanel extends JPanel {
 		}
 		
 		for (Edge e : edgeArr) {
-			g.drawLine(e.getV1().getX(), e.getV1().getY(), e.getV2().getX(), e.getV2().getY());
+			g.drawLine(e.getV1().getX() + diameter / 2,
+					   e.getV1().getY() + diameter / 2,
+					   e.getV2().getX() + diameter / 2,
+					   e.getV2().getY() + diameter / 2);
 		}
 	}
 
