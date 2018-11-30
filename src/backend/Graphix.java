@@ -42,7 +42,7 @@ public class Graphix
 		Graphix g2 = new Graphix();
 		g2.readGraph("Graphix/src/graphs/diamond.2dg");
 		//System.out.println(g2);
-		Vertex h = new Vertex (23, 23);
+		Vertex h = new Vertex ("h", 23, 23);
 		g2.addVertex(h);
 		g2.addEdge(g2.getVertex(100, 100), h);
 		//System.out.println(g2.graph.get(g2.getVertex(100, 100)));
@@ -61,9 +61,9 @@ public class Graphix
 		g2.changeVertex(h, 500, 500);
 		System.out.println(g2);
 		
-		Graphix g = new Graphix();
-		g.testGraph();
-		System.out.println(g);
+		//Graphix g = new Graphix();
+		//g.testGraph();
+		//System.out.println(g);
 		
 	}
 	
@@ -75,7 +75,7 @@ public class Graphix
 		this.readGraph("Graphix/src/graphs/diamond.2dg");
 		for(int i = 0; i <= 400; i++) {
 			for(int j = 0; j <= 400; j++) {
-				Vertex v = new Vertex(i, j);
+				Vertex v = new Vertex("",i, j);
 				this.addVertex(v);
 			}
 		}
@@ -128,7 +128,7 @@ public class Graphix
 	 */
 	private int getColor(int x, int y) {
 		//Make a Vertex to check the hashmap
-		Vertex v = new Vertex(x, y);
+		Vertex v = new Vertex("", x, y);
 		if(graph.containsKey(v)) {
 			return vertexColor.getRGB();
 		} else {
@@ -205,7 +205,7 @@ public class Graphix
 		//Keep a copy of the old one around
 		//Vertex temp = v;
 		//Change them coordinates
-		Vertex newV = new Vertex(x, y);
+		Vertex newV = new Vertex(v.getName(), x, y);
 		//Keep those nullPointerExceptions at bay
 		
 		if(graph.containsKey(v)) {
@@ -289,7 +289,7 @@ public class Graphix
 	 * Parses a String line of a graph file into the graph
 	 */
 	public void parse(String l) {
-		String[] line = l.split(" ");
+		String[] line = l.split(" : ");
 		int size = line.length;
 		//If size < 2, then there's only one vertex on that line
 		if(size < 2) {
