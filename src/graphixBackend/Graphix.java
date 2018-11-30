@@ -68,13 +68,14 @@ public class Graphix
 	 */
 	public static Graphix testGraph() {
 		Graphix g = new Graphix();
-		g.readGraph("Graphix/2D Graphs/diamond.2dg");
+		g.readGraph("D:\\git\\Graphix\\graphs");
 		for(int i = 0; i <= 400; i++) {
 			for(int j = 0; j <= 400; j++) {
 				Vertex v = new Vertex(i, j);
 				g.addVertex(v);
 			}
 		}
+		return g;
 	}
 	
 	
