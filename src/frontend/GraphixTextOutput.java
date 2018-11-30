@@ -1,7 +1,6 @@
 package frontend;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -14,24 +13,6 @@ public class GraphixTextOutput extends JFrame {
 	private JPanel contentPane;
 	static JTextPane outputPane;
 
-	// main method not needed, this class will be called by Graphix
-	/**
-	 * Launch the application.
-	 */
-	/**
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GraphixTextOutput frame = new GraphixTextOutput();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	*/
 
 	/**
 	 * Create the frame.

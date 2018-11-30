@@ -23,7 +23,8 @@ public class GraphixFunctions extends JFrame {
 	private JButton btnNewVertex;
 	private JLabel lblXposition;
 	private JLabel lblYposition;
-	private JList vertexList;
+	private JList vertices;
+	private JList edges;
 	/**
 	 * Launch the application.
 	 */

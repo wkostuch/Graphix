@@ -11,8 +11,6 @@ import java.awt.image.BufferedImage;
 import java.awt.Dimension;
 import java.awt.Color;
 
-import frontend.*;
-
 
 public class Graphix
 {
