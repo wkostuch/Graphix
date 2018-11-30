@@ -1,4 +1,4 @@
-package graphixBackend;
+package backend;
 
 /*
  * Used for drawing edges, MWST, stuff that requires edges and not just distances
