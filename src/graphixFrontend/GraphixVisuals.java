@@ -6,6 +6,7 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JPanel;
 
 import graphixBackend.*;
 
@@ -24,9 +25,10 @@ import java.awt.image.BufferedImage;
 public class GraphixVisuals {
 
 	private JFrame frame;
-	private Canvas canvas;
+	private JPanel canvas;
 	static Graphix backend;
-	JList<Vertex> vertexList;
+	Vertex[] vertexList;
+	Edge[] edgeList;
 	
 	/**
 	 * MouseListener override
@@ -106,7 +108,7 @@ public class GraphixVisuals {
 						  (int)((sHeight / 2) - (frame.getSize().height / 2)));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		canvas = new Canvas();
+		canvas = new JPanel();
 		canvas.addMouseListener(caspian);
 		frame.getContentPane().add(canvas, BorderLayout.CENTER);
 		
@@ -127,6 +129,15 @@ public class GraphixVisuals {
 						  	  				(int)((sHeight / 2)
 						  	  				- (frame.getSize().height / 2))));
 		
+		initializeGraph();
+		
+	}
+	
+	
+	/**
+	 * Initializes the backend and draws the graph
+	 */
+	private void initializeGraph() {
 		/*
 		// Start the backend running
 		backend = new Graphix();
@@ -137,8 +148,27 @@ public class GraphixVisuals {
 		displayBufferedImage(backend.getImage());
 		*/
 		
+		// Test configuration
 		backend = Graphix.testGraph();
 		displayBufferedImage(backend.getImage());
+		
+		// Initialize the JLists of graph components
+		vertexList = backend.orderedKeyArray();
+		edgeList = backend.orderedEdgeArray();
+		
+		drawCanvas();
+	}
+	
+	
+	/**
+	 * Draws the vertices and edges onto the canvas
+	 */
+	private void drawCanvas(Graphics2D g2) {
+		int diameter = 10;
+		// First draw circle for all the vertices
+		for (Vertex v : vertexList) {
+			g2.fillOval(v.getX(), v.getY(), diameter, diameter);
+		}
 	}
 	
 	
@@ -174,22 +204,6 @@ public class GraphixVisuals {
 	 */
 	Dimension getCanvasSize() {
 		return canvas.getSize();
-	}
-	
-	
-	/**
-	 * Gets edges from the backend
-	 */
-	//private Edge[] getEdges() {
-	//	return backend.orderedEdgeArray();
-	//}
-	
-	
-	/**
-	 * Obtains the vertices from the backend
-	 */
-	private JList<Vertex> getVertices() {
-		return new JList<Vertex>(backend.orderedKeyArray());	// TODO
 	}
 	
 }
