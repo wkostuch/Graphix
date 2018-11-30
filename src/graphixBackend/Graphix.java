@@ -63,6 +63,21 @@ public class Graphix
 	}
 	
 	
+	/*
+	 * Creates a test graph with a 400x400 block of Vertices
+	 */
+	public static Graphix testGraph() {
+		Graphix g = new Graphix();
+		g.readGraph("Graphix/2D Graphs/diamond.2dg");
+		for(int i = 0; i <= 400; i++) {
+			for(int j = 0; j <= 400; j++) {
+				Vertex v = new Vertex(i, j);
+				g.addVertex(v);
+			}
+		}
+	}
+	
+	
 	/**
 	 * Allows GraphixVisuals object to give Graphix a window size
 	 */
