@@ -37,7 +37,7 @@ public class GraphixVisuals {
 			int mouseY = e.getY();
 			
 			if (e.getButton() == MouseEvent.BUTTON2) {
-				Vertex v = new Vertex(e.getX(), e.getY());
+				Vertex v = new Vertex("", e.getX(), e.getY());
 			}
 		}
 
