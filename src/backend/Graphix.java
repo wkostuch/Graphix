@@ -61,22 +61,24 @@ public class Graphix
 		g2.changeVertex(h, 500, 500);
 		System.out.println(g2);
 		
+		Graphix g = new Graphix();
+		g.testGraph();
+		System.out.println(g);
+		
 	}
 	
 	
 	/*
 	 * Creates a test graph with a 400x400 block of Vertices
 	 */
-	public static Graphix testGraph() {
-		Graphix g = new Graphix();
-		g.readGraph("D:\\git\\Graphix\\graphs");
+	public void testGraph() {
+		this.readGraph("Graphix/src/graphs/diamond.2dg");
 		for(int i = 0; i <= 400; i++) {
 			for(int j = 0; j <= 400; j++) {
 				Vertex v = new Vertex(i, j);
-				g.addVertex(v);
+				this.addVertex(v);
 			}
 		}
-		return g;
 	}
 	
 	
