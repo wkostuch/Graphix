@@ -75,6 +75,7 @@ public class Graphix
 				g.addVertex(v);
 			}
 		}
+		return g;
 	}
 	
 	
