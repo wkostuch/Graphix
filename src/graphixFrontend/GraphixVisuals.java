@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
+import javax.swing.JList;
 
 import graphixBackend.*;
 
@@ -25,6 +26,7 @@ public class GraphixVisuals {
 	private JFrame frame;
 	private Canvas canvas;
 	static Graphix backend;
+	JList<Vertex> vertexList;
 	
 	/**
 	 * MouseListener override
@@ -125,9 +127,17 @@ public class GraphixVisuals {
 						  	  				(int)((sHeight / 2)
 						  	  				- (frame.getSize().height / 2))));
 		
+		/*
+		// Start the backend running
 		backend = new Graphix();
+		
+		// Read in a file selected by the user using a file chooser
 		backend.readGraph(getFilePath());
 		
+		displayBufferedImage(backend.getImage());
+		*/
+		
+		backend = Graphix.testGraph();
 		displayBufferedImage(backend.getImage());
 	}
 	
@@ -173,5 +183,13 @@ public class GraphixVisuals {
 	//private Edge[] getEdges() {
 	//	return backend.orderedEdgeArray();
 	//}
+	
+	
+	/**
+	 * Obtains the vertices from the backend
+	 */
+	private JList<Vertex> getVertices() {
+		return new JList<Vertex>(backend.orderedKeyArray());	// TODO
+	}
 	
 }
