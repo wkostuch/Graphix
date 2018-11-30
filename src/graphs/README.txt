@@ -1,10 +1,11 @@
 Graph file format for 2D undicted graphs:
 
-x1,y1 x2,y2 
+A-x1,y1 | B-x2,y2 
 . . .
-xn,yn x(n+1),y(n+1)
-xk,yk 
+An-xn,yn | Bn-x(n+1),y(n+1)
+Ax-xk,yk 
 
 xi,yi = coordinates of ith vertex
+A/An, b/Bn are the names for the Vertex
 If there are two vertices on a line, there's an edge between them.
 The "xk,yk" example is for a vertex with no edges.

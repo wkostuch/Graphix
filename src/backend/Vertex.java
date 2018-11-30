@@ -6,15 +6,18 @@ import java.util.Random;
 
 public class Vertex
 {
+	private String name;
 	private int x;
 	private int y;
 	
 	
 	//Constructor
-	public Vertex(int x, int y) {
+	public Vertex(String n, int x, int y) {
+		this.name = n;
 		this.x = x;
 		this.y = y;
 	}
+	
 	
 	
 	/*
@@ -33,7 +36,8 @@ public class Vertex
 		Random r = new Random();
 		int randX = r.nextInt(range + 1);
 		int randY = r.nextInt(range + 1);
-		Vertex v = new Vertex(randX, randY);
+		String s = "V-" + randX + "," + randY;
+		Vertex v = new Vertex(s,randX, randY);
 		return v;
 	}
 	
@@ -43,10 +47,15 @@ public class Vertex
 	 * where x and y are some integers
 	 */
 	public static Vertex stringToVertex(String s) {
-		String[] sa = s.split(",");
-		int x = Integer.valueOf(sa[0]);
-		int y = Integer.valueOf(sa[1]);
-		Vertex v = new Vertex(x, y);
+		//Split along "-" to find name
+		String[] sa1 = s.split("-");
+		String name = sa1[0];
+
+		//Split along "," after initial split to find x,y coords
+		String[] sa2 = sa1[1].split(",");
+		int x = Integer.valueOf(sa2[0]);
+		int y = Integer.valueOf(sa2[1]);
+		Vertex v = new Vertex(name ,x, y);
 		return v;
 	}
 	
@@ -77,27 +86,6 @@ public class Vertex
 	@Override
 	public int hashCode() {
 		return Objects.hash(this.x, this.y);
-		/*
-		 * Look at all of this redundant code!
-		//Make sure we don't have issues with same-value hashing
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		int width = (int)screenSize.getWidth();
-		int height = (int)screenSize.getHeight();
-		BigInteger p = new BigInteger("" + width*height);
-		p.nextProbablePrime();
-		
-		int prime = p.intValue();
-		char[] sx = String.valueOf(this.getX()).toCharArray();
-		int h = 0;
-		for(char c : sx) {
-			h = (h + (int)c) % prime;
-		}
-		char[] sy = String.valueOf(this.getY()).toCharArray();
-		for(char c : sy) {
-			h = (h + (int)c) % prime;
-		}
-		return h;
-		*/
 	}
 	
 	
@@ -154,6 +142,14 @@ public class Vertex
 	
 	
 	/*
+	 * Returns the name of the vertex
+	 */
+	public String getName() {
+		return this.name;
+	}
+	
+	
+	/*
 	 * Changes x value of the vertex
 	 */
 	public void changeX(int n) {
@@ -183,7 +179,7 @@ public class Vertex
 	 */
 	@Override
 	public String toString() {
-		String s = "(" + this.x + ", " + this.y + ")";
+		String s = this.getName() + "(" + this.x + ", " + this.y + ")";
 		return s;
 	}
 }
