@@ -1,4 +1,4 @@
-package graphixBackend;
+package backend;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -11,7 +11,8 @@ import java.awt.image.BufferedImage;
 import java.awt.Dimension;
 import java.awt.Color;
 
-import graphixFrontend.*;
+import frontend.*;
+
 
 public class Graphix
 {
@@ -39,7 +40,7 @@ public class Graphix
 	public static void main(String[] args) {
 		
 		Graphix g2 = new Graphix();
-		g2.readGraph("Graphix/2D Graphs/diamond.2dg");
+		g2.readGraph("Graphix/src/graphs/diamond.2dg");
 		//System.out.println(g2);
 		Vertex h = new Vertex (23, 23);
 		g2.addVertex(h);
