@@ -5,13 +5,11 @@ import java.awt.Graphics2D;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
-import javax.swing.JList;
 
 import backend.*;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Canvas;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
@@ -24,9 +22,10 @@ import java.awt.image.BufferedImage;
 public class GraphixVisuals {
 
 	private JFrame frame;
-	private Canvas canvas;
+	private GraphPanel canvas;
 	static Graphix backend;
-	JList<Vertex> vertexList;
+	Vertex[] vertexList;
+	Edge[] edgeList;
 	
 	/**
 	 * MouseListener override
@@ -106,9 +105,12 @@ public class GraphixVisuals {
 						  (int)((sHeight / 2) - (frame.getSize().height / 2)));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		canvas = new Canvas();
+		initializeGraph();
+		
+		canvas = new GraphPanel(vertexList, edgeList);
 		canvas.addMouseListener(caspian);
 		frame.getContentPane().add(canvas, BorderLayout.CENTER);
+		canvas.repaint();
 		
 		JButton btnFunctions = new JButton("Functions");
 		btnFunctions.setPreferredSize(new Dimension((int)((sWidth * 0.66) / 20),
@@ -126,19 +128,29 @@ public class GraphixVisuals {
 											- (frame.getSize().width / 2)),
 						  	  				(int)((sHeight / 2)
 						  	  				- (frame.getSize().height / 2))));
+	}
+	
+	
+	/**
+	 * Initializes the backend and draws the graph
+	 */
+	private void initializeGraph() {
 		
-		/*
 		// Start the backend running
 		backend = new Graphix();
 		
 		// Read in a file selected by the user using a file chooser
 		backend.readGraph(getFilePath());
 		
-		displayBufferedImage(backend.getImage());
-		*/
+		// Initialize the JLists of graph components
+				vertexList = backend.orderedKeyArray();
+				edgeList = backend.orderedEdgeArray();
 		
+		/*
+		// Test configuration
 		backend = Graphix.testGraph();
 		displayBufferedImage(backend.getImage());
+		*/
 	}
 	
 	
@@ -174,22 +186,6 @@ public class GraphixVisuals {
 	 */
 	Dimension getCanvasSize() {
 		return canvas.getSize();
-	}
-	
-	
-	/**
-	 * Gets edges from the backend
-	 */
-	//private Edge[] getEdges() {
-	//	return backend.orderedEdgeArray();
-	//}
-	
-	
-	/**
-	 * Obtains the vertices from the backend
-	 */
-	private JList<Vertex> getVertices() {
-		return new JList<Vertex>(backend.orderedKeyArray());	// TODO
 	}
 	
 }
