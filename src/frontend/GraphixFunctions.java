@@ -71,14 +71,14 @@ public class GraphixFunctions extends JFrame {
 		gbc_btnDrawMWST.gridy = 0;
 		contentPane.add(btnDrawMWST, gbc_btnDrawMWST);
 		
-		vertexList = new JList();
+		vertices = new JList();
 		GridBagConstraints gbc_vertexList = new GridBagConstraints();
 		gbc_vertexList.gridheight = 4;
 		gbc_vertexList.insets = new Insets(0, 0, 5, 0);
 		gbc_vertexList.fill = GridBagConstraints.BOTH;
 		gbc_vertexList.gridx = 2;
 		gbc_vertexList.gridy = 0;
-		contentPane.add(vertexList, gbc_vertexList);
+		contentPane.add(vertices, gbc_vertexList);
 		
 		lblXposition = new JLabel("x");
 		GridBagConstraints gbc_lblXposition = new GridBagConstraints();

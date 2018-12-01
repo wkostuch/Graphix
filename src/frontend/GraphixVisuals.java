@@ -27,45 +27,6 @@ public class GraphixVisuals {
 	Vertex[] vertexList;
 	Edge[] edgeList;
 	
-	/**
-	 * MouseListener override
-	 */
-	MouseListener caspian = new MouseListener() {
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			int mouseX = e.getX();
-			int mouseY = e.getY();
-			
-			if (e.getButton() == MouseEvent.BUTTON2) {
-				Vertex v = new Vertex("", e.getX(), e.getY());
-			}
-		}
-
-		@Override
-		public void mouseClicked(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void mouseExited(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void mousePressed(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-	};
-	
 	// Size of the computer screen
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
@@ -105,16 +66,9 @@ public class GraphixVisuals {
 						  (int)((sHeight / 2) - (frame.getSize().height / 2)));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		initializeGraph();
-		
-		canvas = new GraphPanel(vertexList, edgeList);
-		canvas.addMouseListener(caspian);
-		frame.getContentPane().add(canvas, BorderLayout.CENTER);
-		canvas.repaint();
-		
-		JButton btnFunctions = new JButton("Functions");
+		JButton btnFunctions = new JButton("Show Graph Editor");
 		btnFunctions.setPreferredSize(new Dimension((int)((sWidth * 0.66) / 20),
-														  (int)((sHeight * 0.66) / 20)));
+													(int)((sHeight * 0.66) / 20)));
 		btnFunctions.addActionListener(new ActionListener() {
 			@Override
 			// Open the GraphixFunctions window
@@ -124,10 +78,21 @@ public class GraphixVisuals {
 		});
 		frame.getContentPane().add(btnFunctions, BorderLayout.SOUTH);
 		
-		Graphix.setWindowSize(new Dimension((int)((sWidth / 2)
-											- (frame.getSize().width / 2)),
-						  	  				(int)((sHeight / 2)
-						  	  				- (frame.getSize().height / 2))));
+		JButton btnFileSelect = new JButton("Display Graph From File");
+		btnFileSelect.setPreferredSize(new Dimension((int)((sWidth * 0.66) / 20),
+													 (int)((sHeight * 0.66) / 20)));
+		btnFileSelect.addActionListener(new ActionListener() {
+			@Override
+			// Use the file chooser to open a graph from a file
+			public void actionPerformed(ActionEvent e) {
+				initializeGraph();
+				canvas.repaint();
+			}
+		});
+		frame.getContentPane().add(btnFileSelect, BorderLayout.NORTH);
+		
+		Graphix.setWindowSize(new Dimension((int)((sWidth / 2) - (frame.getSize().width / 2)),
+						  	  				(int)((sHeight / 2) - (frame.getSize().height / 2))));
 	}
 	
 	
@@ -138,19 +103,38 @@ public class GraphixVisuals {
 		
 		// Start the backend running
 		backend = new Graphix();
-		
+				
 		// Read in a file selected by the user using a file chooser
 		backend.readGraph(getFilePath());
-		
+				
 		// Initialize the JLists of graph components
-				vertexList = backend.orderedKeyArray();
-				edgeList = backend.orderedEdgeArray();
+		vertexList = backend.orderedKeyArray();
+		edgeList = backend.orderedEdgeArray();
 		
-		/*
-		// Test configuration
-		backend = Graphix.testGraph();
-		displayBufferedImage(backend.getImage());
-		*/
+		canvas = new GraphPanel(vertexList, edgeList);
+		canvas.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				int mouseX = e.getX();
+				int mouseY = e.getY();
+				
+				if (e.getButton() == MouseEvent.BUTTON2) {
+					Vertex v = new Vertex("", e.getX(), e.getY());
+				}
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {}
+			@Override
+			public void mouseEntered(MouseEvent e) {}
+			@Override
+			public void mouseExited(MouseEvent e) {}
+			@Override
+			public void mousePressed(MouseEvent e) {}
+		});
+		frame.getContentPane().add(canvas, BorderLayout.CENTER);
+		frame.revalidate();
+		frame.repaint();
 	}
 	
 	
