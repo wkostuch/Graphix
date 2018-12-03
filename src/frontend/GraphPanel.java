@@ -39,5 +39,20 @@ public class GraphPanel extends JPanel {
 					   e.getV2().getY() + diameter / 2);
 		}
 	}
+	
+	
+	/**
+	 * Used by other classes to change what is displayed
+	 * Can only be used to replace items, cannot be used to add new items
+	 */
+	public void changeVertex(Vertex oldVertex, Vertex newVertex) {
+		for (int i = 0; i < vertexArr.length; i++) {
+			if (vertexArr[i] == oldVertex)
+				vertexArr[i] = newVertex;
+		}
+		
+		revalidate();
+		repaint();
+	}
 
 }

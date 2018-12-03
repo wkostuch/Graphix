@@ -73,7 +73,11 @@ public class GraphixVisuals {
 			@Override
 			// Open the GraphixFunctions window
 			public void actionPerformed(ActionEvent e) {
-				GraphixFunctions funcWindow = new GraphixFunctions(sWidth, sHeight);
+				GraphixFunctions funcWindow = new GraphixFunctions(sWidth,
+																   sHeight,
+																   vertexList,
+																   edgeList,
+																   canvas);
 			}
 		});
 		frame.getContentPane().add(btnFunctions, BorderLayout.SOUTH);

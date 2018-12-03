@@ -1,204 +1,117 @@
 package frontend;
 
-import java.awt.BorderLayout;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import java.awt.GridBagLayout;
 import javax.swing.JButton;
-import java.awt.GridBagConstraints;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import backend.*;
+
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JTextField;
-import java.awt.Insets;
-import javax.swing.JLabel;
-import javax.swing.JList;
-
 public class GraphixFunctions extends JFrame {
-
-	private JPanel contentPane;
-	private JTextField xPos;
-	private JTextField yPos;
-	private JButton btnNewVertex;
-	private JLabel lblXposition;
-	private JLabel lblYposition;
-	private JList vertices;
-	private JList edges;
-	/**
-	 * Launch the application.
-	 */
-	/**
-	 * Main not needed, this JFrame will be called by a button in Graphix
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GraphixFunctions frame = new GraphixFunctions();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	*/
+	
+	private JList<Edge> edges;
+	private JList<Vertex> vertices;
+	
+	private Vertex currVertex;	// Used for temporarily storing values to be edited
+	private GraphPanel drawing;	// Used for storing the canvas so it can be edited
 
 	/**
 	 * Create the frame.
 	 */
 	public GraphixFunctions() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 546, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{0, 0, 0, 0};
-		gbl_contentPane.rowHeights = new int[]{0, 0, 0, 0, 0};
-		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		contentPane.setLayout(gbl_contentPane);
-		
-		JButton btnDrawMWST = new JButton("Draw MWST");
-		btnDrawMWST.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {}
-		});
-		GridBagConstraints gbc_btnDrawMWST = new GridBagConstraints();
-		gbc_btnDrawMWST.gridwidth = 2;
-		gbc_btnDrawMWST.insets = new Insets(0, 0, 5, 5);
-		gbc_btnDrawMWST.gridx = 0;
-		gbc_btnDrawMWST.gridy = 0;
-		contentPane.add(btnDrawMWST, gbc_btnDrawMWST);
-		
-		vertices = new JList();
-		GridBagConstraints gbc_vertexList = new GridBagConstraints();
-		gbc_vertexList.gridheight = 4;
-		gbc_vertexList.insets = new Insets(0, 0, 5, 0);
-		gbc_vertexList.fill = GridBagConstraints.BOTH;
-		gbc_vertexList.gridx = 2;
-		gbc_vertexList.gridy = 0;
-		contentPane.add(vertices, gbc_vertexList);
-		
-		lblXposition = new JLabel("x");
-		GridBagConstraints gbc_lblXposition = new GridBagConstraints();
-		gbc_lblXposition.insets = new Insets(0, 0, 5, 5);
-		gbc_lblXposition.anchor = GridBagConstraints.EAST;
-		gbc_lblXposition.gridx = 0;
-		gbc_lblXposition.gridy = 1;
-		contentPane.add(lblXposition, gbc_lblXposition);
-		
-		xPos = new JTextField();
-		GridBagConstraints gbc_xPos = new GridBagConstraints();
-		gbc_xPos.anchor = GridBagConstraints.WEST;
-		gbc_xPos.insets = new Insets(0, 0, 5, 5);
-		gbc_xPos.gridx = 1;
-		gbc_xPos.gridy = 1;
-		contentPane.add(xPos, gbc_xPos);
-		xPos.setColumns(10);
-		
-		lblYposition = new JLabel("y");
-		GridBagConstraints gbc_lblYposition = new GridBagConstraints();
-		gbc_lblYposition.insets = new Insets(0, 0, 5, 5);
-		gbc_lblYposition.anchor = GridBagConstraints.EAST;
-		gbc_lblYposition.gridx = 0;
-		gbc_lblYposition.gridy = 2;
-		contentPane.add(lblYposition, gbc_lblYposition);
-		
-		yPos = new JTextField();
-		GridBagConstraints gbc_yPos = new GridBagConstraints();
-		gbc_yPos.anchor = GridBagConstraints.WEST;
-		gbc_yPos.insets = new Insets(0, 0, 5, 5);
-		gbc_yPos.gridx = 1;
-		gbc_yPos.gridy = 2;
-		contentPane.add(yPos, gbc_yPos);
-		yPos.setColumns(10);
-		
-		btnNewVertex = new JButton("Add Vertex");
-		btnNewVertex.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {}
-		});
-		GridBagConstraints gbc_btnNewVertex = new GridBagConstraints();
-		gbc_btnNewVertex.gridwidth = 2;
-		gbc_btnNewVertex.insets = new Insets(0, 0, 0, 5);
-		gbc_btnNewVertex.gridx = 0;
-		gbc_btnNewVertex.gridy = 3;
-		contentPane.add(btnNewVertex, gbc_btnNewVertex);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		getContentPane().setLayout(new GridLayout(2, 2));
 	}
 	
 	/**
 	 * Overloaded constructor that places and sizes the window based on the
 	 * position and size of Graphix
 	 */
-	public GraphixFunctions(int width, int height) {
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
+	public GraphixFunctions(int width, int height, Vertex[] vArr, Edge[] eArr, GraphPanel canvas) {
+		this();
 		
-		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{0, 0, 0};
-		gbl_contentPane.rowHeights = new int[]{0, 0, 0, 0, 0};
-		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		contentPane.setLayout(gbl_contentPane);
+		this.setBounds(100, 100, width / 4, height / 4);
 		
-		JButton btnDrawMWST = new JButton("Draw MWST");
-		btnDrawMWST.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {}
+		vertices = new JList<Vertex>(vArr);
+		vertices.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			// Save the currently selected vertex so it can be edited
+			public void valueChanged(ListSelectionEvent e) {
+				currVertex = vertices.getSelectedValue();
+			}
 		});
-		GridBagConstraints gbc_btnDrawMwst = new GridBagConstraints();
-		gbc_btnDrawMwst.insets = new Insets(0, 0, 5, 0);
-		gbc_btnDrawMwst.gridx = 1;
-		gbc_btnDrawMwst.gridy = 0;
-		contentPane.add(btnDrawMWST, gbc_btnDrawMwst);
 		
-		lblXposition = new JLabel("x");
-		GridBagConstraints gbc_lblXposition = new GridBagConstraints();
-		gbc_lblXposition.insets = new Insets(0, 0, 5, 5);
-		gbc_lblXposition.anchor = GridBagConstraints.EAST;
-		gbc_lblXposition.gridx = 0;
-		gbc_lblXposition.gridy = 1;
-		contentPane.add(lblXposition, gbc_lblXposition);
+		edges = new JList<Edge>(eArr);
 		
-		xPos = new JTextField();
-		GridBagConstraints gbc_xPos = new GridBagConstraints();
-		gbc_xPos.insets = new Insets(0, 0, 5, 0);
-		gbc_xPos.fill = GridBagConstraints.HORIZONTAL;
-		gbc_xPos.gridx = 1;
-		gbc_xPos.gridy = 1;
-		contentPane.add(xPos, gbc_xPos);
-		xPos.setColumns(10);
+		drawing = canvas;
 		
-		lblYposition = new JLabel("y");
-		GridBagConstraints gbc_lblYposition = new GridBagConstraints();
-		gbc_lblYposition.insets = new Insets(0, 0, 5, 5);
-		gbc_lblYposition.anchor = GridBagConstraints.EAST;
-		gbc_lblYposition.gridx = 0;
-		gbc_lblYposition.gridy = 2;
-		contentPane.add(lblYposition, gbc_lblYposition);
-		
-		yPos = new JTextField();
-		GridBagConstraints gbc_yPos = new GridBagConstraints();
-		gbc_yPos.insets = new Insets(0, 0, 5, 0);
-		gbc_yPos.fill = GridBagConstraints.HORIZONTAL;
-		gbc_yPos.gridx = 1;
-		gbc_yPos.gridy = 2;
-		contentPane.add(yPos, gbc_yPos);
-		yPos.setColumns(10);
-		
-		btnNewVertex = new JButton("Add Vertex");
-		btnNewVertex.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {}
-		});
-		GridBagConstraints gbc_btnNewVertex = new GridBagConstraints();
-		gbc_btnNewVertex.gridx = 1;
-		gbc_btnNewVertex.gridy = 3;
-		contentPane.add(btnNewVertex, gbc_btnNewVertex);
+		// Add the JLists to the pane
+		getContentPane().add(vertices);
+		getContentPane().add(edges);
+		getContentPane().add(new EditorPanel());
 		
 		this.setVisible(true);
+	}
+	
+	
+	/**
+	 * Local extension of JPanel for editing vertices
+	 */
+	class EditorPanel extends JPanel {
+		
+		// Text boxes
+		JTextField xBox = new JTextField();
+		JTextField yBox = new JTextField();
+		JTextField nameBox = new JTextField();
+					
+		// Labels for text boxes
+		JLabel xLabel = new JLabel("x");
+		JLabel yLabel = new JLabel("y");
+		
+		// Button
+		JButton applyEditBtn = new JButton();
+		
+		
+		/**
+		 * Constructor
+		 */
+		public EditorPanel() {
+			this.setLayout(new GridLayout(3, 2));
+			
+			this.add(xLabel);
+			this.add(xBox);
+			this.add(yLabel);
+			this.add(yBox);
+			this.add(nameBox);
+			
+			applyEditBtn.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					applyVertexEdit(new Vertex(nameBox.getText(),
+							   		Integer.parseInt(xBox.getText()),
+							   		Integer.parseInt(yBox.getText())));
+				}
+			});
+			
+			this.add(applyEditBtn);
+		}
+	}
+	
+	
+	/**
+	 * Used for applying vertex edits
+	 */
+	private void applyVertexEdit(Vertex newVertex) {
+		drawing.changeVertex(currVertex, newVertex);
 	}
 
 }
