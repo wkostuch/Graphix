@@ -24,6 +24,9 @@ public class GraphixVisuals {
 	private JFrame frame;
 	private GraphPanel canvas;
 	static Graphix backend;
+	
+	// These are only used to feed the GraphPanel constructor,
+	// they are not used anywhere else in this class
 	Vertex[] vertexList;
 	Edge[] edgeList;
 	
@@ -90,6 +93,7 @@ public class GraphixVisuals {
 			// Use the file chooser to open a graph from a file
 			public void actionPerformed(ActionEvent e) {
 				initializeGraph();
+				canvas.revalidate();
 				canvas.repaint();
 			}
 		});

@@ -1,5 +1,6 @@
 package frontend;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,6 +24,19 @@ public class GraphixFunctions extends JFrame {
 	
 	private Vertex currVertex;	// Used for temporarily storing values to be edited
 	private GraphPanel drawing;	// Used for storing the canvas so it can be edited
+	
+	// Fields used in EditorPanel
+	// Text boxes
+	JTextField xBox;
+	JTextField yBox;
+	JTextField nameBox;
+						
+	// Labels for text boxes
+	JLabel xLabel;
+	JLabel yLabel;
+			
+	// Button
+	JButton applyEditBtn;
 
 	/**
 	 * Create the frame.
@@ -46,7 +60,11 @@ public class GraphixFunctions extends JFrame {
 			@Override
 			// Save the currently selected vertex so it can be edited
 			public void valueChanged(ListSelectionEvent e) {
-				currVertex = vertices.getSelectedValue();
+				// Initialize values in editor text boxes
+				// Editor is initialized (below) before this event could ever be called
+				xBox.setText(Integer.toString(vertices.getSelectedValue().getX()));
+				yBox.setText(Integer.toString(vertices.getSelectedValue().getY()));
+				nameBox.setText(vertices.getSelectedValue().getName());
 			}
 		});
 		
@@ -68,24 +86,20 @@ public class GraphixFunctions extends JFrame {
 	 */
 	class EditorPanel extends JPanel {
 		
-		// Text boxes
-		JTextField xBox = new JTextField();
-		JTextField yBox = new JTextField();
-		JTextField nameBox = new JTextField();
-					
-		// Labels for text boxes
-		JLabel xLabel = new JLabel("x");
-		JLabel yLabel = new JLabel("y");
-		
-		// Button
-		JButton applyEditBtn = new JButton();
-		
-		
 		/**
 		 * Constructor
 		 */
 		public EditorPanel() {
 			this.setLayout(new GridLayout(3, 2));
+			
+			xBox = new JTextField();
+			yBox = new JTextField();
+			nameBox = new JTextField();
+								
+			xLabel = new JLabel("x");
+			yLabel = new JLabel("y");
+					
+			applyEditBtn = new JButton("Apply Edits");
 			
 			this.add(xLabel);
 			this.add(xBox);
@@ -96,9 +110,14 @@ public class GraphixFunctions extends JFrame {
 			applyEditBtn.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					applyVertexEdit(new Vertex(nameBox.getText(),
-							   		Integer.parseInt(xBox.getText()),
-							   		Integer.parseInt(yBox.getText())));
+					applyVertexEdit(vertices.getSelectedValue(),
+									new Vertex(nameBox.getText(),
+							   				   Integer.parseInt(xBox.getText()),
+							   				   Integer.parseInt(yBox.getText())));
+					
+					xBox.setText("");
+					yBox.setText("");
+					nameBox.setText("");
 				}
 			});
 			
@@ -110,8 +129,41 @@ public class GraphixFunctions extends JFrame {
 	/**
 	 * Used for applying vertex edits
 	 */
-	private void applyVertexEdit(Vertex newVertex) {
-		drawing.changeVertex(currVertex, newVertex);
+	private void applyVertexEdit(Vertex oldVertex, Vertex newVertex) {
+		// Apply edits, accept the return
+		drawing.changeVertex(oldVertex, newVertex, this);
+		
+		drawing.repaint();
+		this.repaint();
+	}
+	
+	
+	/**
+	 * Accepts an array of vertices and uses it to update the contents
+	 * of the JList of vertices
+	 * @param vArr
+	 */
+	public void updateVertexList(Vertex[] vArr) {
+		DefaultListModel<Vertex> model = new DefaultListModel<Vertex>();
+		
+		for (Vertex v : vArr)
+			model.addElement(v);
+		
+		vertices.setModel(model);
+	}
+	
+	
+	/**
+	 * Accepts an array of edges and uses it to update the contents
+	 * of the JList of edges
+	 */
+	public void updateEdgeList(Edge[] eArr) {
+		DefaultListModel<Edge> model = new DefaultListModel<Edge>();
+		
+		for (Edge e : eArr)
+			model.addElement(e);
+		
+		edges.setModel(model);
 	}
 
 }
