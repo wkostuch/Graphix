@@ -9,10 +9,10 @@ import frontend.GraphixVisuals;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.BufferedWriter;
 
-import java.awt.image.BufferedImage;
 import java.awt.Dimension;
-import java.awt.Color;
+
 
 
 public class Graphix
@@ -30,12 +30,6 @@ public class Graphix
 	//handed to constructor by frontend stuff
 	GraphixTextOutput textOutput;
 	
-	//Colors for drawing, not currently used
-	private final Color vertexColor = new Color(255, 0, 157);
-	private final Color edgeColor = new Color(9, 100, 142);
-	private final Color vertexBoxColor = new Color(0, 0, 0);
-	private final Color backgroundColor = new Color(220, 224, 226);
-	
 	private static Dimension windowSize;
 	
 	
@@ -50,20 +44,24 @@ public class Graphix
 		System.out.println(g2.numberOfVertices());
 		System.out.println(g2);
 		g2.changeVertex(g2.getVertex(50, 150), 600, 600);
+
 		System.out.println(g2);
-		Edge[] ea = g2.orderedEdgeArray();
+
 		g2.removeEdge(g2.getVertex(600, 600), g2.getVertex(150, 150));
-		/*for(int i = 0; i < ea.length; i++) {
+		g2.removeVertex(g2.getVertex(600, 600));
+		System.out.println("Here: " + "\n" +g2);
+		Edge[] ea = g2.orderedEdgeArray();
+		for(int i = 0; i < ea.length; i++) {
 			System.out.println(ea[i]);
 			g2.removeEdge(ea[i]);
 		}
-		*/
-		/*
+		
+		
 		System.out.println(g2);
 		g2.isTree();
 		g2.MWST().isTree();
+		
 		*/
-		//System.out.println(g2);
 		/*System.out.println(g2);
 		Graphix g2MWSP = g2.MWST();
 		System.out.println("MWSP:");
@@ -151,6 +149,7 @@ public class Graphix
      * which says if the Graphix object is a tree or not
      */
     public void isTree() {
+    	this.textOutput.setVisible(true);
     	int numEdges = this.numberOfEdges();
     	int numVertices = this.numberOfVertices();
     	//If e doesn't equal v - 1, not a tree
@@ -242,58 +241,11 @@ public class Graphix
     }
 
 	
-	/**
+	/*
 	 * Allows GraphixVisuals object to give Graphix a window size
 	 */
 	public static void setWindowSize(Dimension winSize) {
 		windowSize = winSize;
-	}
-	
-	
-	/*
-	 * Turns the graph into a BufferedImage
-	 */	
-	public BufferedImage getImage() {
-		//Get the canvas size from the JFrame
-		
-		int width = windowSize.width;
-		int height = windowSize.height;
-		int type = BufferedImage.TYPE_INT_ARGB;
-		
-    	BufferedImage image = new BufferedImage(width, height, type);
-    	image = buildImage(image, width, height);
-    	return image;
-	}
-	
-	
-	/*
-	 * Builds the image for graphToImage
-	 * 
-	 */
-	private BufferedImage buildImage(BufferedImage image, int width, int height) {
-		//Loop through those pixels!
-		for(int x = 0; x < width; x++) {
-			for(int y = 0; y < height; y++) {
-				int color = getColor(x, y);
-				image.setRGB(x, y, color);
-			}
-		}
-		return image;
-	}
-	
-	
-	/*
-	 * Determines what color to use in buildImage
-	 * Color determined by (x,y) coordinates
-	 */
-	private int getColor(int x, int y) {
-		//Make a Vertex to check the hashmap
-		Vertex v = new Vertex("", x, y);
-		if(graph.containsKey(v)) {
-			return vertexColor.getRGB();
-		} else {
-			return backgroundColor.getRGB();
-		}
 	}
 	
 	
@@ -470,9 +422,10 @@ public class Graphix
 	 * Reads the graph from the file system
 	 */
 	public void readGraph(String file) {
+		this.textOutput.setVisible(true);
 		textOutput.output("Reading graph: " + file + "\n");
-		
 		try {
+			//Go line by line and parse it
 			FileReader fr = new FileReader(file);
 			BufferedReader bfr = new BufferedReader(fr);
 			bfr.lines().forEach(line -> parse(line.trim()));
