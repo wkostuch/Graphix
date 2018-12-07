@@ -443,17 +443,12 @@ public class Graphix
 	public void writeGraph(String name) {
 		//Creates a file with the name in the graphs folder
 		String path = System.getProperty("user.dir");
-<<<<<<< HEAD
-		System.out.println(path);
-		File file = new File(path + "\\Graphix\\src\\graphs\\" + name + ".2dg");
-=======
 		//Bad workaround for file issues
 		if(!path.contains("Graphix")) {
 			path += "\\Graphix";
 		}
 			File file = new File(path + "\\src\\graphs\\" + name + ".2dg");
 		//File file = new File(path + "\\Graphix\\src\\graphs\\" + name + ".2dg");
->>>>>>> branch 'master' of https://github.com/wkostuch/Graphix.git
 		BufferedWriter bw = null;
 		FileWriter fw = null;
 		
