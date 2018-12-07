@@ -86,6 +86,9 @@ public class GraphPanel extends JPanel {
 	public void setArrays(Vertex[] vArr, Edge[] eArr) {
 		vertexArr = vArr;
 		edgeArr = eArr;
+		
+		this.revalidate();
+		this.repaint();
 	}
 
 }

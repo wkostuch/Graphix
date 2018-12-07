@@ -12,11 +12,11 @@ import backend.*;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public class GraphixFunctions extends JFrame {
@@ -29,6 +29,8 @@ public class GraphixFunctions extends JFrame {
 	private Vertex currVertex;
 	
 	Graphix backend;
+	Graphix mwst;
+	boolean isMWST;
 	
 	// Fields used in EditorPanel
 	// Text boxes
@@ -49,7 +51,7 @@ public class GraphixFunctions extends JFrame {
 	 */
 	public GraphixFunctions() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		getContentPane().setLayout(new GridLayout(2, 2));
+		getContentPane().setLayout(new GridLayout(2, 3));
 	}
 	
 	/**
@@ -92,8 +94,108 @@ public class GraphixFunctions extends JFrame {
 		getContentPane().add(vertices);
 		getContentPane().add(edges);
 		getContentPane().add(new EditorPanel());
+		getContentPane().add(new ButtonPanel());
 		
 		this.setVisible(true);
+	}
+	
+	
+	/**
+	 * Local extension of JPanel for miscellaneous buttons
+	 */
+	class ButtonPanel extends JPanel {
+		
+		/**
+		 * Constructor
+		 */
+		public ButtonPanel() {
+			this.setLayout(new GridLayout(3, 2));
+			
+			JButton btnToggleMWST = new JButton("Toggle MWST");
+			btnToggleMWST.addActionListener(new ActionListener() {
+				// Action listener toggles the MWST display
+				// Each time it is pressed, it will switch the displayed graph between the
+				// original graph and the graph of the MWST
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					mwst = backend.MWST();
+					if (isMWST == false) {
+						isMWST = true;
+						// Replace the displayed graph with the MWST graph
+						updateVertexList(mwst);
+						updateEdgeList(mwst);
+						drawing.setArrays(mwst.orderedKeyArray(), mwst.orderedEdgeArray());
+					} else if (isMWST == true) {
+						isMWST = false;
+						// Replace the displayed graph with the backend graph
+						updateVertexList(backend);
+						updateEdgeList(backend);
+						drawing.setArrays(backend.orderedKeyArray(), backend.orderedEdgeArray());
+					}
+				}	
+			});
+			
+			JButton btnIsTree = new JButton("Is Tree");
+			btnIsTree.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					backend.isTree();
+				}
+			});
+			
+			JButton btnSaveToFile = new JButton("Save Graph To File");
+			btnSaveToFile.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// Saves the graph on the screen to a file, with all edits that
+					// have been added since it was first loaded
+					// TODO: Add method call when Will adds it to Graphix
+				}
+			});
+			
+			JButton btnAddEdge = new JButton("Add Edge");
+			btnAddEdge.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// If too few vertices are selected, the error is absorbed by the
+					// try-finally block and nothing happens.
+					// If too many vertices are selected, we only use the first two.
+					try {
+						List<Vertex> newEdge = vertices.getSelectedValuesList();
+						backend.addEdge(newEdge.get(0), newEdge.get(1));
+					} finally {
+						updateVertexList(backend);
+						updateEdgeList(backend);
+						drawing.setArrays(backend.orderedKeyArray(), backend.orderedEdgeArray());
+					}
+				}
+			});
+			
+			JButton btnRemoveVertex = new JButton("Remove Vertex");
+			btnRemoveVertex.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// Remove the selected vertex from the list
+					// TODO: Add method call when Will adds it to Graphix
+				}
+			});
+			
+			JButton btnRemoveEdge = new JButton("Remove Edge");
+			btnRemoveEdge.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// Remove the selected edge from the list
+					// TODO: Add method call when Will adds it to Graphix
+				}
+			});
+			
+			this.add(btnToggleMWST);
+			this.add(btnIsTree);
+			this.add(btnSaveToFile);
+			this.add(btnAddEdge);
+			this.add(btnRemoveVertex);
+			this.add(btnRemoveEdge);
+		}
 	}
 	
 	
@@ -144,20 +246,31 @@ public class GraphixFunctions extends JFrame {
 	 */
 	private void applyVertexEdit(Vertex newVertex) {
 		// Apply the edit through the backend
-		backend.changeVertex(newVertex, 
-							 Integer.parseInt(xBox.getText()),
-							 Integer.parseInt(yBox.getText()));
+		// If the name in the nameBox is not the name of a preexisting vertex,
+		// create a new one.  Otherwise, edit an existing vertex.
+		boolean add = true;
+		
+		for (Vertex v : backend.orderedKeyArray()) {
+			if (v.getName() == nameBox.getText())
+				add = false;
+		}
+		
+		if (add == false) {
+			backend.changeVertex(newVertex, 
+								 Integer.parseInt(xBox.getText()),
+								 Integer.parseInt(yBox.getText()));
+		} else if (add == true) {
+			backend.addVertex(new Vertex(nameBox.getText(),
+										 Integer.parseInt(xBox.getText()),
+										 Integer.parseInt(yBox.getText())));
+		}
 		
 		// Update the JLists
-		this.updateVertexList();
-		this.updateEdgeList();
+		this.updateVertexList(backend);
+		this.updateEdgeList(backend);
 		
 		// Update the drawing canvas
 		drawing.setArrays(backend.orderedKeyArray(), backend.orderedEdgeArray());
-		
-		// Revalidate the repaint
-		drawing.revalidate();
-		drawing.repaint();
 	}
 	
 	
@@ -166,8 +279,8 @@ public class GraphixFunctions extends JFrame {
 	 * of the JList of vertices
 	 * @param vArr
 	 */
-	public void updateVertexList() {
-		Vertex[] vArr = backend.orderedKeyArray();
+	public void updateVertexList(Graphix source) {
+		Vertex[] vArr = source.orderedKeyArray();
 		
 		DefaultListModel<Vertex> model = new DefaultListModel<Vertex>();
 		
@@ -182,8 +295,8 @@ public class GraphixFunctions extends JFrame {
 	 * Accepts an array of edges and uses it to update the contents
 	 * of the JList of edges
 	 */
-	public void updateEdgeList() {
-		Edge[] eArr = backend.orderedEdgeArray();
+	public void updateEdgeList(Graphix source) {
+		Edge[] eArr = source.orderedEdgeArray();
 		
 		DefaultListModel<Edge> model = new DefaultListModel<Edge>();
 		

@@ -27,7 +27,7 @@ public class GraphixTextOutput extends JFrame {
 	 * @param height
 	 */
 	public GraphixTextOutput(int width, int height) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, width, height);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
