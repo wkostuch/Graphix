@@ -1,5 +1,6 @@
 package backend;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -7,6 +8,7 @@ import frontend.GraphixTextOutput;
 import frontend.GraphixVisuals;
 
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.BufferedWriter;
@@ -52,7 +54,7 @@ public class Graphix
 		g2.removeVertex(g2.getVertex(600, 600));
 		System.out.println("Here: " + "\n" +g2);
 		Edge[] ea = g2.orderedEdgeArray();
-		g2.changeEdgeWeight(ea[1], "420");
+		g2.changeEdgeWeight(ea[1], "d");
 		System.out.println(g2);
 		for(int i = 0; i < ea.length; i++) {
 			System.out.println(ea[i]);
@@ -437,8 +439,65 @@ public class Graphix
 	 */
 	public void writeGraph(String name) {
 		//Creates a file with the name in the graphs folder
-		File file = new File("\"Graphix/src/graphs/" + name + ".2dg");
+		String path = System.getProperty("user.dir");
+		File file = new File(path + "\\Graphix\\src\\graphs\\" + name + ".2dg");
+		BufferedWriter bw = null;
+		FileWriter fw = null;
 		
+		Vertex[] keys = this.orderedKeyArray();
+		Edge[] edges = this.orderedEdgeArray();
+		//Make an ArrayList to keep track of which Vertices we see from edges
+		ArrayList<Vertex> vFromE = new ArrayList<Vertex>();
+		
+		try {
+			fw = new FileWriter(file);
+			bw = new BufferedWriter(fw);
+			
+			//Write checking the edges
+			for(Edge e : edges) {
+				String s = "";
+				Vertex v1 = e.getV1();
+				Vertex v2 = e.getV2();
+				double w = e.getWeight();
+				//Add Vertices to keep track of them if it's the first time seeing 'em
+				if(!vFromE.contains(v1)) vFromE.add(v1);
+				if(!vFromE.contains(v2)) vFromE.add(v2);
+				s += v1.getName() + "-" + v1.getX() + "," + v1.getY()
+					+ " : " 
+					+ v2.getName() + "-" + v2.getX() + "," + v2.getY()
+					+ " :: "
+					+ w;
+				bw.write(s);
+				bw.newLine();
+			}
+			
+			//Now check for Vertices not in edges
+			for(Vertex v : keys) {
+				String s = "";
+				//Vertex we haven't seen from an edge
+				if(!vFromE.contains(v)) {
+					s += v.getName() + "-" + v.getX() + "," + v.getY();
+					bw.write(s);
+					bw.newLine();
+				}
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			//Close stuff up
+			try {
+				if (bw != null)
+					bw.close();
+				if (fw != null)
+					fw.close();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+		//Make the text box visible and say when the file is done writing
+		textOutput.setVisible(true);
+		textOutput.output("Done writing file: " + name);
 	}
 	
 	
