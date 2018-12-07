@@ -185,10 +185,7 @@ public class GraphixFunctions extends JFrame {
 						drawing.setArrays(mwst.orderedKeyArray(), mwst.orderedEdgeArray());
 					} else if (isMWST == true) {
 						isMWST = false;
-						// Replace the displayed graph with the backend graph
-						updateVertexList(backend);
-						updateEdgeList(backend);
-						drawing.setArrays(backend.orderedKeyArray(), backend.orderedEdgeArray());
+						refreshDisplay();
 					}
 				}	
 			});
@@ -198,6 +195,7 @@ public class GraphixFunctions extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					backend.isTree();
+					output.setVisible(true);
 				}
 			});
 			
@@ -222,9 +220,7 @@ public class GraphixFunctions extends JFrame {
 						List<Vertex> newEdge = vertices.getSelectedValuesList();
 						backend.addEdge(newEdge.get(0), newEdge.get(1));
 					} finally {
-						updateVertexList(backend);
-						updateEdgeList(backend);
-						drawing.setArrays(backend.orderedKeyArray(), backend.orderedEdgeArray());
+						refreshDisplay();
 					}
 				}
 			});
@@ -243,9 +239,7 @@ public class GraphixFunctions extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					backend.removeEdge(edges.getSelectedValue());
-					updateVertexList(backend);
-					updateEdgeList(backend);
-					drawing.setArrays(backend.orderedKeyArray(), backend.orderedEdgeArray());
+					refreshDisplay();
 				}
 			});
 			
@@ -338,8 +332,10 @@ public class GraphixFunctions extends JFrame {
 		Vertex[] vArr = backend.orderedKeyArray();
 		
 		for (Vertex v : vArr) {
-			if (v.getName().equals(newVertex.getName()))
+			if (v.getName().equals(newVertex.getName())) {
 				add = false;
+				currVertex = v;
+			}
 		}
 		
 		if (add == false) {
@@ -350,12 +346,7 @@ public class GraphixFunctions extends JFrame {
 			backend.addVertex(newVertex);
 		}
 		
-		// Update the JLists
-		this.updateVertexList(backend);
-		this.updateEdgeList(backend);
-		
-		// Update the drawing canvas
-		drawing.setArrays(backend.orderedKeyArray(), backend.orderedEdgeArray());
+		this.refreshDisplay();
 	}
 	
 	
@@ -389,6 +380,19 @@ public class GraphixFunctions extends JFrame {
 			model.addElement(e);
 		
 		edges.setModel(model);
+	}
+	
+	
+	/**
+	 * Updates the arrays used to build the display
+	 */
+	private void refreshDisplay() {
+		// Update the JLists
+		this.updateVertexList(backend);
+		this.updateEdgeList(backend);
+				
+		// Update the drawing canvas
+		drawing.setArrays(backend.orderedKeyArray(), backend.orderedEdgeArray());
 	}
 
 }
