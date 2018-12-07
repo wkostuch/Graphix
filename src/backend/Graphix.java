@@ -51,7 +51,11 @@ public class Graphix
 		g2.changeVertex(g2.getVertex(50, 150), 600, 600);
 		System.out.println(g2);
 		Edge[] ea = g2.orderedEdgeArray();
-		for(Edge e : ea) System.out.println(e);
+		for(int i = 0; i < ea.length; i++) {
+			System.out.println(ea[i]);
+			g2.removeEdge(ea[i]);
+		}
+		System.out.println(g2);
 		g2.isTree();
 		g2.MWST().isTree();
 		//System.out.println(g2);
@@ -82,7 +86,7 @@ public class Graphix
 		//g.testGraph();
 		//System.out.println(g);
 
-		//GraphixVisuals.start(args);
+		GraphixVisuals.start(args);
 	}
 	
 	/*
@@ -415,6 +419,15 @@ public class Graphix
 		graph.get(w).put(v, weight);
 	}
 	
+	/*
+	 * Removes the edge from the graph
+	 */
+	public void removeEdge(Edge e) {
+		Vertex v1 = e.getV1();
+		Vertex v2 = e.getV2();
+		graph.get(v1).remove(v2);
+		graph.get(v2).remove(v1);
+	}
 	
 	/*
 	 * Returns double of the length of the edge
