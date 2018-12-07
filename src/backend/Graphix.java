@@ -447,8 +447,7 @@ public class Graphix
 		if(!path.contains("Graphix")) {
 			path += "\\Graphix";
 		}
-			File file = new File(path + "\\src\\graphs\\" + name + ".2dg");
-		//File file = new File(path + "\\Graphix\\src\\graphs\\" + name + ".2dg");
+		File file = new File(path + "\\src\\graphs\\" + name + ".2dg");
 		BufferedWriter bw = null;
 		FileWriter fw = null;
 		
