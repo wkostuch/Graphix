@@ -12,18 +12,21 @@ import backend.*;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+@SuppressWarnings("serial")
 public class GraphixFunctions extends JFrame {
 	
 	private JList<Edge> edges;
 	private JList<Vertex> vertices;
 	
-	private Vertex currVertex;	// Used for temporarily storing values to be edited
 	private GraphPanel drawing;	// Used for storing the canvas so it can be edited
+	
+	private Vertex currVertex;
 	
 	Graphix backend;
 	
@@ -68,11 +71,15 @@ public class GraphixFunctions extends JFrame {
 			@Override
 			// Save the currently selected vertex so it can be edited
 			public void valueChanged(ListSelectionEvent e) {
-				// Initialize values in editor text boxes
-				// Editor is initialized (below) before this event could ever be called
-				xBox.setText(Integer.toString(vertices.getSelectedValue().getX()));
-				yBox.setText(Integer.toString(vertices.getSelectedValue().getY()));
-				nameBox.setText(vertices.getSelectedValue().getName());
+				if (vertices.getSelectedValue() != null) {
+					currVertex = vertices.getSelectedValue();
+					
+					// Initialize values in editor text boxes
+					// Editor is initialized (below) before this event could ever be called
+					xBox.setText(Integer.toString(currVertex.getX()));
+					yBox.setText(Integer.toString(currVertex.getY()));
+					nameBox.setText(currVertex.getName());
+				}
 			}
 		});
 		
@@ -119,7 +126,7 @@ public class GraphixFunctions extends JFrame {
 			applyEditBtn.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					applyVertexEdit(vertices.getSelectedValue());
+					applyVertexEdit(currVertex);
 					
 					xBox.setText("");
 					yBox.setText("");
@@ -151,8 +158,6 @@ public class GraphixFunctions extends JFrame {
 		// Revalidate the repaint
 		drawing.revalidate();
 		drawing.repaint();
-		this.revalidate();
-		this.repaint();
 	}
 	
 	
