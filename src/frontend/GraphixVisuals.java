@@ -111,15 +111,11 @@ public class GraphixVisuals {
 	 * Initializes the backend and draws the graph
 	 */
 	private void initializeGraph() {
-<<<<<<< HEAD
-		GraphixTextOutput gto = new GraphixTextOutput();
-=======
 		// Create a text output box
 		output = new GraphixTextOutput();
 		
->>>>>>> 0e4c0313ddf7d0192d465afa83d6429a65339751
 		// Start the backend running
-		backend = new Graphix(gto);
+		backend = new Graphix(output);
 				
 		// Read in a file selected by the user using a file chooser
 		backend.readGraph(getFilePath());
