@@ -79,8 +79,8 @@ public class GraphixVisuals {
 			public void actionPerformed(ActionEvent e) {
 				GraphixFunctions funcWindow = new GraphixFunctions(sWidth,
 																   sHeight,
-																   vertexList,
-																   edgeList,
+																   backend.orderedKeyArray(),
+																   backend.orderedEdgeArray(),
 																   canvas,
 																   backend,
 																   output);
