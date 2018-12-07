@@ -18,6 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.List;
 
 @SuppressWarnings("serial")
@@ -52,6 +53,9 @@ public class GraphixFunctions extends JFrame {
 	
 	Vertex currVertex;
 	Edge currEdge;
+	
+	private boolean foundMatchingVertex = false;
+	private Vertex matchingVertex;
 	
 
 	/**
@@ -114,27 +118,54 @@ public class GraphixFunctions extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-				
 			}
-
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
+				// TODO Auto-generated method stub	
 			}
-
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
 			}
-
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
 			}
+			
+			
+			/**
+			 * When the mouse is pressed down, method checks to see if the pointer is
+			 * on the dot of one of the vertices.  If it is, it sets the value of the
+			 * foundMatchingVertex variable to true.
+			 */
+			/*
+			@Override
+			public void mousePressed(MouseEvent e) {
+				int x = e.getX();
+				int y = e.getY();
+				Vertex[] vArr = backend.orderedKeyArray();
+				foundMatchingVertex = false;
+				
+				for (Vertex v : vArr) {
+					if ((x >= v.getX() && x <= v.getX() + drawing.getDiameter()) &&
+						(y >= v.getY() && y <= v.getY() + drawing.getDiameter())) {
+						nameBox.setText(v.getName());
+						xBox.setText(Integer.toString(v.getX()));
+						yBox.setText(Integer.toString(v.getY()));
+						foundMatchingVertex = true;
+						matchingVertex = v;
+					}
+				}
+			}
+			*/
 
+			
+			/**
+			 * Handles what to do when the mouse is released.
+			 * When the mouse is released, either a vertex is selected,
+			 * or an (x,y) pair is put into the text boxes, allowing
+			 * a new vertex to be added.
+			 */
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// If left mouse button is clicked, put its x and y
@@ -144,7 +175,7 @@ public class GraphixFunctions extends JFrame {
 					int x = e.getX();
 					int y = e.getY();
 					Vertex[] vArr = backend.orderedKeyArray();
-					boolean foundMatchingVertex = false;
+					foundMatchingVertex = false;
 					
 					for (Vertex v : vArr) {
 						if ((x >= v.getX() && x <= v.getX() + drawing.getDiameter()) &&
@@ -153,17 +184,48 @@ public class GraphixFunctions extends JFrame {
 							xBox.setText(Integer.toString(v.getX()));
 							yBox.setText(Integer.toString(v.getY()));
 							foundMatchingVertex = true;
+							matchingVertex = v;
 						}
+					}
+					
+					if (foundMatchingVertex == true) {
+						nameBox.setText(matchingVertex.getName());
+						xBox.setText(Integer.toString(matchingVertex.getX()));
+						yBox.setText(Integer.toString(matchingVertex.getY()));
+						foundMatchingVertex = true;
 					}
 					
 					if (foundMatchingVertex == false) {
 						xBox.setText(Integer.toString(e.getX()));
 						yBox.setText(Integer.toString(e.getY()));
 					}
+					
+					foundMatchingVertex = false;
 				}
+			}
+		});
+		
+		/*
+		drawing.addMouseMotionListener(new MouseMotionListener() {
+
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				int x = e.getX();
+				int y = e.getY();
+				
+				if (foundMatchingVertex == true) {
+					matchingVertex.changeCoords(x, y);
+					applyVertexEdit(matchingVertex);
+				}
+			}
+
+			@Override
+			public void mouseMoved(MouseEvent arg0) {
+				// TODO Auto-generated method stub
 			}
 			
 		});
+		*/
 		
 		// Add the JLists to the pane
 		getContentPane().add(vertices);
