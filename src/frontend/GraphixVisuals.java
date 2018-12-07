@@ -80,7 +80,8 @@ public class GraphixVisuals {
 																   sHeight,
 																   vertexList,
 																   edgeList,
-																   canvas);
+																   canvas,
+																   backend);
 			}
 		});
 		frame.getContentPane().add(btnFunctions, BorderLayout.SOUTH);

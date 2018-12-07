@@ -25,6 +25,8 @@ public class GraphixFunctions extends JFrame {
 	private Vertex currVertex;	// Used for temporarily storing values to be edited
 	private GraphPanel drawing;	// Used for storing the canvas so it can be edited
 	
+	Graphix backend;
+	
 	// Fields used in EditorPanel
 	// Text boxes
 	JTextField xBox;
@@ -37,6 +39,7 @@ public class GraphixFunctions extends JFrame {
 			
 	// Button
 	JButton applyEditBtn;
+	
 
 	/**
 	 * Create the frame.
@@ -50,7 +53,12 @@ public class GraphixFunctions extends JFrame {
 	 * Overloaded constructor that places and sizes the window based on the
 	 * position and size of Graphix
 	 */
-	public GraphixFunctions(int width, int height, Vertex[] vArr, Edge[] eArr, GraphPanel canvas) {
+	public GraphixFunctions(int width,
+							int height,
+							Vertex[] vArr,
+							Edge[] eArr,
+							GraphPanel canvas,
+							Graphix backendObj) {
 		this();
 		
 		this.setBounds(100, 100, width / 4, height / 4);
@@ -71,6 +79,7 @@ public class GraphixFunctions extends JFrame {
 		edges = new JList<Edge>(eArr);
 		
 		drawing = canvas;
+		backend = backendObj;
 		
 		// Add the JLists to the pane
 		getContentPane().add(vertices);
@@ -110,10 +119,7 @@ public class GraphixFunctions extends JFrame {
 			applyEditBtn.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					applyVertexEdit(vertices.getSelectedValue(),
-									new Vertex(nameBox.getText(),
-							   				   Integer.parseInt(xBox.getText()),
-							   				   Integer.parseInt(yBox.getText())));
+					applyVertexEdit(vertices.getSelectedValue());
 					
 					xBox.setText("");
 					yBox.setText("");
@@ -129,11 +135,23 @@ public class GraphixFunctions extends JFrame {
 	/**
 	 * Used for applying vertex edits
 	 */
-	private void applyVertexEdit(Vertex oldVertex, Vertex newVertex) {
-		// Apply edits, accept the return
-		drawing.changeVertex(oldVertex, newVertex, this);
+	private void applyVertexEdit(Vertex newVertex) {
+		// Apply the edit through the backend
+		backend.changeVertex(newVertex, 
+							 Integer.parseInt(xBox.getText()),
+							 Integer.parseInt(yBox.getText()));
 		
+		// Update the JLists
+		this.updateVertexList();
+		this.updateEdgeList();
+		
+		// Update the drawing canvas
+		drawing.setArrays(backend.orderedKeyArray(), backend.orderedEdgeArray());
+		
+		// Revalidate the repaint
+		drawing.revalidate();
 		drawing.repaint();
+		this.revalidate();
 		this.repaint();
 	}
 	
@@ -143,7 +161,9 @@ public class GraphixFunctions extends JFrame {
 	 * of the JList of vertices
 	 * @param vArr
 	 */
-	public void updateVertexList(Vertex[] vArr) {
+	public void updateVertexList() {
+		Vertex[] vArr = backend.orderedKeyArray();
+		
 		DefaultListModel<Vertex> model = new DefaultListModel<Vertex>();
 		
 		for (Vertex v : vArr)
@@ -157,7 +177,9 @@ public class GraphixFunctions extends JFrame {
 	 * Accepts an array of edges and uses it to update the contents
 	 * of the JList of edges
 	 */
-	public void updateEdgeList(Edge[] eArr) {
+	public void updateEdgeList() {
+		Edge[] eArr = backend.orderedEdgeArray();
+		
 		DefaultListModel<Edge> model = new DefaultListModel<Edge>();
 		
 		for (Edge e : eArr)

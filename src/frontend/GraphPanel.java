@@ -58,8 +58,8 @@ public class GraphPanel extends JPanel {
 				vertexArr[i] = newVertex;
 		}
 		
-		caller.updateEdgeList(changeEdges(oldVertex, newVertex));
-		caller.updateVertexList(vertexArr);
+		//caller.updateEdgeList(changeEdges(oldVertex, newVertex));
+		//caller.updateVertexList(vertexArr);
 	}
 	
 	
@@ -77,6 +77,15 @@ public class GraphPanel extends JPanel {
 		}
 		
 		return edgeArr;
+	}
+	
+	
+	/**
+	 * Accepts new arrays of vertices and edges, then redraws
+	 */
+	public void setArrays(Vertex[] vArr, Edge[] eArr) {
+		vertexArr = vArr;
+		edgeArr = eArr;
 	}
 
 }
