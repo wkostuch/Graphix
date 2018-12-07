@@ -539,7 +539,7 @@ public class Graphix
 		//If size < 2, then there's only one vertex on that line
 		if(size < 2) {
 			Vertex v = Vertex.stringToVertex(line[0].trim());
-			this.addVertexNoEdges(v);
+			this.addVertex(v);
 			return;
 		} 
 		//Two vertices, so it's time to add an edge
