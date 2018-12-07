@@ -23,7 +23,7 @@ public class Graphix
 	//Maps a vertex to its representative vertex
 	private HashMap<Vertex, Vertex> parentSet;
 	
-	//Colors for drawing
+	//Colors for drawing, not currently used
 	private final Color vertexColor = new Color(255, 0, 157);
 	private final Color edgeColor = new Color(9, 100, 142);
 	private final Color vertexBoxColor = new Color(0, 0, 0);
@@ -39,7 +39,12 @@ public class Graphix
 		
 		Graphix g2 = new Graphix();
 		g2.readGraph("Graphix/src/graphs/diamond.2dg");
+		System.out.println(g2.numberOfVertices());
 		//System.out.println(g2);
+		System.out.println(g2);
+		Graphix g2MWSP = g2.MWST();
+		System.out.println("MWSP:");
+		System.out.println(g2MWSP);
 		Vertex h = new Vertex ("h", 23, 23);
 		g2.addVertex(h);
 		g2.addEdge(g2.getVertex(100, 100), h);
@@ -58,6 +63,9 @@ public class Graphix
 		//System.out.println(e2);
 		g2.changeVertex(h, 500, 500);
 		System.out.println(g2);
+		
+		Graphix MWSP = g2.MWST();
+		System.out.println(MWSP);
 		
 		//Graphix g = new Graphix();
 		//g.testGraph();
@@ -78,6 +86,90 @@ public class Graphix
 			}
 		}
 	}
+	
+    /**
+     * Return a graph containing a minimum-weight spanning tree of this graph.
+     */
+    public Graphix MWST(){
+		Graphix MWSP = new Graphix(); //Empty graph to be build into MWSP
+		int V = this.numberOfVertices(); //Number of vertices of the graph
+		parentSet = this.disjointSet(); //Update field
+		//Hashmap for points and their parents (null at this point)
+		
+		Edge[] sortedEdges = this.orderedEdgeArray();
+		//Array for edges, sorted in increasing order
+		
+		int edges = 0; //edges in MWSP, used for breaking loop
+		//Loop through, adding edges while checking if it's a tree yet
+		for(int i = 0; i < sortedEdges.length; i++) {
+			Edge e = sortedEdges[i];
+			
+			//can't add edge because it'd create a cycle
+			if(cycle(e.getV1(), e.getV2())) continue;
+			
+			double weight = e.getWeight();
+			//Add vertices and edge with weight
+			MWSP.addEdge(e.getV1(), e.getV2(), weight);
+			//Combines the sets as they're now connected by an edge
+			combineSets(e.getV1(), e.getV2()); 
+			edges++;
+			if(edges == V - 1) break;
+		}
+		
+		return MWSP;
+    }
+    
+    
+    /*
+     * Combines sets by updating their representatives
+     */
+    public void combineSets(Vertex v1, Vertex v2){
+    	Vertex Rv1 = findRep(v1);
+    	Vertex Rv2 = findRep(v2);
+    	parentSet.put(Rv1, Rv2);
+    }
+    
+    
+    /*
+     * Returns vertex which is representative of the vertex given
+     */
+    public Vertex findRep(Vertex v) {
+    	if(parentSet.get(v) == v) return v;
+    	else return findRep(parentSet.get(v));
+    }
+    
+    /*
+     * Returns true if a cycle is found for vertices v and w (same rep)
+     * Returns false if there isn't a cycle (different rep)
+     */
+    public boolean cycle(Vertex v, Vertex w) {
+    	return findRep(v) == findRep(w);
+    }
+    
+    
+    /*
+     * Returns a disjoint set of the graph
+     * (DSHashMap where each vertex is its own rep)
+     */
+    public HashMap<Vertex, Vertex> disjointSet(){
+    	HashMap<Vertex, Vertex> parentSet = new HashMap<Vertex, Vertex>();
+		Vertex[] keys = this.orderedKeyArray(); //List of keys to the graph
+		
+		for(int i = 0; i < keys.length; i++) {
+			Vertex key = (Vertex) keys[i];
+				parentSet.put(key, key);
+				//Initialize each point as its own parent
+		}
+		return parentSet;
+    }
+    
+    
+    /**
+     * Returns the number of vertices in the graph
+     */
+    public int numberOfVertices(){
+    	return graph.keySet().size();
+    }
 	
 	
 	/**
@@ -243,13 +335,23 @@ public class Graphix
 	 * Adds an edge between two vertices
 	 * If the vertices aren't in the graph already, it adds them
 	 * Use for initial building of graph while reading a file in
+	 * Default weight is the distance between v and w
 	 */
 	public void addEdge(Vertex v, Vertex w) {
+		double dist = edgeLength(v, w);
+		this.addEdge(v, w, dist);
+	}
+	
+	/*
+	 * Adds an edge between two vertices
+	 * If the vertices aren't in the graph already, it adds them
+	 * Able to specify weight of the edge
+	 */
+	public void addEdge(Vertex v, Vertex w, double weight) {
 		this.addVertex(v, true, false);
 		this.addVertex(w, true, false);
-		double dist = edgeLength(v, w);
-		graph.get(v).put(w, dist);
-		graph.get(w).put(v, dist);
+		graph.get(v).put(w, weight);
+		graph.get(w).put(v, weight);
 	}
 	
 	

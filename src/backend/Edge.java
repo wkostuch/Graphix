@@ -30,6 +30,13 @@ public class Edge
 	}
 	
 	/*
+	 * Changes the weight of an edge 
+	 */
+	public void changeWeight(double w) {
+		this.weight = w;
+	}
+	
+	/*
 	 * Overrides the toString method
 	 */
 	@Override
