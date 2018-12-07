@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import frontend.GraphixTextOutput;
+import frontend.GraphixVisuals;
 
 import java.io.FileReader;
 import java.io.BufferedReader;
@@ -41,45 +42,7 @@ public class Graphix
 	 * Main method
 	 */
 	public static void main(String[] args) {
-		
-		Graphix g2 = new Graphix();
-		g2.readGraph("Graphix/src/graphs/diamond.2dg");
-		System.out.println(g2.numberOfVertices());
-		System.out.println(g2);
-		g2.changeVertex(g2.getVertex(50, 150), 600, 600);
-		System.out.println(g2);
-		Edge[] ea = g2.orderedEdgeArray();
-		for(Edge e : ea) System.out.println(e);
-		g2.isTree();
-		g2.MWST().isTree();
-		//System.out.println(g2);
-		/*System.out.println(g2);
-		Graphix g2MWSP = g2.MWST();
-		System.out.println("MWSP:");
-		System.out.println(g2MWSP);
-		Vertex h = new Vertex ("h", 23, 23);
-		g2.addVertex(h);
-		g2.addEdge(g2.getVertex(100, 100), h, 20);
-		//System.out.println(g2.graph.get(g2.getVertex(100, 100)));
-		g2.changeVertex(g2.getVertex(100, 100), 200, 200);
-		System.out.println(g2);
-		System.out.println(g2.numberOfEdges());
-		Edge[] e = g2.orderedEdgeArray();
-		*/
-
-		
-		//Edge e2 = new Edge(h, new Vertex(25, 57), "200");
-		//System.out.println(e2);
-		/*g2.changeVertex(h, 500, 500);
-		System.out.println(g2);
-		
-		Graphix MWSP = g2.MWST();
-		System.out.println(MWSP);
-		*/
-		//Graphix g = new Graphix();
-		//g.testGraph();
-		//System.out.println(g);
-		
+		GraphixVisuals.start(args);
 	}
 	
 	
