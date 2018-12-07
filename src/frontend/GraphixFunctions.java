@@ -75,7 +75,7 @@ public class GraphixFunctions extends JFrame {
 							GraphixTextOutput outputBox) {
 		this();
 		
-		this.setBounds(100, 100, width / 4, height / 4);
+		this.setBounds(100, 100, width / 3, height / 4);
 		
 		vertices = new JList<Vertex>(vArr);
 		vertices.addListSelectionListener(new ListSelectionListener() {
