@@ -102,17 +102,14 @@ public class Graphix
 		parentSet = this.disjointSet(); //Update field
 		//Hashmap for points and their parents (null at this point)
 		
-		Edge[] sortedEdges = this.orderedEdgeArray();
 		//Array for edges, sorted in increasing order
-		
+		Edge[] sortedEdges = this.orderedEdgeArray();
 		int edges = 0; //edges in MWSP, used for breaking loop
 		//Loop through, adding edges while checking if it's a tree yet
 		for(int i = 0; i < sortedEdges.length; i++) {
 			Edge e = sortedEdges[i];
-			
 			//can't add edge because it'd create a cycle
 			if(cycle(e.getV1(), e.getV2())) continue;
-			
 			double weight = e.getWeight();
 			//Add vertices and edge with weight
 			MWSP.addEdge(e.getV1(), e.getV2(), weight);
@@ -128,12 +125,11 @@ public class Graphix
     
 
     /*
-     * Returns boolean: true if graph is tree, false if graph is not
+     * Returns a String which says if the Graphix object is a tree or not
      */
     public String isTree() {
     	int numEdges = this.numberOfEdges();
     	int numVertices = this.numberOfVertices();
-    	
     	//If e doesn't equal v - 1, not a tree
     	if(numEdges != numVertices - 1) return "This is not a tree!";
     	//If there's a cycle, not a tree;
@@ -148,30 +144,24 @@ public class Graphix
      * Returns true if the graph is connected, false if not
      */
     public boolean isConnected() {
+    	//Connected until proven guilty of not being connected
     	boolean flag = true;
-		parentSet = this.disjointSet(); //Update field
 		//Hashmap for points and their parents (null at this point)
-		
-		Edge[] sortedEdges = this.orderedEdgeArray();
+		parentSet = this.disjointSet(); //Update field
 		//Array for edges, sorted in increasing order
-	
+		Edge[] sortedEdges = this.orderedEdgeArray();
 		//Loop through edges checking if they're connected or not
 		for(int i = 0; i < sortedEdges.length; i++) {
 			Edge e = sortedEdges[i];
-			
 			//can't add edge because it'd create a cycle
 			if(cycle(e.getV1(), e.getV2())) {
 				flag = false;
 				break;
 			}
-
 			//Combines the sets as they're now connected by an edge
 			combineSets(e.getV1(), e.getV2()); 
 		}
-		
 		return flag;
-    	
-    	
     }
     
     
@@ -218,15 +208,7 @@ public class Graphix
 		}
 		return parentSet;
     }
-    
-    
-    /**
-     * Returns the number of vertices in the graph
-     */
-    public int numberOfVertices(){
-    	return graph.keySet().size();
-    }
-	
+
 	
 	/**
 	 * Allows GraphixVisuals object to give Graphix a window size
@@ -558,6 +540,14 @@ public class Graphix
 		}
 		return count/2;
 	}
+	
+	
+    /*
+     * Returns the number of vertices in the graph
+     */
+    public int numberOfVertices(){
+    	return graph.keySet().size();
+    }
 	
 	
 }
