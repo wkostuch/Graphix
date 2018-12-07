@@ -36,7 +36,6 @@ public class GraphixTextOutput extends JFrame {
 		
 		outputPane = new JTextPane();
 		contentPane.add(outputPane, BorderLayout.CENTER);
-		this.setVisible(true);
 	}
 	
 	/**

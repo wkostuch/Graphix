@@ -32,6 +32,8 @@ public class GraphixFunctions extends JFrame {
 	Graphix mwst;
 	boolean isMWST;
 	
+	GraphixTextOutput output;
+	
 	// Fields used in EditorPanel
 	// Text boxes
 	JTextField xBox;
@@ -66,10 +68,13 @@ public class GraphixFunctions extends JFrame {
 							Vertex[] vArr,
 							Edge[] eArr,
 							GraphPanel canvas,
-							Graphix backendObj) {
+							Graphix backendObj,
+							GraphixTextOutput outputBox) {
 		this();
 		
 		this.setBounds(100, 100, width / 4, height / 4);
+		
+		output = outputBox;
 		
 		vertices = new JList<Vertex>(vArr);
 		vertices.addListSelectionListener(new ListSelectionListener() {
@@ -98,13 +103,7 @@ public class GraphixFunctions extends JFrame {
 			}
 		});
 		
-		JButton btnChangeWeight = new JButton("Edit Edge Weight");
-		btnChangeWeight.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO: Add method call for edge length edit when Will has it ready
-			}
-		});
+		
 		
 		drawing = canvas;
 		backend = backendObj;
@@ -114,30 +113,8 @@ public class GraphixFunctions extends JFrame {
 		getContentPane().add(edges);
 		getContentPane().add(new EditorPanel());
 		getContentPane().add(new ButtonPanel());
-		getContentPane().add(new WeightPanel());
-		getContentPane().add(btnChangeWeight);
 		
 		this.setVisible(true);
-	}
-	
-	
-	/**
-	 * Local extension of JPanel for editing edge weights
-	 */
-	class WeightPanel extends JPanel {
-		
-		/**
-		 * Constructor
-		 */
-		public WeightPanel() {
-			this.setLayout(new GridLayout(1, 2));
-			
-			JLabel weightLabel = new JLabel("Weight");
-			this.add(weightLabel);
-			
-			JTextField weightBox = new JTextField();
-			this.add(weightBox);
-		}
 	}
 	
 	
@@ -230,12 +207,30 @@ public class GraphixFunctions extends JFrame {
 				}
 			});
 			
+			JButton btnChangeWeight = new JButton("Edit Edge Weight");
+			btnChangeWeight.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO: Add method call for edge length edit when Will has it ready
+				}
+			});
+			
+			JButton btnPrintGraph = new JButton("Print Graph");
+			btnPrintGraph.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					output.output(backend.toString());
+				}
+			});
+			
 			this.add(btnToggleMWST);
 			this.add(btnIsTree);
 			this.add(btnSaveToFile);
 			this.add(btnAddEdge);
 			this.add(btnRemoveVertex);
 			this.add(btnRemoveEdge);
+			this.add(btnChangeWeight);
+			this.add(btnPrintGraph);
 		}
 	}
 	
@@ -249,7 +244,7 @@ public class GraphixFunctions extends JFrame {
 		 * Constructor
 		 */
 		public EditorPanel() {
-			this.setLayout(new GridLayout(3, 2));
+			this.setLayout(new GridLayout(4, 2));
 			
 			xBox = new JTextField();
 			yBox = new JTextField();
@@ -278,6 +273,12 @@ public class GraphixFunctions extends JFrame {
 			});
 			
 			this.add(applyEditBtn);
+			
+			JLabel weightLabel = new JLabel("Weight");
+			this.add(weightLabel);
+			
+			JTextField weightBox = new JTextField();
+			this.add(weightBox);
 		}
 	}
 	

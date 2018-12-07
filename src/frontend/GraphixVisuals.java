@@ -24,6 +24,7 @@ public class GraphixVisuals {
 	private JFrame frame;
 	private GraphPanel canvas;
 	static Graphix backend;
+	private GraphixTextOutput output;
 	
 	// These are only used to feed the GraphPanel constructor,
 	// they are not used anywhere else in this class
@@ -81,7 +82,8 @@ public class GraphixVisuals {
 																   vertexList,
 																   edgeList,
 																   canvas,
-																   backend);
+																   backend,
+																   output);
 			}
 		});
 		frame.getContentPane().add(btnFunctions, BorderLayout.SOUTH);
@@ -109,6 +111,8 @@ public class GraphixVisuals {
 	 * Initializes the backend and draws the graph
 	 */
 	private void initializeGraph() {
+		// Create a text output box
+		output = new GraphixTextOutput();
 		
 		// Start the backend running
 		backend = new Graphix();
