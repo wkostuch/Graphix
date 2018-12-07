@@ -3,6 +3,8 @@ package backend;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import frontend.GraphixTextOutput;
+
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -40,8 +42,13 @@ public class Graphix
 		Graphix g2 = new Graphix();
 		g2.readGraph("Graphix/src/graphs/diamond.2dg");
 		System.out.println(g2.numberOfVertices());
-		//System.out.println(g2);
 		System.out.println(g2);
+		g2.changeVertex(g2.getVertex(50, 150), 600, 600);
+		System.out.println(g2);
+		Edge[] ea = g2.orderedEdgeArray();
+		for(Edge e : ea) System.out.println(e);
+		//System.out.println(g2);
+		/*System.out.println(g2);
 		Graphix g2MWSP = g2.MWST();
 		System.out.println("MWSP:");
 		System.out.println(g2MWSP);
@@ -53,20 +60,17 @@ public class Graphix
 		System.out.println(g2);
 		System.out.println(g2.numberOfEdges());
 		Edge[] e = g2.orderedEdgeArray();
-		/*
-		for(Edge i : e) {
-			System.out.println(i);
-		}
 		*/
+
 		
 		//Edge e2 = new Edge(h, new Vertex(25, 57), "200");
 		//System.out.println(e2);
-		g2.changeVertex(h, 500, 500);
+		/*g2.changeVertex(h, 500, 500);
 		System.out.println(g2);
 		
 		Graphix MWSP = g2.MWST();
 		System.out.println(MWSP);
-		
+		*/
 		//Graphix g = new Graphix();
 		//g.testGraph();
 		//System.out.println(g);
@@ -290,10 +294,10 @@ public class Graphix
 	 * Changes the Vertex's coordinates
 	 * Update's the edges in graph associated with that vertex
 	 * Use for dragging Vertices around
+	 * Default weight for the new edges is the distance between 
+	 * the two Vertices
 	 */
 	public void changeVertex(Vertex v, int x, int y) {
-		//Keep a copy of the old one around
-		//Vertex temp = v;
 		//Change them coordinates
 		Vertex newV = new Vertex(v.getName(), x, y);
 		//Keep those nullPointerExceptions at bay
@@ -369,7 +373,8 @@ public class Graphix
 	 */
 	public void readGraph(String file) {
 		System.out.println("Reading graph: " + file);
-		//GraphixTextOutput.output("Reading graph: " + file);
+		GraphixTextOutput textOutput = new GraphixTextOutput();
+		textOutput.output("Reading graph: " + file);
 		
 		try {
 			FileReader fr = new FileReader(file);
@@ -435,7 +440,7 @@ public class Graphix
 			if(graph.get(v) != null) {
 				Vertex[] innerKeys = graph.get(v).keySet().toArray(new Vertex[0]);
 				for(Vertex w: innerKeys) {
-					rv = rv + w + ":" + graph.get(v).get(w) + ", ";
+					rv = rv + w + ":" + graph.get(v).get(w) + ",    ";
 				}
 			}
 			rv += "\n";

@@ -18,15 +18,7 @@ public class GraphixTextOutput extends JFrame {
 	 * Create the frame.
 	 */
 	public GraphixTextOutput() {
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
-		
-		outputPane = new JTextPane();
-		contentPane.add(outputPane, BorderLayout.CENTER);
+		this(450, 300);
 	}
 	
 	/**
@@ -36,7 +28,7 @@ public class GraphixTextOutput extends JFrame {
 	 */
 	public GraphixTextOutput(int width, int height) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, width, height);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -44,6 +36,7 @@ public class GraphixTextOutput extends JFrame {
 		
 		outputPane = new JTextPane();
 		contentPane.add(outputPane, BorderLayout.CENTER);
+		this.setVisible(true);
 	}
 	
 	/**
@@ -51,7 +44,7 @@ public class GraphixTextOutput extends JFrame {
 	 * Accepts a string and appends it to the end of the displayed text
 	 * @param strOutput
 	 */
-	public static void output(String strOutput) {
+	public void output(String strOutput) {
 		try {
 			outputPane.getDocument().insertString(outputPane.getDocument().getLength(),
 												  strOutput, 
