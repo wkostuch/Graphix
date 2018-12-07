@@ -10,6 +10,7 @@ public class GraphPanel extends JPanel {
 	
 	Vertex[] vertexArr;
 	Edge[] edgeArr;
+	private static int diameter = 10;
 	
 	
 	/**
@@ -30,8 +31,6 @@ public class GraphPanel extends JPanel {
 		super.paintComponent(g);
 		
 		this.removeAll();
-		
-		int diameter = 10;
 		
 		for (Vertex v : vertexArr) {
 			g.fillOval(v.getX(), v.getY(), diameter, diameter);
@@ -57,6 +56,15 @@ public class GraphPanel extends JPanel {
 		
 		this.revalidate();
 		this.repaint();
+	}
+	
+	
+	/**
+	 * Returns diameter of dots used for vertices
+	 * Used in MouseListener used in vertex editing
+	 */
+	public int getDiameter() {
+		return diameter;
 	}
 
 }
