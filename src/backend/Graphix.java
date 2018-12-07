@@ -47,7 +47,7 @@ public class Graphix
 		System.out.println(g2MWSP);
 		Vertex h = new Vertex ("h", 23, 23);
 		g2.addVertex(h);
-		g2.addEdge(g2.getVertex(100, 100), h);
+		g2.addEdge(g2.getVertex(100, 100), h, 20);
 		//System.out.println(g2.graph.get(g2.getVertex(100, 100)));
 		g2.changeVertex(g2.getVertex(100, 100), 200, 200);
 		System.out.println(g2);
@@ -389,12 +389,17 @@ public class Graphix
 	 * Parses a String line of a graph file into the graph
 	 */
 	public void parse(String l) {
-		String[] line = l.split(" : ");
+		//Split along "::" to see if there's a desired weight 
+		String[] linePass1 = l.split("::");
+		int initSize = linePass1.length;
+		//Split along " : " to get each Vertex
+		String[] line = linePass1[0].split(" : ");
 		int size = line.length;
 		//If size < 2, then there's only one vertex on that line
 		if(size < 2) {
 			Vertex v = Vertex.stringToVertex(line[0].trim());
 			this.addVertexNoEdges(v);
+			return;
 		} 
 		//Two vertices, so it's time to add an edge
 		else {
@@ -402,7 +407,14 @@ public class Graphix
 			String v2 = line[1].trim();
 			Vertex v = Vertex.stringToVertex(v1);
 			Vertex w = Vertex.stringToVertex(v2);
-			this.addEdge(v, w);
+			//If there is a desired weight, then note that
+			double weight;
+			if(initSize > 1) {
+				weight = Double.parseDouble(linePass1[1]);
+			} else {
+				weight = edgeLength(v, w);
+			}
+			this.addEdge(v, w, weight);
 		}
 		
 	}
@@ -462,7 +474,8 @@ public class Graphix
     		for(Vertex key2 : innerMapKeys) {
     			if( Vertex.compareVertices(key1, key2) < 0) { 
     				//key1 alphabetically prior to key2
-    				Edge e = new Edge(key1, key2);
+    				String weight = graph.get(key1).get(key2).toString();
+    				Edge e = new Edge(key1, key2, weight);
     				sortedEdges[spot] = e;
     				spot++;
     			}
