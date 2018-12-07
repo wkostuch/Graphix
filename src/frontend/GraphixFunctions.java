@@ -51,6 +51,7 @@ public class GraphixFunctions extends JFrame {
 	JTextField weightBox;
 	
 	Vertex currVertex;
+	Edge currEdge;
 	
 
 	/**
@@ -98,7 +99,8 @@ public class GraphixFunctions extends JFrame {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				if (edges.getSelectedValue() != null) {
-					weightBox.setText(Double.toString(edges.getSelectedValue().getWeight()));
+					currEdge = edges.getSelectedValue();
+					weightBox.setText(Double.toString(currEdge.getWeight()));
 				}
 			}
 		});
@@ -240,8 +242,10 @@ public class GraphixFunctions extends JFrame {
 			btnRemoveEdge.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					// Remove the selected edge from the list
-					// TODO: Add method call when Will adds it to Graphix
+					backend.removeEdge(edges.getSelectedValue());
+					updateVertexList(backend);
+					updateEdgeList(backend);
+					drawing.setArrays(backend.orderedKeyArray(), backend.orderedEdgeArray());
 				}
 			});
 			
