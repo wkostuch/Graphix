@@ -63,6 +63,7 @@ public class Graphix
 		
 		
 		System.out.println(g2);
+		g2.writeGraph("Finally");
 		g2.isTree();
 		g2.MWST().isTree();
 		*/
@@ -436,6 +437,8 @@ public class Graphix
 	
 	/*
 	 * Writes the graph to the file system
+	 * Takes a string and names the file that under the graphs folder in
+	 * Graphix/src
 	 */
 	public void writeGraph(String name) {
 		//Creates a file with the name in the graphs folder
@@ -462,6 +465,7 @@ public class Graphix
 				//Add Vertices to keep track of them if it's the first time seeing 'em
 				if(!vFromE.contains(v1)) vFromE.add(v1);
 				if(!vFromE.contains(v2)) vFromE.add(v2);
+				//Change the string and write it
 				s += v1.getName() + "-" + v1.getX() + "," + v1.getY()
 					+ " : " 
 					+ v2.getName() + "-" + v2.getX() + "," + v2.getY()
@@ -476,6 +480,7 @@ public class Graphix
 				String s = "";
 				//Vertex we haven't seen from an edge
 				if(!vFromE.contains(v)) {
+					//Change string and write it
 					s += v.getName() + "-" + v.getX() + "," + v.getY();
 					bw.write(s);
 					bw.newLine();
@@ -497,7 +502,7 @@ public class Graphix
 		}
 		//Make the text box visible and say when the file is done writing
 		textOutput.setVisible(true);
-		textOutput.output("Done writing file: " + name);
+		textOutput.output("Done writing file: " + name + "\n");
 	}
 	
 	

@@ -1,5 +1,7 @@
 package backend;
 
+import java.awt.Dimension;
+
 /*
  * Used for drawing edges, MWST, stuff that requires edges and not just distances
  */
@@ -86,6 +88,18 @@ public class Edge
 	 */
 	public double getWeight() {
 		return this.weight;
+	}
+	
+	/*
+	 * Returns a Dimension with the midpoint of the edge
+	 */
+	public Dimension getMidpoint() {
+		Vertex v1 = this.getV1();
+		Vertex v2 = this.getV2();
+		int mx = (v1.getX() + v2.getX()) / 2;
+		int my = (v1.getY() + v2.getY()) / 2;
+		Dimension midpoint = new Dimension(mx, my);
+		return midpoint;
 	}
 	
 	/*
