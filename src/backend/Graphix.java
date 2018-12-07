@@ -443,6 +443,7 @@ public class Graphix
 	public void writeGraph(String name) {
 		//Creates a file with the name in the graphs folder
 		String path = System.getProperty("user.dir");
+		System.out.println(path);
 		File file = new File(path + "\\Graphix\\src\\graphs\\" + name + ".2dg");
 		BufferedWriter bw = null;
 		FileWriter fw = null;
