@@ -15,8 +15,6 @@ import javax.swing.JFileChooser;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
 public class GraphixVisuals {
@@ -63,12 +61,16 @@ public class GraphixVisuals {
 	private void initialize() {
 		int sHeight = (int)screenSize.getHeight();
 		int sWidth = (int)screenSize.getWidth();
+		
 		frame = new JFrame();
 		// Width and height are 3/4 of the computer screen's width and height
 		frame.setSize(new Dimension((int)(sWidth * 0.66), (int)(sHeight * 0.66)));
 		frame.setLocation((int)((sWidth / 2) - (frame.getSize().width / 2)),
 						  (int)((sHeight / 2) - (frame.getSize().height / 2)));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		// Initialize an empty graph by default
+		initializeGraph(false);
 		
 		JButton btnFunctions = new JButton("Show Graph Editor");
 		btnFunctions.setPreferredSize(new Dimension((int)((sWidth * 0.66) / 20),
@@ -95,7 +97,8 @@ public class GraphixVisuals {
 			@Override
 			// Use the file chooser to open a graph from a file
 			public void actionPerformed(ActionEvent e) {
-				initializeGraph();
+				frame.getContentPane().remove(canvas);
+				initializeGraph(true);
 				canvas.revalidate();
 				canvas.repaint();
 			}
@@ -110,15 +113,17 @@ public class GraphixVisuals {
 	/**
 	 * Initializes the backend and draws the graph
 	 */
-	private void initializeGraph() {
+	private void initializeGraph(boolean fromFile) {
 		// Create a text output box
 		output = new GraphixTextOutput();
 		
 		// Start the backend running
 		backend = new Graphix(output);
-				
-		// Read in a file selected by the user using a file chooser
-		backend.readGraph(getFilePath());
+			
+		if (fromFile == true) {
+			// Read in a file selected by the user using a file chooser
+			backend.readGraph(getFilePath());
+		}
 				
 		// Initialize the JLists of graph components
 		vertexList = backend.orderedKeyArray();

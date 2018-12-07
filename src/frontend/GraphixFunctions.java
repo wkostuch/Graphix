@@ -282,9 +282,8 @@ public class GraphixFunctions extends JFrame {
 			btnSaveToFile.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					// Saves the graph on the screen to a file, with all edits that
-					// have been added since it was first loaded
-					// TODO: Add method call when Will adds it to Graphix
+					if (nameBox.getText() != null && nameBox.getText() != "")
+						backend.writeGraph(nameBox.getText());
 				}
 			});
 			
