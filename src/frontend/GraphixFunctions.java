@@ -229,8 +229,8 @@ public class GraphixFunctions extends JFrame {
 			btnRemoveVertex.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					// Remove the selected vertex from the list
-					// TODO: Add method call when Will adds it to Graphix
+					backend.removeVertex(vertices.getSelectedValue());
+					refreshDisplay();
 				}
 			});
 			
