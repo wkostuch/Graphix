@@ -25,6 +25,9 @@ public class Graphix
 	//Maps a vertex to its representative vertex
 	private HashMap<Vertex, Vertex> parentSet;
 	
+	//Text output box used in several methods
+	GraphixTextOutput textOutput = new GraphixTextOutput();
+	
 	//Colors for drawing, not currently used
 	private final Color vertexColor = new Color(255, 0, 157);
 	private final Color edgeColor = new Color(9, 100, 142);
@@ -47,8 +50,8 @@ public class Graphix
 		System.out.println(g2);
 		Edge[] ea = g2.orderedEdgeArray();
 		for(Edge e : ea) System.out.println(e);
-		System.out.println(g2.isTree());
-		System.out.println(g2.MWST().isTree());
+		g2.isTree();
+		g2.MWST().isTree();
 		//System.out.println(g2);
 		/*System.out.println(g2);
 		Graphix g2MWSP = g2.MWST();
@@ -125,19 +128,29 @@ public class Graphix
     
 
     /*
-     * Returns a String which says if the Graphix object is a tree or not
+     * Prints a String to the GraphixTextOutput 
+     * which says if the Graphix object is a tree or not
      */
-    public String isTree() {
+    public void isTree() {
     	int numEdges = this.numberOfEdges();
     	int numVertices = this.numberOfVertices();
     	//If e doesn't equal v - 1, not a tree
-    	if(numEdges != numVertices - 1) return "This is not a tree!";
+    	if(numEdges != numVertices - 1) {
+    		textOutput.output("This is not a tree!");
+    		return;
+    	}
     	//If there's a cycle, not a tree;
     	//if(this.hasCycle() == true) return false;
     	//If it's not connected, not a true
-    	if(this.isConnected() == false) return "This is not a tree!";
+    	if(this.isConnected() == false) {
+    		textOutput.output("This is not a tree!");
+    		return;
+    	}
     	//If e = v-1 and no cycles, then it's a tree!
-    	else return "It's a tree!";
+    	else {
+    		textOutput.output("This is a tree!");
+    		return;
+    	}
     }
     
     /*
@@ -406,7 +419,6 @@ public class Graphix
 	 * Reads the graph from the file system
 	 */
 	public void readGraph(String file) {
-		GraphixTextOutput textOutput = new GraphixTextOutput();
 		textOutput.output("Reading graph: " + file + "\n");
 		
 		try {
