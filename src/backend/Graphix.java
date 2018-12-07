@@ -47,6 +47,8 @@ public class Graphix
 		System.out.println(g2);
 		Edge[] ea = g2.orderedEdgeArray();
 		for(Edge e : ea) System.out.println(e);
+		System.out.println(g2.isTree());
+		System.out.println(g2.MWST().isTree());
 		//System.out.println(g2);
 		/*System.out.println(g2);
 		Graphix g2MWSP = g2.MWST();
@@ -122,6 +124,56 @@ public class Graphix
 		
 		return MWSP;
     }
+    
+    
+
+    /*
+     * Returns boolean: true if graph is tree, false if graph is not
+     */
+    public String isTree() {
+    	int numEdges = this.numberOfEdges();
+    	int numVertices = this.numberOfVertices();
+    	
+    	//If e doesn't equal v - 1, not a tree
+    	if(numEdges != numVertices - 1) return "This is not a tree!";
+    	//If there's a cycle, not a tree;
+    	//if(this.hasCycle() == true) return false;
+    	//If it's not connected, not a true
+    	if(this.isConnected() == false) return "This is not a tree!";
+    	//If e = v-1 and no cycles, then it's a tree!
+    	else return "It's a tree!";
+    }
+    
+    /*
+     * Returns true if the graph is connected, false if not
+     */
+    public boolean isConnected() {
+    	boolean flag = true;
+		parentSet = this.disjointSet(); //Update field
+		//Hashmap for points and their parents (null at this point)
+		
+		Edge[] sortedEdges = this.orderedEdgeArray();
+		//Array for edges, sorted in increasing order
+	
+		//Loop through edges checking if they're connected or not
+		for(int i = 0; i < sortedEdges.length; i++) {
+			Edge e = sortedEdges[i];
+			
+			//can't add edge because it'd create a cycle
+			if(cycle(e.getV1(), e.getV2())) {
+				flag = false;
+				break;
+			}
+
+			//Combines the sets as they're now connected by an edge
+			combineSets(e.getV1(), e.getV2()); 
+		}
+		
+		return flag;
+    	
+    	
+    }
+    
     
     
     /*
@@ -372,9 +424,8 @@ public class Graphix
 	 * Reads the graph from the file system
 	 */
 	public void readGraph(String file) {
-		System.out.println("Reading graph: " + file);
 		GraphixTextOutput textOutput = new GraphixTextOutput();
-		textOutput.output("Reading graph: " + file);
+		textOutput.output("Reading graph: " + file + "\n");
 		
 		try {
 			FileReader fr = new FileReader(file);
@@ -382,11 +433,10 @@ public class Graphix
 			bfr.lines().forEach(line -> parse(line.trim()));
 			bfr.close();
 		} catch (IOException e) {
+			textOutput.output("IOException: " + e.toString());
 		    System.err.format("IOException: %s\n", e);
-		    //GraphixTextOutput.output("IOException: " + e.toString());
 		}
-		System.out.println("Done reading file.");
-		//GraphixTextOutput.output("Done reading file.");
+		textOutput.output("Done reading file.\n");
 	}
 	
 	
