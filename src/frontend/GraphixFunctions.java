@@ -141,8 +141,25 @@ public class GraphixFunctions extends JFrame {
 				// into the editor boxes so a vertex can be added
 				// at that position
 				if (e.getButton() == MouseEvent.BUTTON1) {
-					xBox.setText(Integer.toString(e.getX()));
-					yBox.setText(Integer.toString(e.getY()));
+					int x = e.getX();
+					int y = e.getY();
+					Vertex[] vArr = backend.orderedKeyArray();
+					boolean foundMatchingVertex = false;
+					
+					for (Vertex v : vArr) {
+						if ((x >= v.getX() && x <= v.getX() + drawing.getDiameter()) &&
+							(y >= v.getY() && y <= v.getY() + drawing.getDiameter())) {
+							nameBox.setText(v.getName());
+							xBox.setText(Integer.toString(v.getX()));
+							yBox.setText(Integer.toString(v.getY()));
+							foundMatchingVertex = true;
+						}
+					}
+					
+					if (foundMatchingVertex == false) {
+						xBox.setText(Integer.toString(e.getX()));
+						yBox.setText(Integer.toString(e.getY()));
+					}
 				}
 			}
 			
@@ -247,7 +264,10 @@ public class GraphixFunctions extends JFrame {
 			btnChangeWeight.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					// TODO: Add method call for edge length edit when Will has it ready
+					if (weightBox.getText() != null) {
+						backend.changeEdgeWeight(edges.getSelectedValue(), weightBox.getText());
+						refreshDisplay();
+					}
 				}
 			});
 			
@@ -385,6 +405,8 @@ public class GraphixFunctions extends JFrame {
 	
 	/**
 	 * Updates the arrays used to build the display
+	 * All backing array modifications originate in backend,
+	 * the frontend visual classes borrow from backend's data
 	 */
 	private void refreshDisplay() {
 		// Update the JLists
