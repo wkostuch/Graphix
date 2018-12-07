@@ -16,6 +16,8 @@ import javax.swing.JTextField;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.List;
 
 @SuppressWarnings("serial")
@@ -31,6 +33,8 @@ public class GraphixFunctions extends JFrame {
 	Graphix backend;
 	Graphix mwst;
 	boolean isMWST;
+	
+	GraphixTextOutput output;
 	
 	// Fields used in EditorPanel
 	// Text boxes
@@ -54,7 +58,7 @@ public class GraphixFunctions extends JFrame {
 	 */
 	public GraphixFunctions() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		getContentPane().setLayout(new GridLayout(3, 3));
+		getContentPane().setLayout(new GridLayout(2, 2));
 	}
 	
 	/**
@@ -66,7 +70,8 @@ public class GraphixFunctions extends JFrame {
 							Vertex[] vArr,
 							Edge[] eArr,
 							GraphPanel canvas,
-							Graphix backendObj) {
+							Graphix backendObj,
+							GraphixTextOutput outputBox) {
 		this();
 		
 		this.setBounds(100, 100, width / 4, height / 4);
@@ -98,46 +103,56 @@ public class GraphixFunctions extends JFrame {
 			}
 		});
 		
-		JButton btnChangeWeight = new JButton("Edit Edge Weight");
-		btnChangeWeight.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO: Add method call for edge length edit when Will has it ready
-			}
-		});
-		
 		drawing = canvas;
 		backend = backendObj;
+		output = outputBox;
+		
+		drawing.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// If left mouse button is clicked, put its x and y
+				// into the editor boxes so a vertex can be added
+				// at that position
+				if (e.getButton() == MouseEvent.BUTTON1) {
+					xBox.setText(Integer.toString(e.getX()));
+					yBox.setText(Integer.toString(e.getY()));
+				}
+			}
+			
+		});
 		
 		// Add the JLists to the pane
 		getContentPane().add(vertices);
 		getContentPane().add(edges);
 		getContentPane().add(new EditorPanel());
 		getContentPane().add(new ButtonPanel());
-		getContentPane().add(new WeightPanel());
-		getContentPane().add(btnChangeWeight);
 		
 		this.setVisible(true);
-	}
-	
-	
-	/**
-	 * Local extension of JPanel for editing edge weights
-	 */
-	class WeightPanel extends JPanel {
-		
-		/**
-		 * Constructor
-		 */
-		public WeightPanel() {
-			this.setLayout(new GridLayout(1, 2));
-			
-			JLabel weightLabel = new JLabel("Weight");
-			this.add(weightLabel);
-			
-			JTextField weightBox = new JTextField();
-			this.add(weightBox);
-		}
 	}
 	
 	
@@ -150,7 +165,7 @@ public class GraphixFunctions extends JFrame {
 		 * Constructor
 		 */
 		public ButtonPanel() {
-			this.setLayout(new GridLayout(3, 2));
+			this.setLayout(new GridLayout(4, 2));
 			
 			JButton btnToggleMWST = new JButton("Toggle MWST");
 			btnToggleMWST.addActionListener(new ActionListener() {
@@ -230,12 +245,30 @@ public class GraphixFunctions extends JFrame {
 				}
 			});
 			
+			JButton btnChangeWeight = new JButton("Edit Edge Weight");
+			btnChangeWeight.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO: Add method call for edge length edit when Will has it ready
+				}
+			});
+			
+			JButton btnPrintGraph = new JButton("Print Graph");
+			btnPrintGraph.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					output.output(backend.toString());
+				}
+			});
+			
 			this.add(btnToggleMWST);
 			this.add(btnIsTree);
 			this.add(btnSaveToFile);
 			this.add(btnAddEdge);
 			this.add(btnRemoveVertex);
 			this.add(btnRemoveEdge);
+			this.add(btnChangeWeight);
+			this.add(btnPrintGraph);
 		}
 	}
 	
@@ -249,7 +282,7 @@ public class GraphixFunctions extends JFrame {
 		 * Constructor
 		 */
 		public EditorPanel() {
-			this.setLayout(new GridLayout(3, 2));
+			this.setLayout(new GridLayout(4, 2));
 			
 			xBox = new JTextField();
 			yBox = new JTextField();
@@ -278,6 +311,12 @@ public class GraphixFunctions extends JFrame {
 			});
 			
 			this.add(applyEditBtn);
+			
+			JLabel weightLabel = new JLabel("Weight");
+			this.add(weightLabel);
+			
+			JTextField weightBox = new JTextField();
+			this.add(weightBox);
 		}
 	}
 	

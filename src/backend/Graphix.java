@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import frontend.GraphixTextOutput;
+import frontend.GraphixVisuals;
 
 import java.io.FileReader;
 import java.io.BufferedReader;
@@ -80,7 +81,8 @@ public class Graphix
 		//Graphix g = new Graphix();
 		//g.testGraph();
 		//System.out.println(g);
-		
+
+		//GraphixVisuals.start(args);
 	}
 	
 	/*

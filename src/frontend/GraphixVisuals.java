@@ -24,6 +24,7 @@ public class GraphixVisuals {
 	private JFrame frame;
 	private GraphPanel canvas;
 	static Graphix backend;
+	private GraphixTextOutput output;
 	
 	// These are only used to feed the GraphPanel constructor,
 	// they are not used anywhere else in this class
@@ -36,7 +37,7 @@ public class GraphixVisuals {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void start(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -81,7 +82,8 @@ public class GraphixVisuals {
 																   vertexList,
 																   edgeList,
 																   canvas,
-																   backend);
+																   backend,
+																   output);
 			}
 		});
 		frame.getContentPane().add(btnFunctions, BorderLayout.SOUTH);
@@ -109,7 +111,13 @@ public class GraphixVisuals {
 	 * Initializes the backend and draws the graph
 	 */
 	private void initializeGraph() {
+<<<<<<< HEAD
 		GraphixTextOutput gto = new GraphixTextOutput();
+=======
+		// Create a text output box
+		output = new GraphixTextOutput();
+		
+>>>>>>> 0e4c0313ddf7d0192d465afa83d6429a65339751
 		// Start the backend running
 		backend = new Graphix(gto);
 				
@@ -121,26 +129,6 @@ public class GraphixVisuals {
 		edgeList = backend.orderedEdgeArray();
 		
 		canvas = new GraphPanel(vertexList, edgeList);
-		canvas.addMouseListener(new MouseListener() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				int mouseX = e.getX();
-				int mouseY = e.getY();
-				
-				if (e.getButton() == MouseEvent.BUTTON2) {
-					Vertex v = new Vertex("", e.getX(), e.getY());
-				}
-			}
-
-			@Override
-			public void mouseClicked(MouseEvent e) {}
-			@Override
-			public void mouseEntered(MouseEvent e) {}
-			@Override
-			public void mouseExited(MouseEvent e) {}
-			@Override
-			public void mousePressed(MouseEvent e) {}
-		});
 		frame.getContentPane().add(canvas, BorderLayout.CENTER);
 		frame.revalidate();
 		frame.repaint();
