@@ -45,13 +45,16 @@ public class GraphixFunctions extends JFrame {
 	// Button
 	JButton applyEditBtn;
 	
+	// Text field used for editing edge weight
+	JTextField weightBox;
+	
 
 	/**
 	 * Create the frame.
 	 */
 	public GraphixFunctions() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		getContentPane().setLayout(new GridLayout(2, 3));
+		getContentPane().setLayout(new GridLayout(3, 3));
 	}
 	
 	/**
@@ -86,6 +89,22 @@ public class GraphixFunctions extends JFrame {
 		});
 		
 		edges = new JList<Edge>(eArr);
+		edges.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if (edges.getSelectedValue() != null) {
+					weightBox.setText(Double.toString(edges.getSelectedValue().getWeight()));
+				}
+			}
+		});
+		
+		JButton btnChangeWeight = new JButton("Edit Edge Weight");
+		btnChangeWeight.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO: Add method call for edge length edit when Will has it ready
+			}
+		});
 		
 		drawing = canvas;
 		backend = backendObj;
@@ -95,8 +114,30 @@ public class GraphixFunctions extends JFrame {
 		getContentPane().add(edges);
 		getContentPane().add(new EditorPanel());
 		getContentPane().add(new ButtonPanel());
+		getContentPane().add(new WeightPanel());
+		getContentPane().add(btnChangeWeight);
 		
 		this.setVisible(true);
+	}
+	
+	
+	/**
+	 * Local extension of JPanel for editing edge weights
+	 */
+	class WeightPanel extends JPanel {
+		
+		/**
+		 * Constructor
+		 */
+		public WeightPanel() {
+			this.setLayout(new GridLayout(1, 2));
+			
+			JLabel weightLabel = new JLabel("Weight");
+			this.add(weightLabel);
+			
+			JTextField weightBox = new JTextField();
+			this.add(weightBox);
+		}
 	}
 	
 	
@@ -217,7 +258,7 @@ public class GraphixFunctions extends JFrame {
 			xLabel = new JLabel("x");
 			yLabel = new JLabel("y");
 					
-			applyEditBtn = new JButton("Apply Edits");
+			applyEditBtn = new JButton("Edit Vertex");
 			
 			this.add(xLabel);
 			this.add(xBox);
