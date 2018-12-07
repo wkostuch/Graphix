@@ -25,8 +25,9 @@ public class Graphix
 	//Maps a vertex to its representative vertex
 	private HashMap<Vertex, Vertex> parentSet;
 	
-	//Text output box used in several methods
-	GraphixTextOutput textOutput = new GraphixTextOutput();
+	//Text output box used in several methods,
+	//handed to constructor by frontend stuff
+	GraphixTextOutput textOutput;
 	
 	//Colors for drawing, not currently used
 	private final Color vertexColor = new Color(255, 0, 157);
@@ -41,8 +42,8 @@ public class Graphix
 	 * Main method
 	 */
 	public static void main(String[] args) {
-		
-		Graphix g2 = new Graphix();
+		GraphixTextOutput gto = new GraphixTextOutput();
+		Graphix g2 = new Graphix(gto);
 		g2.readGraph("Graphix/src/graphs/diamond.2dg");
 		System.out.println(g2.numberOfVertices());
 		System.out.println(g2);
@@ -82,6 +83,13 @@ public class Graphix
 		
 	}
 	
+	/*
+	 * Constructor that takes a graphixTextOutput object as an argument
+	 */
+	public Graphix(GraphixTextOutput gto) {
+		this.textOutput = gto;
+	}
+	
 	
 	/*
 	 * Creates a test graph with a 400x400 block of Vertices
@@ -100,7 +108,7 @@ public class Graphix
      * Return a graph containing a minimum-weight spanning tree of this graph.
      */
     public Graphix MWST(){
-		Graphix MWSP = new Graphix(); //Empty graph to be build into MWSP
+		Graphix MWSP = new Graphix(this.textOutput); //Empty graph to be build into MWSP
 		int V = this.numberOfVertices(); //Number of vertices of the graph
 		parentSet = this.disjointSet(); //Update field
 		//Hashmap for points and their parents (null at this point)
@@ -136,19 +144,19 @@ public class Graphix
     	int numVertices = this.numberOfVertices();
     	//If e doesn't equal v - 1, not a tree
     	if(numEdges != numVertices - 1) {
-    		textOutput.output("This is not a tree!");
+    		textOutput.output("This is not a tree!\n");
     		return;
     	}
     	//If there's a cycle, not a tree;
     	//if(this.hasCycle() == true) return false;
     	//If it's not connected, not a true
     	if(this.isConnected() == false) {
-    		textOutput.output("This is not a tree!");
+    		textOutput.output("This is not a tree!\n");
     		return;
     	}
     	//If e = v-1 and no cycles, then it's a tree!
     	else {
-    		textOutput.output("This is a tree!");
+    		textOutput.output("This is a tree!\n");
     		return;
     	}
     }

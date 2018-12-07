@@ -32,7 +32,18 @@ public class Edge
 	/*
 	 * Changes the weight of an edge 
 	 */
-	public void changeWeight(double w) {
+	public void changeWeight(String s) {
+		double w = 0;
+		//Weight should be distance
+		if(s.equals("d") || s.equals("dist") || s.equals("distance")) {
+			w = this.distance(this.getV1(), this.getV2());
+		} else {
+			try {
+				w = Double.parseDouble(s);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		this.weight = w;
 	}
 	

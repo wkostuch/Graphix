@@ -109,9 +109,9 @@ public class GraphixVisuals {
 	 * Initializes the backend and draws the graph
 	 */
 	private void initializeGraph() {
-		
+		GraphixTextOutput gto = new GraphixTextOutput();
 		// Start the backend running
-		backend = new Graphix();
+		backend = new Graphix(gto);
 				
 		// Read in a file selected by the user using a file chooser
 		backend.readGraph(getFilePath());
