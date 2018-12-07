@@ -125,26 +125,6 @@ public class GraphixVisuals {
 		edgeList = backend.orderedEdgeArray();
 		
 		canvas = new GraphPanel(vertexList, edgeList);
-		canvas.addMouseListener(new MouseListener() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				int mouseX = e.getX();
-				int mouseY = e.getY();
-				
-				if (e.getButton() == MouseEvent.BUTTON2) {
-					Vertex v = new Vertex("", e.getX(), e.getY());
-				}
-			}
-
-			@Override
-			public void mouseClicked(MouseEvent e) {}
-			@Override
-			public void mouseEntered(MouseEvent e) {}
-			@Override
-			public void mouseExited(MouseEvent e) {}
-			@Override
-			public void mousePressed(MouseEvent e) {}
-		});
 		frame.getContentPane().add(canvas, BorderLayout.CENTER);
 		frame.revalidate();
 		frame.repaint();

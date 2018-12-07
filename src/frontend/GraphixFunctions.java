@@ -16,6 +16,8 @@ import javax.swing.JTextField;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.List;
 
 @SuppressWarnings("serial")
@@ -56,7 +58,7 @@ public class GraphixFunctions extends JFrame {
 	 */
 	public GraphixFunctions() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		getContentPane().setLayout(new GridLayout(3, 3));
+		getContentPane().setLayout(new GridLayout(2, 2));
 	}
 	
 	/**
@@ -73,8 +75,6 @@ public class GraphixFunctions extends JFrame {
 		this();
 		
 		this.setBounds(100, 100, width / 4, height / 4);
-		
-		output = outputBox;
 		
 		vertices = new JList<Vertex>(vArr);
 		vertices.addListSelectionListener(new ListSelectionListener() {
@@ -103,10 +103,48 @@ public class GraphixFunctions extends JFrame {
 			}
 		});
 		
-		
-		
 		drawing = canvas;
 		backend = backendObj;
+		output = outputBox;
+		
+		drawing.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// If left mouse button is clicked, put its x and y
+				// into the editor boxes so a vertex can be added
+				// at that position
+				if (e.getButton() == MouseEvent.BUTTON1) {
+					xBox.setText(Integer.toString(e.getX()));
+					yBox.setText(Integer.toString(e.getY()));
+				}
+			}
+			
+		});
 		
 		// Add the JLists to the pane
 		getContentPane().add(vertices);
@@ -127,7 +165,7 @@ public class GraphixFunctions extends JFrame {
 		 * Constructor
 		 */
 		public ButtonPanel() {
-			this.setLayout(new GridLayout(3, 2));
+			this.setLayout(new GridLayout(4, 2));
 			
 			JButton btnToggleMWST = new JButton("Toggle MWST");
 			btnToggleMWST.addActionListener(new ActionListener() {
