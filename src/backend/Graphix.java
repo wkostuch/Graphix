@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.BufferedWriter;
+import java.io.File;
 
 import java.awt.Dimension;
 
@@ -51,6 +52,8 @@ public class Graphix
 		g2.removeVertex(g2.getVertex(600, 600));
 		System.out.println("Here: " + "\n" +g2);
 		Edge[] ea = g2.orderedEdgeArray();
+		g2.changeEdgeWeight(ea[1], "420");
+		System.out.println(g2);
 		for(int i = 0; i < ea.length; i++) {
 			System.out.println(ea[i]);
 			g2.removeEdge(ea[i]);
@@ -60,8 +63,8 @@ public class Graphix
 		System.out.println(g2);
 		g2.isTree();
 		g2.MWST().isTree();
-		
 		*/
+		
 		/*System.out.println(g2);
 		Graphix g2MWSP = g2.MWST();
 		System.out.println("MWSP:");
@@ -142,7 +145,6 @@ public class Graphix
 		return MWSP;
     }
     
-    
 
     /*
      * Prints a String to the GraphixTextOutput 
@@ -170,6 +172,7 @@ public class Graphix
     		return;
     	}
     }
+    
     
     /*
      * Returns true if the graph is connected, false if not
@@ -391,6 +394,17 @@ public class Graphix
 	}
 	
 	/*
+	 * Changes the weight of the edge
+	 */
+	public void changeEdgeWeight(Edge e, String w) {
+		Vertex v1 = e.getV1();
+		Vertex v2 = e.getV2();
+		double weight = e.convertWeight(w);
+		graph.get(v1).put(v2, weight);
+		graph.get(v2).put(v2, weight);
+	}
+	
+	/*
 	 * Removes the edge from the graph
 	 */
 	public void removeEdge(Edge e) {
@@ -415,6 +429,16 @@ public class Graphix
 	 */
 	public double edgeLength(Vertex v, Vertex w) {
 		return Edge.distance(v, w);
+	}
+	
+	
+	/*
+	 * Writes the graph to the file system
+	 */
+	public void writeGraph(String name) {
+		//Creates a file with the name in the graphs folder
+		File file = new File("\"Graphix/src/graphs/" + name + ".2dg");
+		
 	}
 	
 	

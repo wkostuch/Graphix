@@ -33,6 +33,13 @@ public class Edge
 	 * Changes the weight of an edge 
 	 */
 	public void changeWeight(String s) {
+		this.weight = this.convertWeight(s);
+	}
+	
+	/*
+	 * Converts the string to the weight
+	 */
+	public double convertWeight(String s) {
 		double w = 0;
 		//Weight should be distance
 		if(s.equals("d") || s.equals("dist") || s.equals("distance")) {
@@ -44,7 +51,7 @@ public class Edge
 				e.printStackTrace();
 			}
 		}
-		this.weight = w;
+		return w;
 	}
 	
 	/*
