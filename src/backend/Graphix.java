@@ -43,6 +43,7 @@ public class Graphix
 	 * Main method
 	 */
 	public static void main(String[] args) {
+		/*
 		GraphixTextOutput gto = new GraphixTextOutput();
 		Graphix g2 = new Graphix(gto);
 		g2.readGraph("Graphix/src/graphs/diamond.2dg");
@@ -57,9 +58,11 @@ public class Graphix
 			g2.removeEdge(ea[i]);
 		}
 		*/
+		/*
 		System.out.println(g2);
 		g2.isTree();
 		g2.MWST().isTree();
+		*/
 		//System.out.println(g2);
 		/*System.out.println(g2);
 		Graphix g2MWSP = g2.MWST();

@@ -28,8 +28,6 @@ public class GraphixFunctions extends JFrame {
 	
 	private GraphPanel drawing;	// Used for storing the canvas so it can be edited
 	
-	private Vertex currVertex;
-	
 	Graphix backend;
 	Graphix mwst;
 	boolean isMWST;
@@ -51,6 +49,8 @@ public class GraphixFunctions extends JFrame {
 	
 	// Text field used for editing edge weight
 	JTextField weightBox;
+	
+	Vertex currVertex;
 	
 
 	/**
@@ -302,7 +302,9 @@ public class GraphixFunctions extends JFrame {
 			applyEditBtn.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					applyVertexEdit(currVertex);
+					applyVertexEdit(new Vertex(nameBox.getText(),
+											   Integer.parseInt(xBox.getText()),
+											   Integer.parseInt(yBox.getText())));
 					
 					xBox.setText("");
 					yBox.setText("");
@@ -329,20 +331,19 @@ public class GraphixFunctions extends JFrame {
 		// If the name in the nameBox is not the name of a preexisting vertex,
 		// create a new one.  Otherwise, edit an existing vertex.
 		boolean add = true;
+		Vertex[] vArr = backend.orderedKeyArray();
 		
-		for (Vertex v : backend.orderedKeyArray()) {
-			if (v.getName() == nameBox.getText())
+		for (Vertex v : vArr) {
+			if (v.getName().equals(newVertex.getName()))
 				add = false;
 		}
 		
 		if (add == false) {
-			backend.changeVertex(newVertex, 
+			backend.changeVertex(currVertex, 
 								 Integer.parseInt(xBox.getText()),
 								 Integer.parseInt(yBox.getText()));
 		} else if (add == true) {
-			backend.addVertex(new Vertex(nameBox.getText(),
-										 Integer.parseInt(xBox.getText()),
-										 Integer.parseInt(yBox.getText())));
+			backend.addVertex(newVertex);
 		}
 		
 		// Update the JLists
