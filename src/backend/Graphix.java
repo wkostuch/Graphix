@@ -51,10 +51,12 @@ public class Graphix
 		g2.changeVertex(g2.getVertex(50, 150), 600, 600);
 		System.out.println(g2);
 		Edge[] ea = g2.orderedEdgeArray();
-		for(int i = 0; i < ea.length; i++) {
+		g2.removeEdge(g2.getVertex(600, 600), g2.getVertex(150, 150));
+		/*for(int i = 0; i < ea.length; i++) {
 			System.out.println(ea[i]);
 			g2.removeEdge(ea[i]);
 		}
+		*/
 		System.out.println(g2);
 		g2.isTree();
 		g2.MWST().isTree();
@@ -350,6 +352,20 @@ public class Graphix
 		}
 	}
 	
+	/*
+	 * Removes the Vertex from the graph and kills any edges associated with it
+	 */
+	public void removeVertex(Vertex v) {
+		//If there's stuff attached to v, get rid of them
+		if(graph.get(v) != null) {
+			Vertex[] attachedVs = graph.get(v).keySet().toArray(new Vertex[0]);
+			for(Vertex av : attachedVs) {
+				this.removeEdge(av, v);
+			}
+		}
+		graph.remove(v);
+	}
+	
 	
 	/*
 	 * Changes the Vertex's coordinates
@@ -425,6 +441,15 @@ public class Graphix
 	public void removeEdge(Edge e) {
 		Vertex v1 = e.getV1();
 		Vertex v2 = e.getV2();
+		graph.get(v1).remove(v2);
+		graph.get(v2).remove(v1);
+	}
+	
+	/*
+	 * Removes edge between v1 and v2 from the graph
+	 * Only use when you know there's an edge between v1 and v2!
+	 */
+	public void removeEdge(Vertex v1, Vertex v2) {
 		graph.get(v1).remove(v2);
 		graph.get(v2).remove(v1);
 	}
