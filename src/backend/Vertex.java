@@ -150,6 +150,14 @@ public class Vertex
 	
 	
 	/*
+	 * Changes the name of the Vertex to s
+	 */
+	public void changeName(String s) {
+		this.name = s;
+	}
+	
+	
+	/*
 	 * Changes x value of the vertex
 	 */
 	public void changeX(int n) {
