@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 
 import backend.*;
 
+@SuppressWarnings("serial")
 public class GraphPanel extends JPanel {
 	
 	Vertex[] vertexArr;
