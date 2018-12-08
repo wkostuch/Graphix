@@ -404,7 +404,7 @@ public class Graphix
 		Vertex v2 = e.getV2();
 		double weight = e.convertWeight(w);
 		graph.get(v1).put(v2, weight);
-		graph.get(v2).put(v2, weight);
+		graph.get(v2).put(v1, weight);
 	}
 	
 	/*
