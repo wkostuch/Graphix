@@ -308,7 +308,9 @@ public class GraphixFunctions extends JFrame {
 			btnRemoveVertex.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					backend.removeVertex(vertices.getSelectedValue());
+					backend.removeVertex(new Vertex(nameBox.getText(),
+													Integer.parseInt(xBox.getText()),
+													Integer.parseInt(yBox.getText())));
 					refreshDisplay();
 				}
 			});
