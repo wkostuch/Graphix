@@ -42,7 +42,9 @@ public class GraphPanel extends JPanel {
 					   e.getV1().getY() + diameter / 2,
 					   e.getV2().getX() + diameter / 2,
 					   e.getV2().getY() + diameter / 2);
-			// TODO: Add labels
+			g.drawString(Integer.toString((int) e.getWeight()),
+						 e.getMidpoint().width - (diameter / 2),
+						 e.getMidpoint().height + diameter);
 		}
 	}
 	

@@ -49,7 +49,7 @@ public class GraphixFunctions extends JFrame {
 	JButton applyEditBtn;
 	
 	// Text field used for editing edge weight
-	JTextField weightBox;
+	JTextField weightBox = new JTextField();
 	
 	Vertex currVertex;
 	Edge currEdge;
@@ -104,7 +104,7 @@ public class GraphixFunctions extends JFrame {
 			public void valueChanged(ListSelectionEvent e) {
 				if (edges.getSelectedValue() != null) {
 					currEdge = edges.getSelectedValue();
-					weightBox.setText(Double.toString(currEdge.getWeight()));
+					weightBox.setText(String.valueOf(currEdge.getWeight()));
 				}
 			}
 		});
@@ -325,7 +325,7 @@ public class GraphixFunctions extends JFrame {
 			btnChangeWeight.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if (weightBox.getText() != null) {
+					if (weightBox.getText() != null && weightBox.getText() != "") {
 						backend.changeEdgeWeight(edges.getSelectedValue(), weightBox.getText());
 						refreshDisplay();
 					}
@@ -396,7 +396,6 @@ public class GraphixFunctions extends JFrame {
 			JLabel weightLabel = new JLabel("Weight");
 			this.add(weightLabel);
 			
-			JTextField weightBox = new JTextField();
 			this.add(weightBox);
 		}
 	}
