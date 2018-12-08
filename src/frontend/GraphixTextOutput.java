@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.BadLocationException;
 import javax.swing.JTextPane;
@@ -36,7 +37,7 @@ public class GraphixTextOutput extends JFrame {
 		setContentPane(contentPane);
 		
 		outputPane = new JTextPane();
-		contentPane.add(outputPane, BorderLayout.CENTER);
+		contentPane.add(new JScrollPane(outputPane), BorderLayout.CENTER);
 	}
 	
 	/**
