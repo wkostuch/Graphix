@@ -11,6 +11,7 @@ import backend.*;
 
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import java.awt.GridLayout;
@@ -228,8 +229,8 @@ public class GraphixFunctions extends JFrame {
 		*/
 		
 		// Add the JLists to the pane
-		getContentPane().add(vertices);
-		getContentPane().add(edges);
+		getContentPane().add(new JScrollPane(vertices));
+		getContentPane().add(new JScrollPane(edges));
 		getContentPane().add(new EditorPanel());
 		getContentPane().add(new ButtonPanel());
 		

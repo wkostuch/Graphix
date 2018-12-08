@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.BadLocationException;
 import javax.swing.JTextPane;
 
+@SuppressWarnings("serial")
 public class GraphixTextOutput extends JFrame {
 
 	private JPanel contentPane;
@@ -27,7 +28,7 @@ public class GraphixTextOutput extends JFrame {
 	 * @param height
 	 */
 	public GraphixTextOutput(int width, int height) {
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, width, height);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
