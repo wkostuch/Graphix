@@ -108,6 +108,7 @@ public class Graphix
 	
 	/*
 	 * Creates a test graph with a 400x400 block of Vertices
+	 * Deprecated
 	 */
 	public void testGraph() {
 		this.readGraph("Graphix/src/graphs/diamond.2dg");
