@@ -162,7 +162,7 @@ public class GraphixVisuals {
 		g2.dispose();
 	}
 	
-	*
+	
 	/**
 	 * Returns the size of the canvas
 	 */
