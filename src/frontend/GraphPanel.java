@@ -44,7 +44,7 @@ public class GraphPanel extends JPanel {
 					   e.getV2().getX() + diameter / 2,
 					   e.getV2().getY() + diameter / 2);
 			g.drawString(Integer.toString((int) e.getWeight()),
-						 e.getMidpoint().width - (diameter / 2) i,
+						 e.getMidpoint().width - (diameter / 2),
 						 e.getMidpoint().height + diameter);
 		}
 	}
