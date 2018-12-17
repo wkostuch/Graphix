@@ -521,6 +521,11 @@ public class Graphix
 			this.textOutput.output("No file selected.\n");
 			return;
 		}
+		//Ensures that the file is a .2dg type
+		if(!file.endsWith(".2dg")) {
+			this.textOutput.output("Please select a valid file ending with \".2dg\" \n ");
+			return;
+		}
 		textOutput.output("Reading graph: " + file + "\n");
 		try {
 			//Go line by line and parse it
