@@ -516,6 +516,11 @@ public class Graphix
 	 */
 	public void readGraph(String file) {
 		this.textOutput.setVisible(true);
+		//Runs if the "cancel" button is hit: no graph file selected to read
+		if(file == null) {
+			this.textOutput.output("No file selected.\n");
+			return;
+		}
 		textOutput.output("Reading graph: " + file + "\n");
 		try {
 			//Go line by line and parse it
