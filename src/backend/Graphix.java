@@ -50,60 +50,6 @@ public class Graphix
 		g2.writeGraph("ConnectedDiamond");
 		*/
 		
-		/*
-		GraphixTextOutput gto = new GraphixTextOutput();
-		Graphix g2 = new Graphix(gto);
-		g2.readGraph("Graphix/src/graphs/diamond.2dg");
-		System.out.println(g2.numberOfVertices());
-		System.out.println(g2);
-		g2.changeVertex(g2.getVertex(50, 150), 600, 600);
-
-		System.out.println(g2);
-
-		g2.removeEdge(g2.getVertex(600, 600), g2.getVertex(150, 150));
-		g2.removeVertex(g2.getVertex(600, 600));
-		System.out.println("Here: " + "\n" +g2);
-		Edge[] ea = g2.orderedEdgeArray();
-		g2.changeEdgeWeight(ea[1], "d");
-		System.out.println(g2);
-		for(int i = 0; i < ea.length; i++) {
-			System.out.println(ea[i]);
-			g2.removeEdge(ea[i]);
-		}
-		
-		
-		System.out.println(g2);
-		g2.writeGraph("Finally");
-		g2.isTree();
-		g2.MWST().isTree();
-		*/
-		
-		/*System.out.println(g2);
-		Graphix g2MWSP = g2.MWST();
-		System.out.println("MWSP:");
-		System.out.println(g2MWSP);
-		Vertex h = new Vertex ("h", 23, 23);
-		g2.addVertex(h);
-		g2.addEdge(g2.getVertex(100, 100), h, 20);
-		//System.out.println(g2.graph.get(g2.getVertex(100, 100)));
-		g2.changeVertex(g2.getVertex(100, 100), 200, 200);
-		System.out.println(g2);
-		System.out.println(g2.numberOfEdges());
-		Edge[] e = g2.orderedEdgeArray();
-		*/
-
-		
-		//Edge e2 = new Edge(h, new Vertex(25, 57), "200");
-		//System.out.println(e2);
-		/*g2.changeVertex(h, 500, 500);
-		System.out.println(g2);
-		
-		Graphix MWSP = g2.MWST();
-		System.out.println(MWSP);
-		*/
-		//Graphix g = new Graphix();
-		//g.testGraph();
-		//System.out.println(g);
 
 		GraphixVisuals.start(args);
 	}
@@ -281,6 +227,7 @@ public class Graphix
 	/*
 	 * Allows GraphixVisuals object to give Graphix a window size
 	 */
+    
 	public static void setWindowSize(Dimension winSize) {
 		windowSize = winSize;
 	}

@@ -32,6 +32,7 @@ public class GraphixVisuals {
 	// Size of the computer screen
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
+
 	/**
 	 * Launch the application.
 	 */
@@ -143,7 +144,7 @@ public class GraphixVisuals {
 	 * Borrowed code from http://www.cs.cornell.edu/courses/JavaAndDS/files/io6JFileChooser.pdf
 	 */
 	private String getFilePath() {
-		JFileChooser jd = new JFileChooser();
+		JFileChooser jd = new JFileChooser(System.getProperty("user.dir"));
 		jd.setDialogTitle("Choose output file");
 		int returnVal= jd.showSaveDialog(null);
 		if (returnVal != JFileChooser.APPROVE_OPTION) 
