@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import backend.*;
 
@@ -145,6 +146,9 @@ public class GraphixVisuals {
 	 */
 	private String getFilePath() {
 		JFileChooser jd = new JFileChooser(System.getProperty("user.dir"));
+	    FileNameExtensionFilter filter = new FileNameExtensionFilter(
+	            ".2dg", "2dg");
+	    jd.setFileFilter(filter);
 		jd.setDialogTitle("Choose output file");
 		int returnVal= jd.showSaveDialog(null);
 		if (returnVal != JFileChooser.APPROVE_OPTION) 
