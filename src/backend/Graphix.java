@@ -287,12 +287,35 @@ public class Graphix
 	
 	
 	/*
+	 * Makes the given Vertex the apex Vertex of the graph
+	 * (AKA: Connects that Vertex to every other one)
+	 */
+	public void makeApex(Vertex v) {
+		Vertex[] keys = this.orderedKeyArray();
+		for(Vertex k : keys) {
+			if(!v.equals(k)) this.addEdge(v, k);
+		}
+	}
+	
+	
+	/*
 	 * Returns the Vertex at x and y if it exists
 	 */
 	public Vertex getVertex(int x, int y) {
 		Vertex[] va = this.orderedKeyArray();
 		for(Vertex v : va) {
 			if(v.getX() == x && v.getY() == y) return v;
+		}
+		return null;
+	}
+	
+	/*
+	 * Returns the Vertex with the name if it exists
+	 */
+	public Vertex getVertex(String name) {
+		Vertex[] va = this.orderedKeyArray();
+		for(Vertex v : va) {
+			if(v.getName().equals(name)) return v;
 		}
 		return null;
 	}

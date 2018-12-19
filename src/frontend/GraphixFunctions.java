@@ -343,7 +343,6 @@ public class GraphixFunctions extends JFrame {
 				}
 			});
 			
-			
 			JButton btnComplete = new JButton("Complete");
 			btnComplete.addActionListener(new ActionListener() {
 				@Override
@@ -352,6 +351,15 @@ public class GraphixFunctions extends JFrame {
 						backend.complete();
 						updateEdgeList(backend);
 						refreshDisplay();
+				}
+			});
+			
+			JButton btnApexVertex = new JButton("Apex Vertex");
+			btnApexVertex.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					backend.makeApex(backend.getVertex(nameBox.getText()));
+					refreshDisplay();
 				}
 			});
 			
@@ -365,6 +373,7 @@ public class GraphixFunctions extends JFrame {
 			this.add(btnComplete);
 			this.add(btnPrintGraph);
 			this.add(btnChangeWeight);
+			this.add(btnApexVertex);
 
 		}
 	}
