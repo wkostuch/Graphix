@@ -247,7 +247,7 @@ public class GraphixFunctions extends JFrame {
 		 * Constructor
 		 */
 		public ButtonPanel() {
-			this.setLayout(new GridLayout(4, 2));
+			this.setLayout(new GridLayout(5, 2));
 			
 			JButton btnToggleMWST = new JButton("Toggle MWST");
 			btnToggleMWST.addActionListener(new ActionListener() {
@@ -343,14 +343,29 @@ public class GraphixFunctions extends JFrame {
 				}
 			});
 			
+			
+			JButton btnComplete = new JButton("Complete");
+			btnComplete.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					//Connects every possible edge in the graph
+						backend.complete();
+						updateEdgeList(backend);
+						refreshDisplay();
+				}
+			});
+			
+			
 			this.add(btnToggleMWST);
 			this.add(btnIsTree);
 			this.add(btnSaveToFile);
 			this.add(btnAddEdge);
 			this.add(btnRemoveVertex);
 			this.add(btnRemoveEdge);
-			this.add(btnChangeWeight);
+			this.add(btnComplete);
 			this.add(btnPrintGraph);
+			this.add(btnChangeWeight);
+
 		}
 	}
 	

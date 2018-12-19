@@ -44,6 +44,16 @@ public class Graphix
 		GraphixTextOutput gto = new GraphixTextOutput();
 		Graphix g2 = new Graphix(gto);
 		g2.readGraph("Graphix/src/graphs/diamond.2dg");
+		System.out.println(g2.toString());
+		g2.connect();
+		System.out.println(g2.toString());
+		g2.writeGraph("ConnectedDiamond");
+		*/
+		
+		/*
+		GraphixTextOutput gto = new GraphixTextOutput();
+		Graphix g2 = new Graphix(gto);
+		g2.readGraph("Graphix/src/graphs/diamond.2dg");
 		System.out.println(g2.numberOfVertices());
 		System.out.println(g2);
 		g2.changeVertex(g2.getVertex(50, 150), 600, 600);
@@ -147,6 +157,26 @@ public class Graphix
 		}
 		
 		return MWSP;
+    }
+    
+    
+    /*
+     * Connects every possible edge in the graph
+     */
+    public void complete() {
+    	Vertex[] keys = graph.keySet().toArray(new Vertex[0]);
+    	int count = 0;
+    	int length = keys.length;
+    	
+    	while(count < length) {
+    		//Prevents us from adding every edge twice
+    		for(int i = count + 1; i < length; i++) {
+    			//Prevents us from overriding an already existing edge
+    			if(this.hasEdge(keys[count], keys[i])) continue;
+    			this.addEdge(keys[count], keys[i]);
+    		}
+    		count++;
+    	}
     }
     
 
@@ -395,6 +425,14 @@ public class Graphix
 		this.addVertex(w, true, false);
 		graph.get(v).put(w, weight);
 		graph.get(w).put(v, weight);
+	}
+	
+	/*
+	 * Checks to see if there's already an edge between two Vertex objects
+	 * Returns true if there is, false if not
+	 */
+	public boolean hasEdge(Vertex v, Vertex w) {
+		return graph.get(v).containsKey(w);
 	}
 	
 	/*
