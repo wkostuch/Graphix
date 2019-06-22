@@ -35,6 +35,11 @@ public class Graphix
 	
 	private static Dimension windowSize;
 	
+	// Used in adding vertices, particularly deciding whether to chain together user clicks when adding
+	// vertices.  That way a user can quickly add a series of connected vertices with a quick series
+	// of clicks.  A double-click ends the chain.
+	private Boolean activeChain;
+	
 	
 	/*
 	 * Main method
@@ -269,6 +274,32 @@ public class Graphix
 	
 	
 	/*
+	 * Generates a sequential name for the next Vertex.
+	 * Vertex names take the form "v1, v2,..., vn" where n is the number of vertices in the graph.
+	 */
+	private String getNextName() {
+		// Get the number of vertices already in the graph
+		int numVertices = orderedKeyArray().length;
+		
+		// Make a string representation of the name
+		// The count will start at 1 for ease of use
+		return "v" + (Integer.toString(numVertices + 1));
+	}
+	
+	
+	/*
+	 * Adds new Vertex with automated name generation.
+	 * Accepts coordinates, creates a Vertex, generates name sequentially.
+	 * Returns newly created Vertex in case it is needed in edge creation
+	 */
+	public Vertex addVertex(int x, int y) {
+		Vertex newVertex = new Vertex(getNextName(), x, y);
+		addVertex(newVertex);
+		return newVertex;
+	}
+	
+	
+	/*
 	 * Adds a new Vertex to the graph
 	 */
 	public void addVertex(Vertex v) {
@@ -283,6 +314,19 @@ public class Graphix
 	 */
 	public void addVertexNoEdges(Vertex v) {
 		addVertex(v, false, false);
+	}
+	
+	
+	/*
+	 * Returns the most recently added vertex
+	 * Used for chaining user creation of vertices
+	 */
+	public Vertex getLastVertex() {
+		// Make a string that will match the name of the last added vertex
+		String lastVertexName = "v" + Integer.toString(orderedKeyArray().length);
+		
+		// Return the Vertex
+		return getVertex(lastVertexName);
 	}
 	
 	
@@ -674,6 +718,25 @@ public class Graphix
      */
     public int numberOfVertices(){
     	return graph.keySet().size();
+    }
+    
+    
+    /*
+     * Returns the value of activeChain field
+     */
+    public Boolean getActiveChain() {
+    	return activeChain;
+    }
+    
+    
+    /*
+     * Method flips the value of the activeChain field.
+     */
+    public Boolean flipActiveChain() {
+    	if (activeChain == false)
+    		return true;
+    	else
+    		return false;
     }
 	
 	
