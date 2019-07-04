@@ -38,10 +38,10 @@ public class Graphix
 	// Used in adding vertices, particularly deciding whether to chain together user clicks when adding
 	// vertices.  That way a user can quickly add a series of connected vertices with a quick series
 	// of clicks.  A double-click ends the chain.
-	private Boolean activeChain = false;
+	private Boolean activeChain;
 	
 	// This field is used to save a selected Vertex between clicks to allow Vertex editing
-	private Vertex savedVertex = null;
+	private Vertex savedVertex;
 	
 	
 	/*
@@ -67,6 +67,8 @@ public class Graphix
 	 */
 	public Graphix(GraphixTextOutput gto) {
 		this.textOutput = gto;
+		activeChain = false;
+		savedVertex = null;
 	}
 	
 	
@@ -326,7 +328,7 @@ public class Graphix
 	 */
 	public Vertex getLastVertex() {
 		// Make a string that will match the name of the last added vertex
-		String lastVertexName = "v" + Integer.toString(orderedKeyArray().length);
+		String lastVertexName = "v" + Integer.toString(orderedKeyArray().length - 1);
 		
 		// Return the Vertex
 		return getVertex(lastVertexName);

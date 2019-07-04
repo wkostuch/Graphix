@@ -33,19 +33,26 @@ public class GraphPanel extends JPanel {
 		
 		this.removeAll();
 		
-		for (Vertex v : vertexArr) {
-			g.fillOval(v.getX(), v.getY(), diameter, diameter);
-			g.drawString(v.getName(), v.getX() + diameter, v.getY());
+		// We have a check up here too just to be safe.
+		if (vertexArr.length > 0) {
+			for (Vertex v : vertexArr) {
+				g.fillOval(v.getX(), v.getY(), diameter, diameter);
+				g.drawString(v.getName(), v.getX() + diameter, v.getY());
+			}
 		}
 		
-		for (Edge e : edgeArr) {
-			g.drawLine(e.getV1().getX() + diameter / 2,
-					   e.getV1().getY() + diameter / 2,
-					   e.getV2().getX() + diameter / 2,
-					   e.getV2().getY() + diameter / 2);
-			g.drawString(Integer.toString((int) e.getWeight()),
-						 e.getMidpoint().width - (diameter / 2),
-						 e.getMidpoint().height + diameter);
+		// The for loop was trying to access an empty edge array, which led to null pointer
+		// exceptions.  Not fun.  So we have a check now.
+		if (edgeArr.length > 0) {
+			for (Edge e : edgeArr) {
+				g.drawLine(e.getV1().getX() + diameter / 2,
+						   e.getV1().getY() + diameter / 2,
+						   e.getV2().getX() + diameter / 2,
+						   e.getV2().getY() + diameter / 2);
+				g.drawString(Integer.toString((int) e.getWeight()),
+							 e.getMidpoint().width - (diameter / 2),
+							 e.getMidpoint().height + diameter);
+			}
 		}
 	}
 	
