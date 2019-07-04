@@ -132,6 +132,7 @@ public class GraphixVisuals {
 		edgeList = backend.orderedEdgeArray();
 		
 		canvas = new GraphPanel(vertexList, edgeList);
+		canvas.addMouseListener(new GraphixMouseHandler(backend, canvas));
 		frame.getContentPane().add(canvas, BorderLayout.CENTER);
 		frame.revalidate();
 		frame.repaint();

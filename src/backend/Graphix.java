@@ -38,7 +38,10 @@ public class Graphix
 	// Used in adding vertices, particularly deciding whether to chain together user clicks when adding
 	// vertices.  That way a user can quickly add a series of connected vertices with a quick series
 	// of clicks.  A double-click ends the chain.
-	private Boolean activeChain;
+	private Boolean activeChain = false;
+	
+	// This field is used to save a selected Vertex between clicks to allow Vertex editing
+	private Vertex savedVertex = null;
 	
 	
 	/*
@@ -418,6 +421,36 @@ public class Graphix
 		graph.get(w).put(v, edge);
 	}
 	
+	
+	/*
+	 * Saves a Vertex between clicks so it can be moved
+	 */
+	public void saveVertex(Vertex v) {
+		savedVertex = v;
+	}
+	
+	
+	/*
+	 * Returns the saved vertex, and sets the savedVertex field back to null
+	 */
+	public Vertex getSavedVertex() {
+		Vertex returnVertex = savedVertex;
+		savedVertex = null;
+		return returnVertex;
+	}
+	
+	
+	/*
+	 * Returns true if there is a saved Vertex
+	 */
+	public boolean isSavedVertex() {
+		if (savedVertex == null)
+			return false;
+		
+		return true;
+	}
+	
+	
 	/*
 	 * Adds an edge between two vertices
 	 * If the vertices aren't in the graph already, it adds them
@@ -730,13 +763,10 @@ public class Graphix
     
     
     /*
-     * Method flips the value of the activeChain field.
+     * Sets the value of activeChain field
      */
-    public Boolean flipActiveChain() {
-    	if (activeChain == false)
-    		return true;
-    	else
-    		return false;
+    public void setActiveChain(boolean val) {
+    	activeChain = val;
     }
 	
 	
