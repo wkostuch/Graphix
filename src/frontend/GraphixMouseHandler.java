@@ -124,6 +124,9 @@ public class GraphixMouseHandler implements MouseListener {
 	 * When the mouse is released, either a vertex is selected,
 	 * or an (x,y) pair is put into the text boxes, allowing
 	 * a new vertex to be added.
+	 * 
+	 * Programmer's note: Don't use double-click functionality, it is too hard to click fast enough
+	 * for Java to recognize it.
 	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
@@ -142,58 +145,26 @@ public class GraphixMouseHandler implements MouseListener {
 			// First we check whether or not the user clicked on an empty space.
 			if (isEmptySpace(e) == true) {
 				if (e.getClickCount() == 1) {
-					// If there is no active chain, a single click will start one.
-					if (backend.getActiveChain() == false) {
-						backend.setActiveChain(true);
+					// A single click, by default, creates a single Vertex.
+					// So, we first want to check whether another Vertex was recently clicked on.  If not,
+					// we'll create a new one.
+					if (backend.isSavedVertex() == false)
 						backend.addVertex(x, y);
-					}
 					
-					// If there is an active chain, a single click continues the chain, adding a Vertex
-					// and an Edge connecting it to the last Vertex in the chain.
-					else if (backend.getActiveChain() == true) {
-						// Add a new Vertex
-						v = backend.addVertex(x, y);
-						
-						// Add the Edge
-						Vertex lastVertex = backend.getLastVertex();
-						backend.addEdge(v, lastVertex);
-					}
-				}
-				
-				// If the user double-clicked, we end the chain
-				else if (e.getClickCount() == 2) {
-					// First let's see if the user clicked on an empty space to move an existing Vertex.
-					// If so, there will be a Vertex saved in the backend.  In which case, we'll move it.
-					if (backend.isSavedVertex() == true) {
+					// If another existing Vertex was recently selected, but this click is on an empty space,
+					// we'll move the Vertex to the empty space.
+					else if (backend.isSavedVertex() == true) {
 						v = backend.getSavedVertex();
 						backend.changeVertex(v, x, y);
+						// After this, we'll clear the saved Vertex to avoid unintentional Edge creation
+						backend.saveVertex(null);
 					}
-					
-					// If the double click is intended to end a chain, add the last Vertex and Edge,
-					// then end the chain.
-					else if (backend.getActiveChain() == true) {
-						// Flip this flag to false
-						backend.setActiveChain(false);
-						
-						// Add a new Vertex
-						v = backend.addVertex(x, y);
-						
-						// Add the Edge
-						Vertex lastVertex = backend.getLastVertex();
-						backend.addEdge(v, lastVertex);
-					}
-					
-					// If the user double-clicks, and there is no active chain, we simply place a Vertex
-					// without doing anything else
-					else if (backend.getActiveChain() == false)
-						backend.addVertex(x, y);
 				}
 			}
 			
-			// If the user double-clicks on an existing Vertex, we move it.
-			// In order to move it we first have to record the fact that it is 'selected'
+			// If the user clicks on an existing Vertex, we save it (if none is already saved) or we connect
+			// it to a saved Vertex with an Edge.
 			else if (isEmptySpace(e) == false) {
-				// There is no functionality if a user double clicks on an existing Vertex
 				if (e.getClickCount() == 1) {
 					// First we get the Vertex the user clicked on
 					v = getMatchingVertex(x, y);
@@ -206,6 +177,8 @@ public class GraphixMouseHandler implements MouseListener {
 					else if (backend.isSavedVertex() == true) {
 						Vertex changedVertex = backend.getSavedVertex();
 						backend.addEdge(v, changedVertex);
+						// Clear the saved Vertex to be safe.
+						backend.saveVertex(null);
 					}
 				}
 			}
@@ -213,17 +186,36 @@ public class GraphixMouseHandler implements MouseListener {
 		
 		// Anything that happens on a right click goes on in here.
 		// Right-click deletes existing vertices and edges.
-		else if (e.getButton() == MouseEvent.BUTTON2) {
+		else if (e.getButton() == MouseEvent.BUTTON3) {
 			// Right click doesn't do anything to an empty space.
 			// Right click also doesn't support double click functionality.
 			if (isEmptySpace(e) == false) {
-				// Get the Vertex that's been clicked on
-				v = getMatchingVertex(x, y);
+				// TODO: Add Edge detection to detect what edge the user may be trying to delete.
+				
+				// For now, if a user left clicks on one Vertex and right clicks on another, the Edge between
+				// the two will be removed.
+				if (backend.isSavedVertex() == true) {
+					// Get both the saved Vertex and the Vertex just right-clicked on.
+					Vertex savedVertex = backend.getSavedVertex();
+					v = getMatchingVertex(x, y);
 					
-				// Remove the selected Vertex
-				backend.removeVertex(v);
+					// If there's an edge between the two Vertices, remove them.  Otherwise, do nothing.
+					if (backend.hasEdge(v, savedVertex) == true)
+						backend.removeEdge(v, savedVertex);
+					
+					// In either case, clear the saved Vertex.
+					backend.saveVertex(null);
+				}
+				
+				// If no Vertex is saved, a right click simply removes the Vertex clicked on.
+				else if (backend.isSavedVertex() == false) {
+					// Get the Vertex that's been clicked on
+					v = getMatchingVertex(x, y);
+						
+					// Remove the selected Vertex
+					backend.removeVertex(v);
+				}
 			}
-			// TODO: Add Edge detection to detect what edge the user may be trying to delete
 		}
 		
 		drawing.setArrays(backend.orderedKeyArray(), backend.orderedEdgeArray());
